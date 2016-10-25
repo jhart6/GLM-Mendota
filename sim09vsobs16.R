@@ -106,6 +106,7 @@ lines(get_var(SimFile,var_name = 'PHY_CYANOPCH1',reference = "surface",z_out=Z),
 
 ####Compare 2009 Sim to 2016 Obs####
 #import 2016 observational data
+#2016 obs data from 4/2016 through 7/2016
 temp16<-read.csv('obs_temp16.csv')
 juliaTEMP<-paste(SimDir,'/','juliaTEMP.csv',sep="")
 write.csv(temp16,file = juliaTEMP,row.names = FALSE, quote = FALSE)
