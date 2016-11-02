@@ -14,15 +14,16 @@ library(glmtools)
 library(GLMr)
 library(lubridate)
 
-#establish working directory & output file
+#where is the model on your computer & set working directory
 SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'/','output.nc',sep = '') 
-nc_file <- file.path(SimDir, 'output.nc')
+nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
+#can use to plot from the output.nc file later
 
-#establish nml file
 nml_file<-paste0(SimDir,"/glm2.nml") #designate the nml file
-nml<-read_nml(nml_file = file.path(SimDir,'glm2.nml'))
+nml<-read_nml(nml_file = file.path(SimDir,'glm2_16start.nml')) #also designates the nml file
+#read_nml reads the nml file into R where it can be edited within R
 print(nml)
 
 #plot meteo data, still 2009 model data
