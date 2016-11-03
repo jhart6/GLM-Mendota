@@ -21,14 +21,29 @@ SimFile = paste(SimDir,'/','output.nc',sep = '')
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
 #can use to plot from the output.nc file later
 
-nml_file<-paste0(SimDir,"/glm2.nml") #designate the nml file
-nml<-read_nml(nml_file = file.path(SimDir,'glm2_16start.nml')) #also designates the nml file
+#Code producing some sort of weird error - don't even need to run the model
+#nml_file<-paste0(SimDir,"/glm2.nml") #designate the nml file
+#nml<-read_nml(nml_file = file.path(SimDir,'glm2.nml')) #also designates the nml file
 #read_nml reads the nml file into R where it can be edited within R
-print(nml)
+#print(nml)
 
-#plot meteo data, still 2009 model data
-quartz()
-plot_meteo(nml_file)
+
+#plot meteo data, still 2009 model data - this doesn't work now, bc the nml_file lines didn't work
+#quartz()
+#plot_meteo(nml_file)
 
 #run GLM
 run_glm(SimDir)
+
+####Plot GLM Results####
+#know your options of things to plot from output.nc
+vars<-sim_vars('output.nc') #sim_vars = simulation variables
+View(vars)
+
+#plot 2009 simulation results
+quartz()
+plot_temp(file=nc_file, fig_path=FALSE) #standard plot temp function
+plot_var(file=nc_file,c('temp','evap')) #to plot two vars at once
+plot_var(file=nc_file,'DO',fig_path=FALSE) #AED vars
+plot_var(file=nc_file,'OGM_poc',fig_path=FALSE) #AED vars
+plot_var(file=nc_file,'CAR_ch4',fig_path=FALSE) #AED vars
