@@ -80,6 +80,9 @@ poc16<-read.csv('obs_POC16.csv')
 juliaPOC<-paste(SimDir,'/','juliaPOC.csv',sep="")
 write.csv(poc16,file = juliaPOC, row.names=FALSE, quote=FALSE)
 
+ch416<-read.csv('obs_CH416.csv')
+juliaCH4<-paste(SimDir, '/', 'juliaCH4.csv',sep="")
+write.csv(ch416,file=juliaCH4, row.names=FALSE, quote=FALSE)
 
 #compare 2016 modeled TEMP to 2016 obs TEMP
 quartz()
@@ -92,3 +95,7 @@ plot_var_compare(nc_file = SimFile,juliaDO,var_name = 'DO')
 #compare 2016 modeled POC to 2016 obs POC
 quartz()
 plot_var_compare(nc_file = SimFile, juliaPOC, var_name='POC')
+
+#compare 2016 modeled CH4 to 2016 obs CH4
+quartz()
+plot_var_compare(nc_file = SimFile, juliaCH4, var_name='CAR_ch4')
