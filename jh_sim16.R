@@ -6,7 +6,7 @@
 #met data from 2009 calibration
 #stream data from 2009 calibration
 #compare to 2016 observed data
-#model run from 4/15/16 through 10/2016
+#model run from 4/15/16 through 10/2016 (well, really 2009)
 
 ####Run GLM####
 library(dplyr)
@@ -31,6 +31,19 @@ nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you
 #plot meteo data, still 2009 model data - this doesn't work now, bc the nml_file lines didn't work
 #quartz()
 #plot_meteo(nml_file)
+
+#Fix the time columns in the inflow files after opening in excel to check column names
+yahara <- read.csv("Mendota_yahara.csv", header=TRUE)
+yahara$time <-as.POSIXct(strptime(yahara$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(yahara, "Mendota_yahara.csv", row.names=FALSE, quote=FALSE)
+
+pheasant <- read.csv("Mendota_pheasant.csv", header=TRUE)
+pheasant$time <-as.POSIXct(strptime(pheasant$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(pheasant, "Mendota_pheasant.csv", row.names=FALSE, quote=FALSE)
+
+springharbor <- read.csv("Mendota_springharbor.csv", header=TRUE)
+springharbor$time <-as.POSIXct(strptime(springharbor$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(springharbor, "Mendota_springharbor.csv", row.names=FALSE, quote=FALSE)
 
 #run GLM
 #START: 2009-04-15 00:00:00
@@ -83,6 +96,12 @@ write.csv(poc16,file = juliaPOC, row.names=FALSE, quote=FALSE)
 ch416<-read.csv('obs_CH416.csv')
 juliaCH4<-paste(SimDir, '/', 'juliaCH4.csv',sep="")
 write.csv(ch416,file=juliaCH4, row.names=FALSE, quote=FALSE)
+
+
+methane <- read.csv("juliaCH4.csv", header=TRUE)
+methane$datetime <-as.POSIXct(strptime(methane$datetime, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(methane, "juliaCH4.csv", row.names=FALSE, quote=FALSE)
+
 
 #compare 2016 modeled TEMP to 2016 obs TEMP
 quartz()
