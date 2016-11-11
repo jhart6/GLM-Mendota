@@ -34,15 +34,15 @@ nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you
 
 #Fix the time columns in the inflow files after opening in excel to check column names
 yahara <- read.csv("Mendota_yahara.csv", header=TRUE)
-yahara$time <-as.POSIXct(strptime(yahara$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+yahara$Time <-as.POSIXct(strptime(yahara$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(yahara, "Mendota_yahara.csv", row.names=FALSE, quote=FALSE)
 
 pheasant <- read.csv("Mendota_pheasant.csv", header=TRUE)
-pheasant$time <-as.POSIXct(strptime(pheasant$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+pheasant$Time <-as.POSIXct(strptime(pheasant$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(pheasant, "Mendota_pheasant.csv", row.names=FALSE, quote=FALSE)
 
 springharbor <- read.csv("Mendota_springharbor.csv", header=TRUE)
-springharbor$time <-as.POSIXct(strptime(springharbor$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+springharbor$Time <-as.POSIXct(strptime(springharbor$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(springharbor, "Mendota_springharbor.csv", row.names=FALSE, quote=FALSE)
 
 #run GLM
@@ -62,19 +62,23 @@ ConvertVariables = TRUE
 if (ConvertVariables){
   convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, DOC = OGM_doc * 12/1000, unit = 'mg/L',overwrite = T)
-  convert_sim_var(nc_file,POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
+  convert_sim_var(nc_file, POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
+  #convert_sim_var(nc_file, Methane = log(CAR_ch4) , unit = 'umol/L', overwrite = T)
 }
+
+
 
 #plot 2016 simulation results
 quartz()
 plot_temp(file=nc_file, fig_path=FALSE) #standard plot temp function
 plot_var(file=nc_file,c('temp','evap')) #to plot two vars at once
 plot_var(file=nc_file,'DO',fig_path=FALSE) #AED vars
-plot_var(file=nc_file,'POC',fig_path=FALSE) #AED vars
-plot_var(file=nc_file,'CAR_ch4',fig_path=FALSE) #AED vars
+plot_var(file=nc_file,'POC',fig_path=FALSE,col_lim = c(0,3)) #AED vars
+plot_var(file=nc_file, 'CAR_ch4',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
+plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 
 
 
@@ -113,7 +117,7 @@ plot_var_compare(nc_file = SimFile,juliaDO,var_name = 'DO')
 
 #compare 2016 modeled POC to 2016 obs POC
 quartz()
-plot_var_compare(nc_file = SimFile, juliaPOC, var_name='POC')
+plot_var_compare(nc_file = SimFile, juliaPOC, var_name='POC',col_lim = c(0,3))
 
 #compare 2016 modeled CH4 to 2016 obs CH4
 quartz()
