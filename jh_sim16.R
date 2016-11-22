@@ -7,6 +7,7 @@
 #stream data from 2009 calibration
 #compare to 2016 observed data
 #model run from 4/15/16 through 10/2016 (well, really 2009)
+#Runs with GLM folder: Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16
 
 ####Run GLM####
 library(dplyr)
