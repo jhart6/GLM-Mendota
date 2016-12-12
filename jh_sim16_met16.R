@@ -3,10 +3,10 @@
 
 ####Simulation Details####
 #4/15/16 JAH starting conditions in NML file
-#met data from 2016 
-#stream data from 2009 calibration     
+#met data from 2016 (1/1/10 - 11/11/16)
+#stream data from 2016  
 #compare to 2016 observed data
-#model run from 4/15/16 through 11/15/2016 (well, really 2009)
+#model run from 4/15/16 through 11/11/2016 
 
 ####Run GLM####
 library(dplyr)
@@ -30,12 +30,15 @@ pheasant <- read.csv("Mendota_pheasant.csv", header=TRUE)
 pheasant$Time <-as.POSIXct(strptime(pheasant$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(pheasant, "Mendota_pheasant.csv", row.names=FALSE, quote=FALSE)
 
-springharbor <- read.csv("Mendota_springharbor.csv", header=TRUE)
-springharbor$Time <-as.POSIXct(strptime(springharbor$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
-write.csv(springharbor, "Mendota_springharbor.csv", row.names=FALSE, quote=FALSE)
+dorn <- read.csv("Mendota_dorn.csv", header=TRUE)
+dorn$Time <-as.POSIXct(strptime(dorn$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(dorn, "Mendota_dorn.csv", row.names=FALSE, quote=FALSE)
 
+sixmile <- read.csv("Mendota_sixmile.csv", header=TRUE)
+sixmile$Time <-as.POSIXct(strptime(sixmile$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(sixmile, "Mendota_sixmile.csv", row.names=FALSE, quote=FALSE)
 
 #run GLM
-#START: 2009-04-15 00:00:00
-#END: 2009-11-15 23:00:00
+#START: 2016-04-15 00:00:00
+#END: 2016-11-11 23:00:00
 run_glm(SimDir)
