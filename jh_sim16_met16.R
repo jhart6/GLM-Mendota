@@ -78,33 +78,15 @@ plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 
 
+
+
+
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
-#2016 obs data from 4/15/2016 through 11/14/2016 ##NEED TO UPDATE
-temp16<-read.csv('obs_temp16.csv')
-juliaTEMP<-paste(SimDir,'/','juliaTEMP.csv',sep="")
-write.csv(temp16,file = juliaTEMP,row.names = FALSE, quote = FALSE)
-
-do16<-read.csv('obs_DO16.csv')
-juliaDO<-paste(SimDir,'/','juliaDO.csv',sep ="")
-write.csv(do16,file = juliaDO, row.names = FALSE, quote = FALSE)
-
-poc16<-read.csv('obs_POC16.csv')
-juliaPOC<-paste(SimDir,'/','juliaPOC.csv',sep="")
-write.csv(poc16,file = juliaPOC, row.names=FALSE, quote=FALSE)
-
-ch416<-read.csv('obs_CH416.csv')
-juliaCH4<-paste(SimDir, '/', 'juliaCH4.csv',sep="")
-write.csv(ch416,file=juliaCH4, row.names=FALSE, quote=FALSE)
-
-
-methane <- read.csv("juliaCH4.csv", header=TRUE)
-methane$datetime <-as.POSIXct(strptime(methane$datetime, "%Y-%m-%d %H:%M:%S", tz="EST"))
-write.csv(methane, "juliaCH4.csv", row.names=FALSE, quote=FALSE)
-
-
+#2016 obs data from 4/15/2016 through 11/14/2016 
 obsTEMP<-read.csv("field_temp.csv",header=TRUE)
-obsTEMP<-paste(SimDir, '/', 'obsTEMP.csv', sep="")
+colnames(obsTEMP)<-c('datetime','depth','temp')
+obsTEMP$datetime<-as.POSIXct(strptime(obsTEMP$datetime, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(obsTEMP, 'obsTEMP.csv', row.names=FALSE, quote=FALSE)
 
 obsDO<-read.csv("field_do.csv",header=TRUE)
@@ -117,13 +99,9 @@ obsPOC<-read.csv("field_poc.csv",header=TRUE)
 
 #compare 2016 modeled TEMP to 2016 obs TEMP
 quartz()
+obsTEMP<-read.csv('obsTEMP.csv')
 plot_temp_compare(nc_file = SimFile, obsTEMP)
 
-nc_file=file.path(SimDir, 'output.nc')
-nml_file=file.path(SimDir, 'glm2.nml')
-field_file=file.path(SimDir, 'obsTEMP.csv')
-
-plot_temp_compare(nc_file,field_file)
 
 
 #compare 2016 modeled DO to 2016 obs DO
