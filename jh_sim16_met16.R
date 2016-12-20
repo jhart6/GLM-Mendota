@@ -38,6 +38,10 @@ sixmile <- read.csv("Mendota_sixmile.csv", header=TRUE)
 sixmile$Time <-as.POSIXct(strptime(sixmile$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(sixmile, "Mendota_sixmile.csv", row.names=FALSE, quote=FALSE)
 
+outflow<-read.csv("Outflow.csv",header=TRUE)
+outflow$Time <- as.POSIXct(strptime(outflow$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
+write.csv(outflow, "Outflow.csv", row.names=FALSE, quote=FALSE)
+
 met<-read.csv("NLDAS2_Mendota_2010_2016_cell_5.csv",header=TRUE)
 met$time <- as.POSIXct(strptime(met$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(met,"NLDAS2_Mendota_2010_2016_cell_5.csv",row.names=FALSE, quote=FALSE)
@@ -46,6 +50,7 @@ write.csv(met,"NLDAS2_Mendota_2010_2016_cell_5.csv",row.names=FALSE, quote=FALSE
 #START: 2016-04-15 00:00:00
 #END: 2016-11-11 23:00:00
 run_glm(SimDir)
+
 
 ####Plot GLM Results####
 #know your options of things to plot from output.nc
