@@ -38,9 +38,9 @@ sixmile <- read.csv("Mendota_sixmile.csv", header=TRUE)
 sixmile$Time <-as.POSIXct(strptime(sixmile$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(sixmile, "Mendota_sixmile.csv", row.names=FALSE, quote=FALSE)
 
-outflow<-read.csv("Outflow.csv",header=TRUE)
+outflow<-read.csv("Mendota_outflow.csv",header=TRUE)
 outflow$Time <- as.POSIXct(strptime(outflow$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
-write.csv(outflow, "Outflow.csv", row.names=FALSE, quote=FALSE)
+write.csv(outflow, "Mendota_outflow.csv", row.names=FALSE, quote=FALSE)
 
 met<-read.csv("NLDAS2_Mendota_2010_2016_cell_5.csv",header=TRUE)
 met$time <- as.POSIXct(strptime(met$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
