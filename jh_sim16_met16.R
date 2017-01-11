@@ -84,7 +84,7 @@ plot_var(file=nc_file, 'CAR_ch4',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 
-
+read_nml(nml_file = 'aed2.nml')
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
 #2016 obs data from 4/15/2016 through 11/14/2016 
