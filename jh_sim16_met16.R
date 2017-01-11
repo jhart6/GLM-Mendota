@@ -15,7 +15,9 @@ library(GLMr)
 library(lubridate)
 
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
+#SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
@@ -67,7 +69,7 @@ if (ConvertVariables){
   convert_sim_var(nc_file, POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
-  #convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
+  convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
   #needs to be in atm! #convert_sim_var(nc_file, log_CAR_pCO2 = log10(CAR_pCO2), unit = 'umol/L', overwrite = T)
 }
 
@@ -110,6 +112,10 @@ carbondioxide<-read.csv("field_co2.csv",header=TRUE)
 obsCO2<-paste(SimDir, 'obsCO2.csv', sep='')
 write.csv(carbondioxide, file=obsCO2, row.names=FALSE, quote=FALSE)
 
+doc<-read.csv("field_doc.csv",header=TRUE)
+obsDOC<-paste(SimDir, 'obsDOC.csv', sep='')
+write.csv(doc, file=obsDOC, row.names=FALSE, quote=FALSE)
+
 #logmethane<-read.csv("field_log_ch4.csv",header = TRUE)
 #obsLOGCH4<-paste(SimDir, 'obsLOGCH4.csv', sep = '')
 #write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
@@ -126,5 +132,42 @@ plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH')
 plot_var_compare(nc_file = SimFile, obsPOC, var_name='POC',col_lim = c(0,3))
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
+plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
+
 #plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 #plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
+
+
+####Plot Water Balance####
+plot(get_var(SimFile, var_name='evap'),type='l')
+plot(get_surface_height(SimFile),type='l')
+
+#in compare_to_field, as_value=F will return the RMSE for the specific metric
+  #for water.temperature, <1.5 is good
+  #for thermo.depth, <2.5 is good
+
+
+####Starting RMSE Analysis####
+#value comparison
+compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth',as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
+#rmse 
+compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth', as_value=FALSE, na.rm = TRUE, precision = 'days', method = 'interp')
+#value comparison
+compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
+#rmse
+compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=FALSE, na.rm = TRUE, precision = 'days', method = 'interp')
+
+
+
+#how to get RMSE for metrics that aren't available through sim_metrics or rLakeAnalyzer
+#use resample_to_field
+#or rename things to "temp" so you can cheat/force the sim_metrics to work
+
+#to keep track of nml changes - use this function to override nml values & comment what you've tried
+set_nml()
+
+
+plot(get_var(SimFile, var_name = 'TOT_tp',z_out=1),type='l')
+
+plot_var(SimFile, var_name = 'PHY_TPHYS')
+plot_var(SimFile, var_name = 'TOT_tp')
