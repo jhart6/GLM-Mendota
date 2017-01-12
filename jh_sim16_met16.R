@@ -67,6 +67,7 @@ if (ConvertVariables){
   convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, DOC = OGM_doc * 12/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
+  convert_sim_var(nc_file, DIC = CAR_dic * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
@@ -84,6 +85,7 @@ plot_var(file=nc_file, 'CAR_ch4',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
+plot_var(file=nc_file, 'DIC', fig_path=FALSE)
 
 read_nml(nml_file = 'aed2.nml')
 
@@ -118,6 +120,10 @@ doc<-read.csv("field_doc.csv",header=TRUE)
 obsDOC<-paste(SimDir, 'obsDOC.csv', sep='')
 write.csv(doc, file=obsDOC, row.names=FALSE, quote=FALSE)
 
+dic<-read.csv("field_dic.csv",header=TRUE)
+obsDIC<-paste(SimDir, 'obsDIC.csv', sep='')
+write.csv(dic, file=obsDIC, row.names=FALSE, quote=FALSE)
+
 logmethane<-read.csv("field_log_ch4.csv",header = TRUE)
 obsLOGCH4<-paste(SimDir, 'obsLOGCH4.csv', sep = '')
 write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
@@ -135,6 +141,7 @@ plot_var_compare(nc_file = SimFile, obsPOC, var_name='POC',col_lim = c(0,3))
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
+plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 
 #plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
