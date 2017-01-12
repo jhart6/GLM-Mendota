@@ -83,8 +83,10 @@ plot_var(file=nc_file,'POC',fig_path=FALSE,col_lim = c(0,3)) #AED vars
 plot_var(file=nc_file, 'CAR_ch4',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
+plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
 
 read_nml(nml_file = 'aed2.nml')
+
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
 #2016 obs data from 4/15/2016 through 11/14/2016 
@@ -116,9 +118,9 @@ doc<-read.csv("field_doc.csv",header=TRUE)
 obsDOC<-paste(SimDir, 'obsDOC.csv', sep='')
 write.csv(doc, file=obsDOC, row.names=FALSE, quote=FALSE)
 
-#logmethane<-read.csv("field_log_ch4.csv",header = TRUE)
-#obsLOGCH4<-paste(SimDir, 'obsLOGCH4.csv', sep = '')
-#write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
+logmethane<-read.csv("field_log_ch4.csv",header = TRUE)
+obsLOGCH4<-paste(SimDir, 'obsLOGCH4.csv', sep = '')
+write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
 
 #logcarbondioxide<- read.csv("field_log_co2.csv",header=TRUE)
 #obsLOGCO2 <- paste(SimDir, 'obsLOGCO2', sep='')
@@ -133,8 +135,8 @@ plot_var_compare(nc_file = SimFile, obsPOC, var_name='POC',col_lim = c(0,3))
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
+plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 
-#plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 #plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
 
 
