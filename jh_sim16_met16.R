@@ -18,7 +18,7 @@ library(lubridate)
 #SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
-SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Sim1/'
+#SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Sim1/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
