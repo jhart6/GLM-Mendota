@@ -18,6 +18,7 @@ library(lubridate)
 #SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
+SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Sim1/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
@@ -83,9 +84,11 @@ plot_var(file=nc_file,'CAR_pH',fig_path = FALSE)
 plot_var(file=nc_file,'POC',fig_path=FALSE,col_lim = c(0,3)) #AED vars
 plot_var(file=nc_file, 'CAR_ch4',fig_path=FALSE) #AED vars
 plot_var(file=nc_file,'DOC',fig_path=FALSE) #AED vars
+plot_var(file=nc_file, 'DIC', fig_path=FALSE)
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
-plot_var(file=nc_file, 'DIC', fig_path=FALSE)
+plot_var(file=nc_file, 'TotN2', fig_path = FALSE)
+
 
 read_nml(nml_file = 'aed2.nml')
 
