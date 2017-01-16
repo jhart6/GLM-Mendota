@@ -17,8 +17,9 @@ library(lubridate)
 #where is the model on your computer & set working directory
 #SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
-#SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Sim1/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
@@ -88,7 +89,7 @@ plot_var(file=nc_file, 'DIC', fig_path=FALSE)
 plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
 plot_var(file=nc_file, 'TotN2', fig_path = FALSE)
-
+plot_var(SimFile, var_name = 'PHY_TPHYS')
 
 read_nml(nml_file = 'aed2.nml')
 
@@ -146,28 +147,46 @@ plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
-
 #plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
 
 
+
+####WATER BALANCE CALIBRATION CHECK####
 ####Plot Water Balance####
 plot(get_var(SimFile, var_name='evap'),type='l')
 plot(get_surface_height(SimFile),type='l')
 
-#in compare_to_field, as_value=F will return the RMSE for the specific metric
-  #for water.temperature, <1.5 is good
-  #for thermo.depth, <2.5 is good
 
 
+####WATER TEMPERATURE CALIBRATION####
 ####Starting RMSE Analysis####
+#in compare_to_field, as_value=F will return the RMSE for the specific metric
+#for water.temperature, <1.5 is good
+#for thermo.depth, <2.5 is good
+
+###Thermocline Depth Comparison###
 #value comparison
 compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth',as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
 #rmse 
 compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth', as_value=FALSE, na.rm = TRUE, precision = 'days', method = 'interp')
+
+therm_depths <- compare_to_field(SimFile, obsTEMP, metric="thermo.depth", as_value=TRUE, na.rm=TRUE)
+plot(therm_depths$DateTime, therm_depths$obs, type="l", col="blue", ylim=c(0,32), ylab="Thermocline depth in meters")  
+lines(therm_depths$DateTime, therm_depths$mod, col="red") 
+legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red")) 
+
+###Water Temperature Comparison###
 #value comparison
 compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
 #rmse
 compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=FALSE, na.rm = TRUE, precision = 'days', method = 'interp')
+
+temps<-compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
+plot(temps$DateTime, temps$obs, type='l', col='blue')
+lines(temps$DateTime, temps$mod, type='l', col = 'red')
+legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red")) 
+
+
 
 
 
@@ -181,5 +200,4 @@ set_nml()
 
 plot(get_var(SimFile, var_name = 'TOT_tp',z_out=1),type='l')
 
-plot_var(SimFile, var_name = 'PHY_TPHYS')
-plot_var(SimFile, var_name = 'TOT_tp')
+
