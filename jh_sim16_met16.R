@@ -18,7 +18,7 @@ library(lubridate)
 #SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -26,6 +26,7 @@ nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you
 #can use to plot from the output.nc file later
 
 #Fix the time columns in the inflow files after opening in excel to check column names
+#run only once! do NOT ever run again or else will populate DateTime column with NA's
 yahara <- read.csv("Mendota_yahara.csv", header=TRUE)
 yahara$Time <-as.POSIXct(strptime(yahara$Time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(yahara, "Mendota_yahara.csv", row.names=FALSE, quote=FALSE)
@@ -90,8 +91,6 @@ plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
 plot_var(file=nc_file, 'TotN2', fig_path = FALSE)
 plot_var(SimFile, var_name = 'PHY_TPHYS')
-
-read_nml(nml_file = 'aed2.nml')
 
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
@@ -187,17 +186,30 @@ lines(temps$DateTime, temps$mod, type='l', col = 'red')
 legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red")) 
 
 
-
-
-
+#####OXYGEN CALIBRATION####
 #how to get RMSE for metrics that aren't available through sim_metrics or rLakeAnalyzer
 #use resample_to_field
 #or rename things to "temp" so you can cheat/force the sim_metrics to work
+run_glm()
+convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
+plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
+
+#value comparison
+resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name = 'DO')
+#rmse
+df <- resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name = 'DO')
+sqrt((sum((df$Modeled_DO-df$Observed_DO)^2, na.rm=TRUE))/nrow(df))
+
+
+
+
+
+
+
 
 #to keep track of nml changes - use this function to override nml values & comment what you've tried
 set_nml()
 
 
-plot(get_var(SimFile, var_name = 'TOT_tp',z_out=1),type='l')
 
 
