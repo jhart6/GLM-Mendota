@@ -1,6 +1,6 @@
 
 #######################################################
-png('SensitivityAnalysisVisualization.png',width = 8,height = 45,units = 'in',res = 300)
+png('SensitivityAnalysisVisualization',width = 8,height = 45,units = 'in',res = 300)
 par(mfrow=c(length(outputAED),1),mar=c(2,7,0.5,0.5),mgp=c(1,0.5,0),tck=-0.04)
 
 for (p in 1:length(outputAED)){
