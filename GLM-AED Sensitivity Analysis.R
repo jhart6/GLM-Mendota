@@ -3,7 +3,7 @@
 ####16 January 2017####
 
 ####Set working directory to folder where you want to store .nml files####
-setwd("~/Dropbox/LaMe GLM Calibration/Sensitivity Test")
+setwd("~/Dropbox/LaMe GLM Calibration/Sensitivity Test 2")
 
 ####Load Libraries####
 library(glmtools)
@@ -37,6 +37,11 @@ parAED$par2 = paste(parAED$X1,parAED$Parameter_1,sep = '::')
 toTest = data.frame(par = parAED$par2, parLong = parAED$X1, parShort = parAED$Parameter_1, min = parAED$Min, max = parAED$Max, stringsAsFactors = F)
 toTest = toTest[!is.na(toTest$min),] #only keep rows with min/max values 
 
+toTestSmall = toTest[1,]
+
+#Fsed parameters only
+setwd("~/Dropbox/LaMe GLM Calibration/Module 1_Fsed SA/")
+toTestFsed = toTest[1:14,]
 
 ################# CHANGE PARAMETERS ################
 
@@ -48,13 +53,16 @@ newParam <- function(parInput) {
   min = parInput$min
   max = parInput$max
   
-  mainDir <- getwd()
-  subDir <- paste0('ME_',parShort)
-  dir.create(file.path(mainDir, subDir))
+  mainDir <- getwd() #file path for main directory
+  subDir <- paste0('ME_',parShort) #name for subdirectory (param folder)
+  dir.create(file.path(mainDir, subDir)) #actually create the subdirectory folder
   # find the files that you want
   list.of.files <- list.files(mainDir, full.names = TRUE)
   # copy the files to the new folder
+  file.copy(list.of.files, file.path(mainDir, subDir),overwrite = T)
+  # Set working directory to new folder 
   setwd(file.path(mainDir, subDir))
+  
   
   require(glmtools)
   df = data.frame('parameter' = c('MaxIce','Temp1m','Temp24m','DO1m','DO24m','DOC1m','DOC24m','TN1m','TN24m',
@@ -110,25 +118,25 @@ newParam <- function(parInput) {
 }
 
 # Test function
-newParam(toTest[1,1])
+newParam(toTestSmall[1,])
 
 
 
-######################### Apply as function in parellel ###########################
+######################### Apply as function in parallel ###########################
 library(parallel)
 # Calculate the number of cores
 no_cores <- detectCores() - 1
 # Initiate cluster
 cl <- makeCluster(no_cores)
 
-parList <- split(toTest, seq(nrow(toTest))) #has to be as a list for parLapply
+parList <- split(toTestFsed, seq(nrow(toTestFsed))) #has to be as a list for parLapply
 outputAED = parLapply(cl, X = parList,fun = newParam) #apply function in parallel
 
 # stop cluster
 stopCluster(cl)
 
 # name list
-names(outputAED) = toTest$par
+names(outputAED) = toTestFsed$par
 
 # save list (so you don't have to run again)
 save(outputAED, file = "outputAED.RData")
