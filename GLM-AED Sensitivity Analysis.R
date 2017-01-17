@@ -3,7 +3,7 @@
 ####16 January 2017####
 
 ####Set working directory to folder where you want to store .nml files####
-setwd("~/Dropbox/LaMe GLM Calibration/Sensitivity Test 2")
+setwd("~/Dropbox/LaMe GLM Calibration/Module 2_Oxygen/")
 
 ####Load Libraries####
 library(glmtools)
@@ -42,6 +42,10 @@ toTestSmall = toTest[1,]
 #Fsed parameters only
 setwd("~/Dropbox/LaMe GLM Calibration/Module 1_Fsed SA/")
 toTestFsed = toTest[1:14,]
+
+#Oxygen parameters only
+setwd("~/Dropbox/LaMe GLM Calibration/Module 2_Oxygen/")
+toTestOxy = toTest[17,]
 
 ################# CHANGE PARAMETERS ################
 
@@ -118,7 +122,7 @@ newParam <- function(parInput) {
 }
 
 # Test function
-newParam(toTestSmall[1,])
+newParam(toTestOxy[1,])
 
 
 
@@ -129,14 +133,14 @@ no_cores <- detectCores() - 1
 # Initiate cluster
 cl <- makeCluster(no_cores)
 
-parList <- split(toTestFsed, seq(nrow(toTestFsed))) #has to be as a list for parLapply
+parList <- split(toTestOxy, seq(nrow(toTestOxy))) #has to be as a list for parLapply
 outputAED = parLapply(cl, X = parList,fun = newParam) #apply function in parallel
 
 # stop cluster
 stopCluster(cl)
 
 # name list
-names(outputAED) = toTestFsed$par
+names(outputAED) = toTestOxy$par
 
 # save list (so you don't have to run again)
 save(outputAED, file = "outputAED.RData")
