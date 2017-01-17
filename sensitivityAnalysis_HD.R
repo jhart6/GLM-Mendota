@@ -67,7 +67,7 @@ newParam <- function(parInput) {
     aed_nml <- read_nml('aed2.nml') # read AED
     aed_nml <- set_nml(aed_nml, arg_name = param, arg_val = newValue)
     write_nml(aed_nml, file = 'aed2.nml')
-    run_glm(verbose = F)
+    run_glm(verbose = FALSE)
     
     ### Max Ice ###
     maxIce = max(get_var('output.nc','hice')[,2])
