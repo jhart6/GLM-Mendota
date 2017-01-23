@@ -8,7 +8,7 @@
 #compare to 2016 observed data
 #model run from 4/15/16 through 11/11/2016 
 
-####Run GLM####
+####GLM Prep####
 library(dplyr)
 library(glmtools)
 library(GLMr)
@@ -19,7 +19,11 @@ library(lubridate)
 #SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/SW Correction_2017 AED/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/SW Corrected_Pauls New AED/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/SW Correction_2017 AED/Results/Experiment_2017-01-23_15_45_31/Sims/Sim1/Results/'
+
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
@@ -51,7 +55,7 @@ met<-read.csv("NLDAS2_Mendota_2010_2016_cell_5.csv",header=TRUE)
 met$time <- as.POSIXct(strptime(met$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
 write.csv(met,"NLDAS2_Mendota_2010_2016_cell_5.csv",row.names=FALSE, quote=FALSE)
 
-#run GLM
+#####Run GLM#####
 #START: 2016-04-15 00:00:00
 #END: 2016-11-11 23:00:00
 run_glm(SimDir)
@@ -135,7 +139,7 @@ write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
 #obsLOGCO2 <- paste(SimDir, 'obsLOGCO2', sep='')
 #write.csv(logcarbondioxide, file=obsLOGCO2, row.names = FALSE, quote = FALSE)
 
-#compare 2016 modeled TEMP to 2016 obs TEMP
+#####compare 2016 modeled TEMP to 2016 obs TEMP####
 quartz()
 plot_temp_compare(nc_file = SimFile, obsTEMP)
 plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
@@ -200,15 +204,6 @@ resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name
 df <- resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name = 'DO')
 sqrt((sum((df$Modeled_DO-df$Observed_DO)^2, na.rm=TRUE))/nrow(df))
 
-
-
-
-
-
-
-
-#to keep track of nml changes - use this function to override nml values & comment what you've tried
-set_nml()
 
 
 
