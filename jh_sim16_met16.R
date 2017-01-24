@@ -22,7 +22,8 @@ library(lubridate)
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/SW Corrected_Pauls New AED/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/SW Corrected_Pauls New AED/Results/Experiment_2017-01-23_17_19_09/Sims/Sim1/Results/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/Results/Experiment_2017-01-23_17_11_19/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/PCH 2009 Calibration/Results/Experiment_2017-01-24_10_37_14/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/AdjustedGLM_PaulsAED/Results/Experiment_2017-01-24_11_27_04/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -99,7 +100,7 @@ plot_var(SimFile, var_name = 'PHY_TPHYS')
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
 #2016 obs data from 4/15/2016 through 11/14/2016 
-setwd("~/Dropbox/LaMe GLM Calibration/SW Corrected_Pauls New AED/Sims/Sim1/")
+setwd("~/Dropbox/LaMe GLM Calibration/Observed Data/")
 temp<-read.csv("field_temp.csv",header=TRUE) #creates R object with obs data
 obsTEMP<-paste(SimDir, 'obsTEMP.csv',sep='') #creates file path for eventual obs data
 write.csv(temp,file = obsTEMP, row.names=FALSE, quote=FALSE)
