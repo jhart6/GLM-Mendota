@@ -12,7 +12,7 @@ library(GRAPLEr)
 library(glmtools)
 library(GLMr)
 
-MyParentDir = '~/Dropbox/LaMe GLM Calibration/GLMTest/' #GLM files
+MyParentDir = '~/Dropbox/LaMe GLM Calibration/AdjustedGLM_PaulsAED/' #GLM files
 # To load an old file...
 # LoadFile = paste(MyParentDir,'Experiment_2017-01-18_05_53_36',sep="")
 # load(LoadFile)
