@@ -21,6 +21,7 @@ library(lubridate)
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/AdjustedGLM_PaulsAED/Results/Experiment_2017-01-25_15_57_11/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/New Inflows/Results/Experiment_2017-01-26_11_27_48/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -138,6 +139,14 @@ write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
 #obsLOGCO2 <- paste(SimDir, 'obsLOGCO2', sep='')
 #write.csv(logcarbondioxide, file=obsLOGCO2, row.names = FALSE, quote = FALSE)
 
+totN2<-read.csv("TotN2.csv",header=TRUE)
+obsTN<-paste(SimDir, 'obsTN.csv', sep='')
+write.csv(totN2, file=obsTN, row.names = FALSE, quote=FALSE)
+
+totP2<-read.csv("TotP2.csv",header=TRUE)
+obsTP<-paste(SimDir, 'obsTP.csv', sep='')
+write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
+
 #####compare 2016 modeled TEMP to 2016 obs TEMP####
 quartz()
 plot_temp_compare(nc_file = SimFile, obsTEMP)
@@ -150,7 +159,8 @@ plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 #plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
-
+plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2')
+plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2')
 
 
 ####WATER BALANCE CALIBRATION CHECK####
