@@ -20,8 +20,8 @@ library(lubridate)
 #SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
 #SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/AdjustedGLM_PaulsAED/Results/Experiment_2017-01-25_15_57_11/Sims/Sim1/Results/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/New Inflows/Results/Experiment_2017-01-26_11_27_48/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/Mendota Simulations/SimForPaul_26 January 2017/PaulsVersion/Results/Experiment_2017-01-27_13_16_58/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Pauls Version/Results/Experiment_2017-01-27_13_34_32/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
