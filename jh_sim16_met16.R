@@ -15,13 +15,8 @@ library(GLMr)
 library(lubridate)
 
 #where is the model on your computer & set working directory
-#SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/MECalibrated_sim16/'
-#SimDir = '~/Dropbox/LaMe GLM Calibration/MECalibrated_sim16/'
-#SimDir = '~/Dropbox/LaMe GLM Calibration/LaMe New Params/'
-#SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2009AED/'
-#SimDir = '~/Dropbox/LaMe GLM Calibration/Temp Calibrated_2017AED/'
-SimDir = '~/Dropbox/Mendota Simulations/SimForPaul_26 January 2017/PaulsVersion/Results/Experiment_2017-01-27_13_16_58/Sims/Sim1/Results/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/Pauls Version/Results/Experiment_2017-01-27_13_34_32/Sims/Sim1/Results/'
+setwd('~/Dropbox/LaMe GLM Calibration/Pauls Version/Sims/Sim1/')
+SimDir = '~/Dropbox/LaMe GLM Calibration/Pauls Version/Results/Experiment_2017-01-30_14_08_24/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -77,7 +72,10 @@ if (ConvertVariables){
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
+  convert_sim_var(nc_file, CH4 = CAR_ch4, unit = 'mg/L', overwrite=T)
+  convert_sim_var(nc_file, CO2 = CAR_pCO2, unit = 'mg/L', overwrite = T)
   #needs to be in atm! #convert_sim_var(nc_file, log_CAR_pCO2 = log10(CAR_pCO2), unit = 'umol/L', overwrite = T)
+  convert_sim_var(nc_file, TOT_POC = ((OGM_poc + PHY_TPHYS) * 12/1000), unit = 'mg/L', overwrite=T)
 }
 
 #plot 2016 simulation results
@@ -152,7 +150,7 @@ quartz()
 plot_temp_compare(nc_file = SimFile, obsTEMP)
 plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
 plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH')
-plot_var_compare(nc_file = SimFile, obsPOC, var_name='POC',col_lim = c(0,3))
+plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
@@ -214,6 +212,11 @@ df <- resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',va
 sqrt((sum((df$Modeled_DO-df$Observed_DO)^2, na.rm=TRUE))/nrow(df))
 
 
+#####NITROGEN CALIBRATION#####
+df <- resample_to_field(SimFile, obsTN, method = 'interp', precision = 'days', var_name = 'TotN2')
+sqrt((sum((df$Modeled_TotN2-df$Observed_TotN2)^2, na.rm=TRUE))/nrow(df))
 
 
-
+#####PHOSPHORUS CALIBRATION####
+df <- resample_to_field(SimFile, obsTP, method = 'interp', precision = 'days', var_name = 'TotP2')
+sqrt((sum((df$Modeled_TotP2-df$Observed_TotP2)^2, na.rm=TRUE))/nrow(df))
