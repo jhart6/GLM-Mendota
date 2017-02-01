@@ -15,8 +15,7 @@ library(GLMr)
 library(lubridate)
 
 #where is the model on your computer & set working directory
-setwd('~/Dropbox/LaMe GLM Calibration/Pauls Version/Sims/Sim1/')
-SimDir = '~/Dropbox/LaMe GLM Calibration/Pauls Version/Results/Experiment_2017-01-30_14_08_24/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Oxygen Calibration/Results/Experiment_2017-02-01_11_40_12/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -210,6 +209,7 @@ resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name
 #rmse
 df <- resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',var_name = 'DO')
 sqrt((sum((df$Modeled_DO-df$Observed_DO)^2, na.rm=TRUE))/nrow(df))
+
 
 
 #####NITROGEN CALIBRATION#####
