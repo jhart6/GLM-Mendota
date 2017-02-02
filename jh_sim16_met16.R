@@ -15,7 +15,7 @@ library(GLMr)
 library(lubridate)
 
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/Oxygen Calibration/Results/Experiment_2017-02-01_11_40_12/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Water Clarity Calibration/Results/Experiment_2017-02-02_13_51_31/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -91,6 +91,8 @@ plot_var(file=nc_file,'CAR_pCO2',fig_path=FALSE,col_lim=c(0,3))
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
 plot_var(file=nc_file, 'TotN2', fig_path = FALSE)
 plot_var(SimFile, var_name = 'PHY_TPHYS')
+
+plot_var(SimFile, c('PHY_TPHYS','DOC'))
 
 ####Compare 16 Sim to 16 Obs####
 #import 2016 observational data
@@ -220,3 +222,8 @@ sqrt((sum((df$Modeled_TotN2-df$Observed_TotN2)^2, na.rm=TRUE))/nrow(df))
 #####PHOSPHORUS CALIBRATION####
 df <- resample_to_field(SimFile, obsTP, method = 'interp', precision = 'days', var_name = 'TotP2')
 sqrt((sum((df$Modeled_TotP2-df$Observed_TotP2)^2, na.rm=TRUE))/nrow(df))
+
+
+#####DOC CALIBRATION####
+df <- resample_to_field(SimFile, obsDOC, method='interp', precision = 'days', var_name = 'DOC')
+sqrt((sum((df$Modeled_DOC-df$Observed_DOC)^2, na.rm=TRUE))/nrow(df))
