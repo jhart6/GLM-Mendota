@@ -72,8 +72,6 @@ if (ConvertVariables){
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
   convert_sim_var(nc_file, CH4 = CAR_ch4, unit = 'mg/L', overwrite=T)
-  convert_sim_var(nc_file, CO2 = CAR_pCO2, unit = 'mg/L', overwrite = T)
-  #needs to be in atm! #convert_sim_var(nc_file, log_CAR_pCO2 = log10(CAR_pCO2), unit = 'umol/L', overwrite = T)
   convert_sim_var(nc_file, TOT_POC = ((OGM_poc + PHY_TPHYS) * 12/1000), unit = 'mg/L', overwrite=T)
 }
 
@@ -157,7 +155,6 @@ plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
-#plot_var_compare(nc_file = SimFile, obsLOGCO2, var_name = 'log_CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2')
 plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2')
 
@@ -166,7 +163,6 @@ plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2')
 ####Plot Water Balance####
 plot(get_var(SimFile, var_name='evap'),type='l')
 plot(get_surface_height(SimFile),type='l')
-
 
 
 ####WATER TEMPERATURE CALIBRATION####
@@ -213,7 +209,6 @@ df <- resample_to_field(SimFile, obsDO, method = 'interp', precision = 'days',va
 sqrt((sum((df$Modeled_DO-df$Observed_DO)^2, na.rm=TRUE))/nrow(df))
 
 
-
 #####NITROGEN CALIBRATION#####
 df <- resample_to_field(SimFile, obsTN, method = 'interp', precision = 'days', var_name = 'TotN2')
 sqrt((sum((df$Modeled_TotN2-df$Observed_TotN2)^2, na.rm=TRUE))/nrow(df))
@@ -227,3 +222,18 @@ sqrt((sum((df$Modeled_TotP2-df$Observed_TotP2)^2, na.rm=TRUE))/nrow(df))
 #####DOC CALIBRATION####
 df <- resample_to_field(SimFile, obsDOC, method='interp', precision = 'days', var_name = 'DOC')
 sqrt((sum((df$Modeled_DOC-df$Observed_DOC)^2, na.rm=TRUE))/nrow(df))
+
+
+####DIC CALIBRATION####
+df <- resample_to_field(SimFile, obsDIC, method='interp', precision = 'days', var_name = 'DIC')
+sqrt((sum((df$Modeled_DIC-df$Observed_DIC)^2, na.rm=TRUE))/nrow(df))
+
+
+#####POC CALIBRATION####
+df <- resample_to_field(SimFile, obsPOC, method = 'interp', precision = 'days', var_name = 'TOT_POC')
+sqrt((sum((df$Modeled_TOT_POC-df$Observed_TOT_POC)^2, na.rm=TRUE))/nrow(df))
+
+
+####LOG_CH4 CALIBRATION####
+df <- resample_to_field(SimFile, obsLOGCH4, method = 'interp', precision = 'days', var_name = 'log_CAR_ch4')
+sqrt((sum((df$Modeled_log_CAR_ch4-df$Observed_log_CAR_ch4)^2, na.rm=TRUE))/nrow(df))
