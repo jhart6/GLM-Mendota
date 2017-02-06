@@ -13,9 +13,9 @@ library(dplyr)
 library(glmtools)
 library(GLMr)
 library(lubridate)
-
+  
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/Nitrogen Calibration/Results/Experiment_2017-02-06_10_45_18/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/DIC Calibration/Results/Experiment_2017-02-06_14_26_26/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
