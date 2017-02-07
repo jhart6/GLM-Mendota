@@ -16,6 +16,7 @@ library(lubridate)
   
 #where is the model on your computer & set working directory
 SimDir = '~/Dropbox/LaMe GLM Calibration/Paul Feb Sim/Results/Experiment_2017-02-07_15_04_28/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/170203_Nitrogen Calibration/Results/Experiment_2017-02-07_15_20_43/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
