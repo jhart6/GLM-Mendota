@@ -15,7 +15,7 @@ library(GLMr)
 library(lubridate)
   
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/DIC Calibration/Results/Experiment_2017-02-06_14_49_13/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Paul Feb Sim/Results/Experiment_2017-02-07_15_04_28/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -155,8 +155,8 @@ plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
 plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
-plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2')
-plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2')
+plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
+plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2',col=c(0,2))
 
 
 ####WATER BALANCE CALIBRATION CHECK####
@@ -198,7 +198,6 @@ legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red"))
 #how to get RMSE for metrics that aren't available through sim_metrics or rLakeAnalyzer
 #use resample_to_field
 #or rename things to "temp" so you can cheat/force the sim_metrics to work
-run_glm()
 convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
 plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
 
@@ -237,3 +236,21 @@ sqrt((sum((df$Modeled_TOT_POC-df$Observed_TOT_POC)^2, na.rm=TRUE))/nrow(df))
 ####LOG_CH4 CALIBRATION####
 df <- resample_to_field(SimFile, obsLOGCH4, method = 'interp', precision = 'days', var_name = 'log_CAR_ch4')
 sqrt((sum((df$Modeled_log_CAR_ch4-df$Observed_log_CAR_ch4)^2, na.rm=TRUE))/nrow(df))
+
+
+####PH CALIBRATION####
+df <- resample_to_field(SimFile, obsPH, method = 'interp', precision = 'days', var_name = 'CAR_pH')
+sqrt((sum((df$Modeled_CAR_pH-df$Observed_CAR_pH)^2, na.rm=TRUE))/nrow(df))
+
+
+#####Extract Modeled Secchi#####
+df<-get_var(SimFile, 'extc_coef', z_out= 2.5,reference = 'surface')
+secchi<-(1.7/df$extc_coef_2.5)
+df<-cbind(df,secchi)
+plot(df$DateTime,df$secchi,type='l')
+
+
+
+
+
+
