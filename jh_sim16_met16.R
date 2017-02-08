@@ -15,8 +15,8 @@ library(GLMr)
 library(lubridate)
   
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/Paul Feb Sim/Results/Experiment_2017-02-07_15_04_28/Sims/Sim1/Results/'
 SimDir = '~/Dropbox/LaMe GLM Calibration/170203_Nitrogen Calibration/Results/Experiment_2017-02-08_15_11_40/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/DIC Calibration2/Results/Experiment_2017-02-08_17_27_26/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -153,7 +153,7 @@ plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH')
 plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
-plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
+plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC',col=c(3,8))
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
@@ -194,6 +194,8 @@ plot(temps$DateTime, temps$obs, type='l', col='blue')
 lines(temps$DateTime, temps$mod, type='l', col = 'red')
 legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red")) 
 
+plot(temps$obs,temps$mod,pch=16)
+abline(0,1,col='red')
 
 #####OXYGEN CALIBRATION####
 #how to get RMSE for metrics that aren't available through sim_metrics or rLakeAnalyzer
