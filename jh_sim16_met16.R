@@ -15,7 +15,7 @@ library(GLMr)
 library(lubridate)
   
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/Misc Fixes/Results/Experiment_2017-02-09_11_20_58/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/170203_Nitrogen Calibration/Results/Experiment_2017-02-09_11_03_37/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -156,7 +156,8 @@ plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC',col=c(3,8))
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
-plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2',col=c(0,2))
+plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2',col=c(0,1))
+
 
 
 ####WATER BALANCE CALIBRATION CHECK####
