@@ -13,9 +13,9 @@ library(dplyr)
 library(glmtools)
 library(GLMr)
 library(lubridate)
-  
+    
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/170203_Nitrogen Calibration/Results/Experiment_2017-02-09_11_03_37/Sims/Sim1/Results/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/PCH OC Fixes/Results/Experiment_2017-02-10_12_45_45/Sims/Sim1/Results/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -65,7 +65,8 @@ ConvertVariables = TRUE
 #Need to write some more of these
 if (ConvertVariables){
   convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
-  convert_sim_var(nc_file, DOC = OGM_doc * 12/1000, unit = 'mg/L',overwrite = T)
+  convert_sim_var(nc_file, all_DOC = (OGM_doc + OGM_docr) * 12/1000, unit = 'mg/L',overwrite = T)
+  convert_sim_var(nc_file, DOC = OGM_doc *12/1000, unit = 'mg/L', overwrite=T)
   convert_sim_var(nc_file, POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, DIC = CAR_dic * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
@@ -152,7 +153,7 @@ plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH')
 plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
-plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC',col=c(3,8))
+plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC')
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
