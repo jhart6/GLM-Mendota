@@ -137,15 +137,21 @@ logmethane<-read.csv("field_log_ch4.csv",header = TRUE)
 obsLOGCH4<-paste(SimDir, 'obsLOGCH4.csv', sep = '')
 write.csv(logmethane, file=obsLOGCH4, row.names=FALSE, quote=FALSE)
 
-#logcarbondioxide<- read.csv("field_log_co2.csv",header=TRUE)
-#obsLOGCO2 <- paste(SimDir, 'obsLOGCO2', sep='')
-#write.csv(logcarbondioxide, file=obsLOGCO2, row.names = FALSE, quote = FALSE)
-
+#OLD TN and TP files
 totN2<-read.csv("TotN2.csv",header=TRUE)
 obsTN<-paste(SimDir, 'obsTN.csv', sep='')
 write.csv(totN2, file=obsTN, row.names = FALSE, quote=FALSE)
 
 totP2<-read.csv("TotP2.csv",header=TRUE)
+obsTP<-paste(SimDir, 'obsTP.csv', sep='')
+write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
+
+#NEW TN and TP files
+totN2<-read.csv("ObsTN_new.csv",header=TRUE)
+obsTN<-paste(SimDir, 'obsTN.csv', sep='')
+write.csv(totN2, file=obsTN, row.names = FALSE, quote=FALSE)
+
+totP2<-read.csv("ObsTP_new.csv",header=TRUE)
 obsTP<-paste(SimDir, 'obsTP.csv', sep='')
 write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
 
