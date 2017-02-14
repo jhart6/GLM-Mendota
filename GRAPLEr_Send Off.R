@@ -12,7 +12,10 @@ library(GRAPLEr)
 library(glmtools)
 library(GLMr)
 
-MyParentDir = '~/Dropbox/LaMe GLM Calibration/Paul Sim Test/' #GLM files
+MyParentDir = '~/Dropbox/LaMe GLM Calibration/pH to Inflows/' #GLM files
+MyParentDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Pauls Sim/'
+MyParentDir = '~/Dropbox/LaMe GLM Calibration/PCH OC Fixes/'
+MyParentDir = '~/Dropbox/LaMe GLM Calibration/170210_Paul Sim Test/'
 # To load an old file...
 # LoadFile = paste(MyParentDir,'Experiment_2017-01-18_05_53_36',sep="")
 # load(LoadFile)
