@@ -15,10 +15,8 @@ library(GLMr)
 library(lubridate)
     
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/pH to Inflows/Results/Experiment_2017-02-14_09_56_38/Sims/Sim1/Results/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/PCH OC Fixes/Results/Experiment_2017-02-10_12_45_45/Sims/Sim1/Results/'
-SimDir = '~/Dropbox/Mendota Simulations/Sim4Julia/Pauls Sim/Sims/Sim1/'
-SimDir = '~/Dropbox/LaMe GLM Calibration/pH to Inflows/Sims/Sim1/'
+#SimDir = '~/Dropbox/LaMe GLM Calibration/pH to Inflows/' #Julia's Current Sim
+SimDir = '~/Dropbox/LaMe GLM Calibration/Paul Sim Test/' #Paul's Current Sim w/ OC fixes
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -72,7 +70,7 @@ ConvertVariables = TRUE
 #Need to write some more of these
 if (ConvertVariables){
   convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
-#  convert_sim_var(nc_file, all_DOC = (OGM_doc + OGM_docr) * 12/1000, unit = 'mg/L',overwrite = T)
+  convert_sim_var(nc_file, all_DOC = (OGM_doc + OGM_docr) * 12/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, DOC = OGM_doc *12/1000, unit = 'mg/L', overwrite=T)
   convert_sim_var(nc_file, POC = OGM_poc * 12/1000, unit = 'mg/L', overwrite = T)
   convert_sim_var(nc_file, DIC = CAR_dic * 12/1000, unit = 'mg/L', overwrite = T)
@@ -131,6 +129,10 @@ doc<-read.csv("field_doc.csv",header=TRUE)
 obsDOC<-paste(SimDir, 'obsDOC.csv', sep='')
 write.csv(doc, file=obsDOC, row.names=FALSE, quote=FALSE)
 
+alldoc<-read.csv("field_alldoc.csv",header=TRUE)
+obsALLDOC<-paste(SimDir, 'obsALLDOC.csv', sep='')
+write.csv(alldoc, file=obsALLDOC, row.names=FALSE, quote=FALSE)
+
 dic<-read.csv("field_dic.csv",header=TRUE)
 obsDIC<-paste(SimDir, 'obsDIC.csv', sep='')
 write.csv(dic, file=obsDIC, row.names=FALSE, quote=FALSE)
@@ -149,13 +151,13 @@ obsTP<-paste(SimDir, 'obsTP.csv', sep='')
 write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
 
 #NEW TN and TP files
-totN2<-read.csv("ObsTN_new.csv",header=TRUE)
-obsTN<-paste(SimDir, 'obsTN.csv', sep='')
-write.csv(totN2, file=obsTN, row.names = FALSE, quote=FALSE)
+#totN2<-read.csv("ObsTN_new.csv",header=TRUE)
+#obsTN<-paste(SimDir, 'obsTN.csv', sep='')
+#write.csv(totN2, file=obsTN, row.names = FALSE, quote=FALSE)
 
-totP2<-read.csv("ObsTP_new.csv",header=TRUE)
-obsTP<-paste(SimDir, 'obsTP.csv', sep='')
-write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
+#totP2<-read.csv("ObsTP_new.csv",header=TRUE)
+#obsTP<-paste(SimDir, 'obsTP.csv', sep='')
+#write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
 
 #####compare 2016 modeled TEMP to 2016 obs TEMP####
 quartz()
@@ -163,9 +165,7 @@ plot_temp_compare(nc_file = SimFile, obsTEMP)
 plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
 plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH',col=c(4.5,9))
 plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
-plot_var_compare(nc_file = SimFile, obsCH4, var_name='CAR_ch4')
-plot_var_compare(nc_file = SimFile, obsCO2, var_name = 'CAR_pCO2')
-plot_var_compare(nc_file = SimFile, obsDOC, var_name = 'DOC',col=c(4,7.5))
+plot_var_compare(nc_file = SimFile, obsALLDOC, var_name = 'all_DOC',col=c(4,7.5))
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
@@ -235,8 +235,8 @@ sqrt((sum((df$Modeled_TotP2-df$Observed_TotP2)^2, na.rm=TRUE))/nrow(df))
 
 
 #####DOC CALIBRATION####
-df <- resample_to_field(SimFile, obsDOC, method='interp', precision = 'days', var_name = 'DOC')
-sqrt((sum((df$Modeled_DOC-df$Observed_DOC)^2, na.rm=TRUE))/nrow(df))
+df <- resample_to_field(SimFile, obsALLDOC, method='interp', precision = 'days', var_name = 'all_DOC')
+sqrt((sum((df$Modeled_all_DOC-df$Observed_all_DOC)^2, na.rm=TRUE))/nrow(df))
 
 
 ####DIC CALIBRATION####
@@ -265,7 +265,8 @@ secchi<-(1.7/df$extc_coef_2.5)
 df<-cbind(df,secchi)
 plot(df$DateTime,df$secchi,type='l')
 
-
+####PHYTOS CALIBRATION####
+plot_var(SimFile, var_name = 'PHY_TPHYS')
 
 
 
