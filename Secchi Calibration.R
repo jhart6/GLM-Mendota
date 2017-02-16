@@ -5,7 +5,8 @@ setwd("~/Dropbox/LaMe GLM Calibration/Observed Data/")
 obsSecchi <- read.csv("secchi.csv")
 
 #plotting
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) #side by side
+par(mfrow=c(2,1)) #top to bottom
 plot(obsSecchi$Julian,obsSecchi$Depth,type='l')
 obsExtc <- (1.7/obsSecchi$Depth)
 obsSecchi<- cbind(obsSecchi,obsExtc)
