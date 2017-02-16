@@ -15,8 +15,7 @@ library(GLMr)
 library(lubridate)
     
 #where is the model on your computer & set working directory
-#SimDir = '~/Dropbox/LaMe GLM Calibration/pH to Inflows/' #Julia's Current Sim
-SimDir = '~/Dropbox/LaMe GLM Calibration/Paul Sim Test/' #Paul's Current Sim w/ OC fixes
+SimDir = '~/Dropbox/LaMe GLM Calibration/Sinking Fixes/' 
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -67,7 +66,7 @@ View(vars)
 #Convert Variables
 ConvertVariables = TRUE
 
-#Need to write some more of these
+####CONVERT VARS####
 if (ConvertVariables){
   convert_sim_var(nc_file, DO = OXY_oxy * 32/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, all_DOC = (OGM_doc + OGM_docr) * 12/1000, unit = 'mg/L',overwrite = T)
@@ -121,10 +120,6 @@ methane<-read.csv("field_ch4.csv",header=TRUE)
 obsCH4<-paste(SimDir, 'obsCH4.csv', sep='')
 write.csv(methane, file=obsCH4, row.names=FALSE, quote=FALSE)
 
-carbondioxide<-read.csv("field_co2.csv",header=TRUE)
-obsCO2<-paste(SimDir, 'obsCO2.csv', sep='')
-write.csv(carbondioxide, file=obsCO2, row.names=FALSE, quote=FALSE)
-
 doc<-read.csv("field_doc.csv",header=TRUE)
 obsDOC<-paste(SimDir, 'obsDOC.csv', sep='')
 write.csv(doc, file=obsDOC, row.names=FALSE, quote=FALSE)
@@ -159,7 +154,7 @@ write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
 #obsTP<-paste(SimDir, 'obsTP.csv', sep='')
 #write.csv(totP2, file=obsTP, row.names = FALSE, quote=FALSE)
 
-#####compare 2016 modeled TEMP to 2016 obs TEMP####
+#####COMPARE OBS TO SIM####
 quartz()
 plot_temp_compare(nc_file = SimFile, obsTEMP)
 plot_var_compare(nc_file = SimFile, obsDO, var_name = 'DO')
@@ -267,7 +262,7 @@ plot(df$DateTime,df$secchi,type='l')
 
 ####PHYTOS CALIBRATION####
 plot_var(SimFile, var_name = 'PHY_TPHYS')
-
+plot_var(SimFile, var_name = 'POC')
 
 
 
