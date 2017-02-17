@@ -22,7 +22,10 @@ sqrt((sum((df$Modeled_all_DOC-df$Observed_all_DOC)^2, na.rm=TRUE))/nrow(df))
 
 plot(get_var(SimFile, var_name = 'PHY_TPHYS', reference='surface', z_out = 3),ylim=c(0,325))
 plot(get_var(SimFile, var_name = 'TOT_POC', reference = 'surface', z_out = 3))
-plot(poc$DATETIME[which(poc$DEPTH==3)],poc$TOT_POC[which(poc$DEPTH==3)],type='l')
-
-plot(alldoc$DateTime[which(alldoc$Depth==3)],alldoc$all_DOC[which(alldoc$Depth==3)])
 plot(get_var(SimFile, var_name = 'all_DOC',reference = 'surface',z_out = 3))
+plot(get_var(SimFile, var_name = 'POC', reference = 'surface', z_out = 3))
+
+
+#observed data (what the values should be)
+plot(poc$DATETIME[which(poc$DEPTH==3)],poc$TOT_POC[which(poc$DEPTH==3)],type='l')
+plot(alldoc$DateTime[which(alldoc$Depth==3)],alldoc$all_DOC[which(alldoc$Depth==3)])
