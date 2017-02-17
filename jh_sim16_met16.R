@@ -76,7 +76,6 @@ if (ConvertVariables){
   convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
   convert_sim_var(nc_file, log_CAR_ch4 = log10(CAR_ch4) , unit = 'umol/L', overwrite = T)
-  convert_sim_var(nc_file, CH4 = CAR_ch4, unit = 'mg/L', overwrite=T)
   convert_sim_var(nc_file, TOT_POC = ((OGM_poc + PHY_TPHYS) * 12/1000), unit = 'mg/L', overwrite=T)
 }
 
