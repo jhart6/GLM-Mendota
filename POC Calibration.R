@@ -29,3 +29,8 @@ plot(get_var(SimFile, var_name = 'POC', reference = 'surface', z_out = 3))
 #observed data (what the values should be)
 plot(poc$DATETIME[which(poc$DEPTH==3)],poc$TOT_POC[which(poc$DEPTH==3)],type='l')
 plot(alldoc$DateTime[which(alldoc$Depth==3)],alldoc$all_DOC[which(alldoc$Depth==3)])
+
+plot(get_var(SimFile, var_name = 'PHY_CYANOPCH1',z_out = 3,reference = 'surface'),type='l')
+lines(get_var(SimFile,var_name = 'PHY_CYANONPCH2',z_out = 3,reference = 'surface'),col=c('red'))
+lines(get_var(SimFile, var_name = 'PHY_CHLOROPCH3',z_out = 3,reference = 'surface'),col=c('blue'))
+lines(get_var(SimFile, var_name = 'PHY_DIATOMPCH4', z_out = 3,reference = 'surface'),col=c('purple'))
