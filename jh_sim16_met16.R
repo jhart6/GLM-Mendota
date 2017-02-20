@@ -259,6 +259,7 @@ secchi<-(1.7/df$extc_coef_2.5)
 df<-cbind(df,secchi)
 plot(df$DateTime,df$secchi,type='l')
 
+
 ####PHYTOS CALIBRATION####
 plot_var(SimFile, var_name = 'PHY_TPHYS')
 plot_var(SimFile, var_name = 'POC')
