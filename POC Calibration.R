@@ -11,6 +11,7 @@ plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsALLDOC, var_name = 'all_DOC',col=c(4,7.5))
 plot_var(SimFile, var_name = 'POC')
 plot_var(SimFile, var_name = 'PHY_TPHYS')
+plot_var(SimFile,c('PHY_TPHYS','all_DOC'))
 
 #POC
 df <- resample_to_field(SimFile, obsPOC, method = 'interp', precision = 'days', var_name = 'TOT_POC')
@@ -25,9 +26,13 @@ plot(get_var(SimFile, var_name = 'TOT_POC', reference = 'surface', z_out = 3))
 plot(get_var(SimFile, var_name = 'all_DOC',reference = 'surface',z_out = 3))
 plot(get_var(SimFile, var_name = 'POC', reference = 'surface', z_out = 3))
 
+plot(get_var(SimFile, var_name = 'TOT_POC', reference = 'surface', z_out = 20))
+
 
 #observed data (what the values should be)
 plot(poc$DATETIME[which(poc$DEPTH==3)],poc$TOT_POC[which(poc$DEPTH==3)],type='l')
+plot(poc$DATETIME[which(poc$DEPTH==20)],poc$TOT_POC[which(poc$DEPTH==20)],type='l')
+
 plot(alldoc$DateTime[which(alldoc$Depth==3)],alldoc$all_DOC[which(alldoc$Depth==3)])
 
 plot(get_var(SimFile, var_name = 'PHY_CYANOPCH1',z_out = 3,reference = 'surface'),type='l')
