@@ -9,9 +9,9 @@ lines(get_var(file=nc_file, var_name = 'TOT_POC', reference = 'surface', z_out =
 legend('topright',c('POC @ 3m','POC @ 20m'),col=c('black','red'),lty=c(1,1))
 
 quartz()
-plot(get_var(file=nc_file,var_name = 'CH4', reference = 'surface', z_out = 3), type='l',ylim=c(0,350))
-lines(get_var(file=nc_file, var_name = 'CH4', reference = 'surface', z_out = 20), type = 'l', col= 'red')
-legend('topleft',c('CH4 @ 3m','CH4 @ 20m'),col=c('black','red'),lty=c(1,1))
+plot(get_var(file=nc_file,var_name = 'log_CAR_ch4', reference = 'surface', z_out = 3), type='l',ylim=c(0,3))
+lines(get_var(file=nc_file, var_name = 'log_CAR_ch4', reference = 'surface', z_out = 20), type = 'l', col= 'red')
+legend('topleft',c('log(CH4) @ 3m','log(CH4) @ 20m'),col=c('black','red'),lty=c(1,1))
 
 quartz()
 plot(get_var(file = nc_file, var_name = 'CAR_atm_co2_exch'),type='l')
