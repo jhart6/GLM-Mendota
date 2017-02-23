@@ -15,7 +15,7 @@ library(GLMr)
 library(lubridate)
     
 #where is the model on your computer & set working directory
-SimDir = '~/Dropbox/LaMe GLM Calibration/Sinking Fixes/' 
+SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -161,6 +161,7 @@ plot_var_compare(nc_file = SimFile, obsPH, var_name = 'CAR_pH',col=c(4.5,9))
 plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsALLDOC, var_name = 'all_DOC',col=c(4,7.5))
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
+plot_var_compare(nc_file = SimFile, obsCH4, var_name = 'CAR_ch4',col=c(0,1000))
 plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
 plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2',col=c(0,1))
@@ -247,6 +248,9 @@ sqrt((sum((df$Modeled_TOT_POC-df$Observed_TOT_POC)^2, na.rm=TRUE))/nrow(df))
 df <- resample_to_field(SimFile, obsLOGCH4, method = 'interp', precision = 'days', var_name = 'log_CAR_ch4')
 sqrt((sum((df$Modeled_log_CAR_ch4-df$Observed_log_CAR_ch4)^2, na.rm=TRUE))/nrow(df))
 
+####CH4 CALIBRATION#### 
+df <- resample_to_field(SimFile, obsCH4, method = 'interp', precision = 'days', var_name = 'CAR_ch4')
+sqrt((sum((df$Modeled_CAR_ch4-df$Observed_CAR_ch4)^2, na.rm=TRUE))/nrow(df))
 
 ####PH CALIBRATION####
 df <- resample_to_field(SimFile, obsPH, method = 'interp', precision = 'days', var_name = 'CAR_pH')
