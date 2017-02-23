@@ -7,7 +7,7 @@ convert_sim_var(nc_file, TOT_POC = ((OGM_poc + PHY_TPHYS) * 12/1000), unit = 'mg
 convert_sim_var(nc_file, all_DOC = (OGM_doc + OGM_docr) * 12/1000, unit = 'mg/L',overwrite = T)
 
 
-plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
+plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC',col=c(0,5))
 plot_var_compare(nc_file = SimFile, obsALLDOC, var_name = 'all_DOC',col=c(4,7.5))
 plot_var(SimFile, var_name = 'POC')
 plot_var(SimFile, var_name = 'PHY_TPHYS')
