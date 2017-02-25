@@ -70,3 +70,5 @@ plot(as.Date(hypo_DO$DateTime),hypo_DO$Resp_20,col=c('blue'),axes = FALSE, xlab 
 par(new = TRUE)
 plot(as.Date(hypo_DO$DateTime),hypo_DO$nitrif_20.NIT_nitrif_20,col = c('purple'),axes = FALSE, xlab = NA, ylab = NA, type = 'l')
 legend('topleft',c('HYPOLIMNION','DO (mg/L)','DO Sediment Flux','GPP','Total Respiration','Nitrification Rate'),lty=c(NA,1,1,1,1,1),col=c(NA,'black','red','green','blue','purple'),lwd=c(NA,3,1,1,1,1))
+
+dev.off()
