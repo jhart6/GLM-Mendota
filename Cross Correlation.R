@@ -7,17 +7,17 @@ library(astsa)
 poc<-ts(interp_spline_p)
 methane<-ts(logch4_residual)
 
-ccf_mod<-ccf(methane,poc)
+ccf_mod<-ccf(methane,poc,lag.max = 24)
 
 quartz()
-lag2.plot(methane,poc,max.lag = 18)
+lag2.plot(methane,poc,max.lag = 24)
 
 
 ####plot two series with time lag of 18 days####
-lag_date<-as.Date(residual$Date)-18
+lag_date<-as.Date(residual$Date)-19
 
 lag_ch4<-data.frame(lag_date,logch4_residual)
-write.csv(lag_ch4,file = 'lag_ch4.csv')
+write.csv(lag_ch4,file = 'lag_ch4.csv',row.names = FALSE)
 interp_poc<-data.frame(residual$Date,interp_spline_p)
 write.csv(interp_poc,file = 'interp_poc.csv',row.names = FALSE)
 
