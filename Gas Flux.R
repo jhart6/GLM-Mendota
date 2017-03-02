@@ -40,12 +40,13 @@ SimFile = paste(SimDir,'output.nc',sep = '')
 
 wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
 colnames(wtr_temp_1)<-c('DateTime','Temp')
-do<-get_var(SimFile, var_name = 'DO', reference = 'surface', z_out = 1)
+do<-get_var(SimFile, var_name = 'OXY_oxy', reference = 'surface', z_out = 1)
 colnames(do)<-c('DateTime','DO')
 
 #calculating O2 sat at 1m from water temp, assuming equilibrium
 do.obs<-do$DO
-do.sat<-o2.at.sat.base(temp = wtr_temp_1$Temp)
+do.sat.mg.L<-o2.at.sat.base(temp = wtr_temp_1$Temp)
+do.sat <- do.sat.mg.L*1000/32
 
 #calculating z_mix
 wtr_temp_profile <- get_var(SimFile, var_name = 'temp')
@@ -78,29 +79,29 @@ lwnet <- calc.lw.net.base(dateTime=datetime,sw=sw,Ts = wtr,lat = lat,atm.press =
 k600.read <- k.read.base(wnd.z, Kd, lat, lake.area, atm.press, datetime, Ts = wtr, z.aml = z.mix, airT = air.temp, U10, RH = rh, sw, lwnet)
 
 ####DO Flux####
-flux.cole = (k600.cole*(do.obs-do.sat))/z.mix
-flux.vachon = (k600.vachon*(do.obs-do.sat))/z.mix
-flux.read = (k600.read*(do.obs-do.sat))/z.mix
+do.flux.cole = (k600.cole*(do.obs-do.sat))
+do.flux.vachon = (k600.vachon*(do.obs-do.sat))
+do.flux.read = (k600.read*(do.obs-do.sat))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,flux.cole,type = 'l',ylim=c(-10,10), ylab = expression(DO~Flux~(mg~L^-1~day^-1)),xlab = expression(Date))
-lines(datetime, flux.vachon, type ='l',col = 'red')
-lines(datetime, flux.read, type = 'l', col = 'blue')
+plot(datetime,do.flux.cole,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250))
+lines(datetime, do.flux.vachon, type ='l',col = 'red')
+lines(datetime, do.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 
 ####Convert to CO2 Flux####
 #mg of CO2 per L per day
-co2.flux.cole = flux.cole * (44/32) * -1
-co2.flux.vachon = flux.vachon * (44/32) * -1
-co2.flux.read = flux.read * (44/32) * -1
+co2.flux.cole = do.flux.cole * (44/32) * -1
+co2.flux.vachon = do.flux.vachon * (44/32) * -1
+co2.flux.read = do.flux.read * (44/32) * -1
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,co2.flux.cole,type = 'l',ylim=c(-14,10), ylab = expression(CO[2]~Flux~(mg~CO[2]~L^-1~day^-1)),xlab = expression(Date))
+plot(datetime,co2.flux.cole,type = 'l',ylim=c(-250,550), ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date))
 lines(datetime, co2.flux.vachon, type ='l',col = 'red')
 lines(datetime, co2.flux.read, type = 'l', col = 'blue')
-legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM OBS CO2############################
@@ -109,11 +110,11 @@ legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red'
 #from temperature and pressure
 
 ####Calculating CO2 atm saturation####
-henry_co2 <- Kh_Plummer(wtr)
+henry_co2 <- Kh_Plummer(wtr+273.15)
 CO2sat_atm <- getSaturation(LakeKh = henry_co2, AtmP = Pressure, gas = 'CO2') #in uM
 
 ####Calculating CH4 atm saturation####
-henry_ch4 <- getKh(temperature = wtr,gas = "CH4")
+henry_ch4 <- getKh(temperature = (wtr+273.15),gas = "CH4")
 CH4sat_atm <- getSaturation(LakeKh = henry_ch4, AtmP = Pressure, gas = 'CH4') #in uM
 
 #####Get Observed Data#####
@@ -130,13 +131,13 @@ co2 <- read.csv('surface_co2.csv')
 daily_co2 <- c(na.interpolation(co2$CO2,option = 'spline'))
 plot(as.Date(co2$DATETIME),daily_co2, type = 'l', main = 'Spline')
 
-co2.flux.cole = (k600.cole*(daily_co2 - CO2sat_atm))/z.mix
-co2.flux.vachon = (k600.vachon*(daily_co2 - CO2sat_atm))/z.mix
-co2.flux.read = (k600.read*(daily_co2 - CO2sat_atm))/z.mix
+co2.flux.cole = (k600.cole*(daily_co2 - CO2sat_atm))
+co2.flux.vachon = (k600.vachon*(daily_co2 - CO2sat_atm))
+co2.flux.read = (k600.read*(daily_co2 - CO2sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,co2.flux.cole,type = 'l', ylab = expression(CO[2]~Flux~(mu*mol~L^-1~day^-1)),xlab = expression(Date),ylim = c(-200,2700))
+plot(datetime,co2.flux.cole,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-100,2100))
 lines(datetime, co2.flux.vachon, type ='l',col = 'red')
 lines(datetime, co2.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -146,13 +147,13 @@ legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red'
 ########################ESTIMATE CH4 FLUX FROM OBS DATA########################
 
 #using observed CH4 data#
-ch4.flux.cole = (k600.cole*(daily_ch4 - CH4sat_atm))/z.mix
-ch4.flux.vachon = (k600.vachon*(daily_ch4 - CH4sat_atm))/z.mix
-ch4.flux.read = (k600.read*(daily_ch4 - CH4sat_atm))/z.mix
+ch4.flux.cole = (k600.cole*(daily_ch4 - CH4sat_atm))
+ch4.flux.vachon = (k600.vachon*(daily_ch4 - CH4sat_atm))
+ch4.flux.read = (k600.read*(daily_ch4 - CH4sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mu*mol~L^-1~day^-1)),xlab = expression(Date),ylim = c(-3,27))
+plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-3,27))
 lines(datetime, ch4.flux.vachon, type ='l',col = 'red')
 lines(datetime, ch4.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -167,13 +168,13 @@ SimFile = paste(SimDir,'output.nc',sep = '')
 sim_ch4 <- get_var(SimFile, var_name = 'CAR_ch4', reference = 'surface', z_out =1)
 ch4.mod.obs <- sim_ch4$CAR_ch4_1
 
-ch4.flux.cole = (k600.cole*(ch4.mod.obs - CH4sat_atm))/z.mix
-ch4.flux.vachon = (k600.vachon*(ch4.mod.obs - CH4sat_atm))/z.mix
-ch4.flux.read = (k600.read*(ch4.mod.obs - CH4sat_atm))/z.mix
+ch4.flux.cole = (k600.cole*(ch4.mod.obs - CH4sat_atm))
+ch4.flux.vachon = (k600.vachon*(ch4.mod.obs - CH4sat_atm))
+ch4.flux.read = (k600.read*(ch4.mod.obs - CH4sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mu*mol~L^-1~day^-1)),xlab = expression(Date),ylim = c(0,3))
+plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(0,20))
 lines(datetime, ch4.flux.vachon, type ='l',col = 'red')
 lines(datetime, ch4.flux.read, type = 'l', col = 'blue')
-legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
