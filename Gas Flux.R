@@ -89,6 +89,7 @@ plot(datetime,do.flux.cole,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^
 lines(datetime, do.flux.vachon, type ='l',col = 'red')
 lines(datetime, do.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+abline(0,0, lty =2, col = 'red')
 
 ####Convert to CO2 Flux####
 #mg of CO2 per L per day
@@ -102,6 +103,8 @@ plot(datetime,co2.flux.cole,type = 'l',ylim=c(-250,550), ylab = expression(CO[2]
 lines(datetime, co2.flux.vachon, type ='l',col = 'red')
 lines(datetime, co2.flux.read, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+abline(0,0, lty=2, col='red')
+
 
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM OBS CO2############################
@@ -141,7 +144,7 @@ plot(datetime,co2.flux.cole,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~
 lines(datetime, co2.flux.vachon, type ='l',col = 'red')
 lines(datetime, co2.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
-
+abline(0,0,lty=2,col='red')
 
 ###############################################################################
 ########################ESTIMATE CH4 FLUX FROM OBS DATA########################
@@ -157,6 +160,8 @@ plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~
 lines(datetime, ch4.flux.vachon, type ='l',col = 'red')
 lines(datetime, ch4.flux.read, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+abline(0,0,lty=2,col='red')
+
 
 ###############################################################################
 ########################ESTIMATE CH4 FLUX FROM MOD DATA########################
@@ -178,3 +183,18 @@ plot(datetime,ch4.flux.cole,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~
 lines(datetime, ch4.flux.vachon, type ='l',col = 'red')
 lines(datetime, ch4.flux.read, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+abline(0,0,lty=2,col='red')
+
+###############################################################################
+#################PLOT READ FLUXES THROUGH TIME ON SAME PLOT####################
+ch4.flux.read = (k600.read*(ch4.mod.obs - CH4sat_atm))
+co2.flux.read = do.flux.read * (44/32) * -1
+
+quartz()
+par(mar=c(3,4.5,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime, co2.flux.read, type = 'l', lwd = 2,ylab = NA,xlab=expression(Date))
+mtext(side = 2, line = 2.5, expression(mmol~CO[2]~m^-2~day^-1))
+par(new = TRUE)
+plot(datetime, ch4.flux.read, col = 'red', axes = FALSE, xlab = NA, ylab = NA, type = 'l')
+axis(side = 4)
+mtext(side = 4, line = 2.5, expression(mmol~CH[4]~m^-2~day^-1), col = 'red')
