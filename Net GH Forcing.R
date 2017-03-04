@@ -42,10 +42,10 @@ casper.total.ch4.flux <- ch4.flux.read * (100/4)
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime, ch4.flux.read, type = 'l',ylim = c(0, 350),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1))
-lines(datetime, bastviken.total.ch4.flux, type = 'l', col='red')
-lines(datetime, bastviken.high.total.ch4.flux, type = 'l', col = 'blue')
-lines(datetime, casper.total.ch4.flux, type = 'l', col = 'purple')
+plot(datetime, ch4.flux.read, type = 'l',ylim = c(0, 350),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
+lines(datetime, bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
+lines(datetime, bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
+lines(datetime, casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
 legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
 
 
@@ -55,10 +55,9 @@ inc.ch4.flux.mmolC <- bastviken.total.ch4.flux * (12/16)
 inc.netGHG <- inc.ch4.flux.mmolC + (25*net.forcing$co2.flux.mmolC)
 
 
-xlab = expression(Date)
-ylab = expression(Net~Greenhouse~Forcing)
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 plot(datetime,netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
-lines(datetime,inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
-abline(0,0,lty=2, col='red')
+lines(datetime,inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'blue')
+abline(0,0,lty=2, col='red',lwd=2)
+legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','blue'))
