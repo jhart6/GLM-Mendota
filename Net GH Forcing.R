@@ -21,11 +21,11 @@ net.forcing <- cbind(net.forcing, co2.flux.mmolC, ch4.flux.mmolC)
 netGHG <- net.forcing$ch4.flux.mmolC + (25*net.forcing$co2.flux.mmolC)
 
 xlab = expression(Date)
-ylab = expression(Net~Greenhouse~Forcing)
+ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 plot(datetime,netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
-abline(0,0,lty=2, col='red')
+abline(0,0,lty=2, col='red',lwd=2)
 
 net.forcing<-cbind(net.forcing, netGHG)
 write.csv(net.forcing, file = 'netGHGforcing.csv',row.names = FALSE)
