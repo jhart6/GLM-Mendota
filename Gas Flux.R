@@ -105,6 +105,13 @@ lines(datetime, co2.flux.read, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty=2, col='red')
 
+#just read method
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,co2.flux.read,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),lwd=2)
+abline(0,0, lty=2, col='red',lwd=2)
+
+
 
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM OBS CO2############################
@@ -184,6 +191,12 @@ lines(datetime, ch4.flux.vachon, type ='l',col = 'red')
 lines(datetime, ch4.flux.read, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0,lty=2,col='red')
+
+#just read method
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,ch4.flux.read,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),lwd=2)
+abline(0,0,lty=2,col='red',lwd=2)
 
 ###############################################################################
 #################PLOT READ FLUXES THROUGH TIME ON SAME PLOT####################
