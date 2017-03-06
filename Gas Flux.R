@@ -211,3 +211,11 @@ par(new = TRUE)
 plot(datetime, ch4.flux.read, col = 'red', axes = FALSE, xlab = NA, ylab = NA, type = 'l')
 axis(side = 4)
 mtext(side = 4, line = 2.5, expression(mmol~CH[4]~m^-2~day^-1), col = 'red')
+
+###############################################################################
+##########################EXPORT DATA FOR POSTERITY############################
+
+flux.data<-data.frame(datetime,do.flux.cole,do.flux.vachon,do.flux.read,co2.flux.cole,co2.flux.vachon,co2.flux.read,ch4.flux.cole,ch4.flux.vachon,ch4.flux.read)
+setwd('~/Dropbox/GitHub Repos/GLM-Mendota/Data')
+write.csv(flux.data,file = 'flux.data.csv',row.names = FALSE)
+
