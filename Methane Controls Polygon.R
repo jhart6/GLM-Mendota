@@ -8,10 +8,32 @@ setwd(SimDir)
 SimFile = paste(SimDir, 'output.nc',sep='')
 nc_file = file.path(SimDir, 'output.nc')
 
+#state CH4 at 3m (mmol/m3)
 state_ch4_3<-get_var(SimFile, var_name = 'CAR_ch4', reference = 'surface', z_out = 3) #mmol m^-3
-atm_exch<- get_var(SimFile, var_name = 'CAR_atm_ch4_exch') #mmol m^-2 day^-1
-ox_ch4_3<-get_var(SimFile, var_name = 'CAR_ch4ox', reference = 'surface', z_out =3) #mmol m^-3 day^-1
 
+#oxidation at 3m (mmol/m3/day)
+ox_ch4_3<-get_var(SimFile, var_name = 'CAR_ch4ox', reference = 'surface', z_out =3) #mmol m^-3 day^-1
+ox_ch4_3<-ox_ch4_3$CAR_ch4ox_3
+
+#atm exch at 3m (mmol/m2/day)
+setwd("~/Dropbox/GitHub Repos/GLM-Mendota/Data/")
+atm_exch<-read.csv("flux.data.csv")
+ch4_atm_exch<-atm_exch$ch4.flux.read
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####
 #convert all fluxes to mmol/m2/day
 #area_at_3m <- 33926717
 #ox_ch4_correct_units <- ox_ch4_3$CAR_ch4ox_3/area_at_3m
