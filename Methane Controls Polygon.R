@@ -36,7 +36,7 @@ ox_y <- c(rep(0,length(epi_ch4$Ox)),epi_ch4$Ox)
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 
-plot(poly_x, atm_y, type = 'n', xlab = xlab, ylab = ylab,ylim=c(-0.005,0.005))
+plot(poly_x, ox_y, type = 'n', xlab = xlab, ylab = ylab)
 polygon(poly_x, atm_y,col = 'red')
 polygon(poly_x, ox_y, col = 'blue')
 
