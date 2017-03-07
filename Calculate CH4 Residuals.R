@@ -135,3 +135,42 @@ axis(side = 4)
 mtext(side = 4, line = 2.5, 'CH4 Residuals',col='red')
 legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
 
+
+
+
+
+####COMPARE CH4 RESIDUALS TO DOC, BOTH OBS AND MODELED####
+####load obs DOC data####
+weekly_doc<-read.csv("weekly_doc_gas.csv")
+d<-weekly_doc$DOC
+
+####interpolate weekly poc to daily####
+interp_spline_d<-c(na.interpolation(d,option = 'spline'))
+plot(as.Date(weekly_doc$DATETIME),interp_spline_d,type='l')
+
+####extract modeled DOC at 3m####
+daily_mod_DOC<-get_var(SimFile, var_name = 'DOC',reference = 'surface',z_out=3)
+daily_mod_DOC_short<-daily_mod_DOC[47:200,]
+
+
+
+####plot interp obs doc with log CH4 residuals####
+quartz()
+par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(as.Date(weekly_doc$DATETIME),interp_spline_d,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (DOC~(mg~L^-1)))
+par(new= TRUE)
+plot(as.Date(residual$Date),logch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+axis(side = 4)
+mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='red')
+legend('topleft',c('DOC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+
+####plot sim doc with log CH4 residuals####
+quartz()
+par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(as.Date(residual$Date),daily_mod_DOC_short$DOC_3,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (DOC~(mg~L^-1)))
+par(new= TRUE)
+plot(as.Date(residual$Date),logch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+axis(side = 4)
+mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='red')
+legend('topleft',c('mod DOC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+
