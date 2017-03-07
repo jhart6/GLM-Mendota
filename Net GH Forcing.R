@@ -5,59 +5,124 @@
 #run Gas Flux script first
 #assemble data frame: datetime, co2 flux, ch4 flux
 #using gas flux from Read method
-datetime <- as.POSIXct(strptime(metHourly$time, "%Y-%m-%d %H:%M:%S", tz="EST"))
-co2.flux.mmol.m2.day <- co2.flux.read
-ch4.flux.mmol.m2.day <- ch4.flux.read
+setwd("~/Dropbox/GitHub Repos/GLM-Mendota/Data/")
+net.forcing<-read.csv('flux.data.csv')
+datetime = as.Date(net.forcing$datetime)
 
-net.forcing <- data.frame(datetime, co2.flux.mmol.m2.day,ch4.flux.mmol.m2.day)
-
+########################################################################
+######################NGHF USING MODELED FLUXES#########################
 #convert gas fluxes to mmol of C m-2 day-1
-co2.flux.mmolC <- net.forcing$co2.flux.mmol.m2.day * (12/44)
-ch4.flux.mmolC <- net.forcing$ch4.flux.mmol.m2.day * (12/16)
+mod.co2.flux.mmolC <- net.forcing$co2.flux.read.mod * (12/44)
+mod.ch4.flux.mmolC <- net.forcing$ch4.flux.read.mod * (12/16)
 
-net.forcing <- cbind(net.forcing, co2.flux.mmolC, ch4.flux.mmolC)
+net.forcing <- cbind(net.forcing, mod.co2.flux.mmolC, mod.ch4.flux.mmolC)
 
 #calculate Net GH Forcing
-netGHG <- net.forcing$ch4.flux.mmolC + (25*net.forcing$co2.flux.mmolC)
+mod.netGHG <- (25*net.forcing$mod.ch4.flux.mmolC) + net.forcing$mod.co2.flux.mmolC
 
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
-abline(0,0,lty=2, col='red',lwd=2)
+plot(datetime,mod.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
+abline(0,0,lty=2, col='blue',lwd=2)
 
-net.forcing<-cbind(net.forcing, netGHG)
+########################################################################
+######################NGHF USING OBSERVED FLUXES########################
+#convert gas fluxes to mmol of C m-2 day-1
+obs.co2.flux.mmolC <- net.forcing$co2.flux.read.obs * (12/44)
+obs.ch4.flux.mmolC <- net.forcing$ch4.flux.read.obs * (12/16)
+
+net.forcing <- cbind(net.forcing, obs.co2.flux.mmolC, obs.ch4.flux.mmolC)
+
+#calculate Net GH Forcing
+obs.netGHG <- (25*net.forcing$obs.ch4.flux.mmolC) + net.forcing$obs.co2.flux.mmolC
+
+xlab = expression(Date)
+ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
+abline(0,0,lty=2, col='blue',lwd=2)
+
+net.forcing<-cbind(net.forcing, mod.netGHG, obs.netGHG)
 write.csv(net.forcing, file = 'netGHGforcing.csv',row.names = FALSE)
 
+########################################################################
+######################BOTH NGHF, ONE PLOT###############################
+xlab = expression(Date)
+ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,900))
+lines(datetime, obs.netGHG,type = 'l', lwd = 2, col='red')
+abline(0,0,col='blue',lty=2,lwd=2)
+legend('topright',c("NGHF from Modeled Fluxes",'NGHF from Observed Fluxes'),lwd=c(2,2),col=c('black','red'))
 
-####include ebullition estimate####
+
+
+
+
+
+########################################################################
+##############################INCLUDE EBULLITION########################
+#from MODELED gas fluxes
 #Bastviken et al. 2004: 45% ebullition based on lake size
 #Bastviken et al. 2004: 60% ebullition, generally
 #Casper et al. 2000: 96% ebullition, based on tropic state
 
-bastviken.total.ch4.flux <- ch4.flux.read * (100/55)
-bastviken.high.total.ch4.flux <- ch4.flux.read * (100/40)
-casper.total.ch4.flux <- ch4.flux.read * (100/4)
+mod.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/55)
+mod.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/40)
+mod.casper.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/4)
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime, ch4.flux.read, type = 'l',ylim = c(0, 350),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
-lines(datetime, bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
-lines(datetime, bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
-lines(datetime, casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
+plot(datetime, net.forcing$ch4.flux.read.mod, type = 'l',ylim = c(-10,300),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
+lines(datetime, mod.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
+lines(datetime, mod.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
+lines(datetime, mod.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
 legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
+abline(0,0,lty=2,lwd=2,col='blue')
+
+#####convert to mmol C m^-2 day^-1####
+mod.inc.ch4.flux.mmolC <- mod.bastviken.total.ch4.flux * (12/16)
+
+mod.inc.netGHG <- (25*mod.inc.ch4.flux.mmolC) + net.forcing$mod.co2.flux.mmolC
+
+
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,mod.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,500))
+lines(datetime,mod.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
+abline(0,0,lty=2, col='blue',lwd=2)
+legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
+
+
+
+#from OBSERVED gas fluxes
+obs.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/55)
+obs.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/40)
+obs.casper.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/4)
+
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime, net.forcing$ch4.flux.read.obs, type = 'l',ylim = c(0, 450),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
+lines(datetime, obs.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
+lines(datetime, obs.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
+lines(datetime, obs.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
+legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
+abline(0,0,lty=2,lwd=2,col='blue')
 
 
 #####convert to mmol C m^-2 day^-1####
-inc.ch4.flux.mmolC <- bastviken.total.ch4.flux * (12/16)
+obs.inc.ch4.flux.mmolC <- obs.bastviken.total.ch4.flux * (12/16)
 
-inc.netGHG <- inc.ch4.flux.mmolC + (25*net.forcing$co2.flux.mmolC)
+obs.inc.netGHG <- (25*obs.inc.ch4.flux.mmolC) + net.forcing$obs.co2.flux.mmolC
 
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab)
-lines(datetime,inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'blue')
-abline(0,0,lty=2, col='red',lwd=2)
-legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','blue'))
+plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200))
+lines(datetime,obs.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
+abline(0,0,lty=2, col='blue',lwd=2)
+legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
