@@ -104,7 +104,7 @@ do.flux.read.mod = (k.do.read*(do.obs-do.sat))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250),main = "Modeled DO Flux")
+plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250))
 lines(datetime, do.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, do.flux.read.mod, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
