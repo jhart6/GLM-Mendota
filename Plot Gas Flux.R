@@ -61,8 +61,3 @@ lines(as.Date(flux$datetime),flux$co2.flux.read.obs,type = 'l', lwd = 2, col = '
 abline(0,0,col='blue',lty =2,lwd=2)
 legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','red'))
 
-
-
-
-
-
