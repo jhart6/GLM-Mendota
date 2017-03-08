@@ -34,6 +34,11 @@ metHourly <- sim_met %>%
 View(metHourly) #now daily met data to match simulation output
 
 #calculating z_mix
+SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+setwd(SimDir) #setwd
+SimFile = paste(SimDir,'output.nc',sep = '')
+wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
+colnames(wtr_temp_1)<-c('DateTime','Temp')
 wtr_temp_profile <- get_var(SimFile, var_name = 'temp')
 z.mix <- ts.thermo.depth(wtr = wtr_temp_profile, na.rm = TRUE)[,2]
 
@@ -87,8 +92,6 @@ SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/'
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 
-wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
-colnames(wtr_temp_1)<-c('DateTime','Temp')
 do<-get_var(SimFile, var_name = 'OXY_oxy', reference = 'surface', z_out = 1)
 colnames(do)<-c('DateTime','DO')
 
@@ -104,7 +107,7 @@ do.flux.read.mod = (k.do.read*(do.obs-do.sat))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250))
+plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,300),main = 'Modeled DO Flux')
 lines(datetime, do.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, do.flux.read.mod, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -113,6 +116,7 @@ abline(0,0, lty =2, col = 'red')
 ###############################################################################
 #####################ESTIMATE DO FLUX FROM OBS DO##############################
 setwd("~/Dropbox/Masters Writing/Flux/")
+library(imputeTS)
 do <-read.csv('surface_do.csv')
 daily_do <- c(na.interpolation(do$DO,option = 'spline'))
 plot(as.Date(do$DATETIME),daily_do,type = 'l', main = 'Spline')
@@ -132,7 +136,7 @@ do.flux.read.obs = (k.do.read*(daily_do_mmol_m3 - do.sat.obs.mmol.m3))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,do.flux.cole.obs,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-150,300))
+plot(datetime,do.flux.cole.obs,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-150,300),main="Observed DO Flux")
 lines(datetime, do.flux.vachon.obs, type ='l',col = 'red')
 lines(datetime, do.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -147,7 +151,7 @@ co2.flux.read.obs.do <- do.flux.read.obs * -1 * (44/32)
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,co2.flux.cole.obs.do,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-350,225))
+plot(datetime,co2.flux.cole.obs.do,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-350,225),main="Observed CO2 Flux from Observed DO")
 lines(datetime, co2.flux.vachon.obs.do, type ='l',col = 'red')
 lines(datetime, co2.flux.read.obs.do, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -165,7 +169,7 @@ co2.flux.read.mod = do.flux.read.mod * (44/32) * -1
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,co2.flux.cole.mod,type = 'l',ylim=c(-400,550), ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date))
+plot(datetime,co2.flux.cole.mod,type = 'l',ylim=c(-400,550), ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),main="Modeled CO2 Flux")
 lines(datetime, co2.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, co2.flux.read.mod, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -184,7 +188,6 @@ CO2sat_atm <- getSaturation(LakeKh = henry_co2, AtmP = Pressure, gas = 'CO2') #i
 
 #####Get Observed Data#####
 #needs to be interpolated to the daily time step
-library(imputeTS)
 setwd("~/Dropbox/Masters Writing/Flux")
 
 co2 <- read.csv('surface_co2.csv')
@@ -197,7 +200,7 @@ co2.flux.read.obs = (k.co2.read*(daily_co2 - CO2sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,co2.flux.cole.obs,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-100,2400))
+plot(datetime,co2.flux.cole.obs,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-100,2400),main="Observed CO2 Flux from Observed CO2")
 lines(datetime, co2.flux.vachon.obs, type ='l',col = 'red')
 lines(datetime, co2.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -222,7 +225,7 @@ ch4.flux.read.obs = (k.ch4.read*(daily_ch4 - CH4sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,ch4.flux.cole.obs,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-3,27))
+plot(datetime,ch4.flux.cole.obs,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-3,27),main="Observed CH4 Flux from Observed CH4")
 lines(datetime, ch4.flux.vachon.obs, type ='l',col = 'red')
 lines(datetime, ch4.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -245,7 +248,7 @@ ch4.flux.read.mod = (k.ch4.read*(ch4.mod.obs - CH4sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,ch4.flux.cole.mod,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(0,20))
+plot(datetime,ch4.flux.cole.mod,type = 'l', ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(0,17),main="Modeled CH4 Flux")
 lines(datetime, ch4.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, ch4.flux.read.mod, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -257,6 +260,7 @@ abline(0,0,lty=2,col='red')
 
 flux.data<-data.frame(datetime,do.flux.cole.obs,do.flux.vachon.obs,do.flux.read.obs,do.flux.cole.mod,do.flux.vachon.mod,do.flux.read.mod)
 flux.data<-cbind(flux.data,co2.flux.cole.obs,co2.flux.vachon.obs,co2.flux.read.obs,co2.flux.cole.mod,co2.flux.vachon.mod,co2.flux.read.mod)
+flux.data<-cbind(flux.data,co2.flux.cole.obs.do,co2.flux.vachon.obs.do,co2.flux.read.obs.do)
 flux.data<-cbind(flux.data,ch4.flux.cole.obs,ch4.flux.vachon.obs,ch4.flux.read.obs,ch4.flux.cole.mod,ch4.flux.vachon.mod,ch4.flux.read.mod)
 setwd('~/Dropbox/GitHub Repos/GLM-Mendota/Data')
 write.csv(flux.data,file = 'flux.data.csv',row.names = FALSE)
