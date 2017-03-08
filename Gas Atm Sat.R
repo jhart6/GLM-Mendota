@@ -64,24 +64,8 @@ getSaturation <- function(LakeKh, AtmP, gas){
 }
 #produces equilibrium saturation in uM (micromolar)
 
-#####Data Required to Calculate Sat CO2 and CH4####
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
-setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '') 
-
-wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
-colnames(wtr_temp_1)<-c('DateTime','Temp')
-wtr <- wtr_temp_1$Temp + 273.15
 
 Elevation = 850
 Pressure=(1-(.0000225577*Elevation))^5.25588
 
 
-####Calculating CO2 atm saturation####
-henry_co2 <- Kh_Plummer(wtr)
-CO2sat_atm <- getSaturation(LakeKh = henry_co2, AtmP = Pressure, gas = 'CO2') #in uM
-
-
-####Calculating CH4 atm saturation####
-henry_ch4 <- getKh(temperature = wtr,gas = "CH4")
-CH4sat_atm <- getSaturation(LakeKh = henry_ch4, AtmP = Pressure, gas = 'CH4') #in uM
