@@ -260,4 +260,3 @@ flux.data<-cbind(flux.data,co2.flux.cole.obs,co2.flux.vachon.obs,co2.flux.read.o
 flux.data<-cbind(flux.data,ch4.flux.cole.obs,ch4.flux.vachon.obs,ch4.flux.read.obs,ch4.flux.cole.mod,ch4.flux.vachon.mod,ch4.flux.read.mod)
 setwd('~/Dropbox/GitHub Repos/GLM-Mendota/Data')
 write.csv(flux.data,file = 'flux.data.csv',row.names = FALSE)
-
