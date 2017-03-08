@@ -33,21 +33,6 @@ metHourly <- sim_met %>%
   select(-date) #getting rid of those two columns
 View(metHourly) #now daily met data to match simulation output
 
-#get Sim data: water temp and DO @ 1m
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
-setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '') 
-
-wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
-colnames(wtr_temp_1)<-c('DateTime','Temp')
-do<-get_var(SimFile, var_name = 'OXY_oxy', reference = 'surface', z_out = 1)
-colnames(do)<-c('DateTime','DO')
-
-#calculating O2 sat at 1m from water temp, assuming equilibrium
-do.obs<-do$DO
-do.sat.mg.L<-o2.at.sat.base(temp = wtr_temp_1$Temp)
-do.sat <- do.sat.mg.L*1000/32
-
 #calculating z_mix
 wtr_temp_profile <- get_var(SimFile, var_name = 'temp')
 z.mix <- ts.thermo.depth(wtr = wtr_temp_profile, na.rm = TRUE)[,2]
@@ -97,13 +82,29 @@ k.ch4.read <- k600.2.kGAS.base(k600.read, temperature = wtr_temp_1$Temp, gas = '
 
 ###############################################################################
 #####################ESTIMATE DO FLUX FROM MOD DO##############################
+#get Sim data: water temp and DO @ 1m
+SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+setwd(SimDir) #setwd
+SimFile = paste(SimDir,'output.nc',sep = '') 
+
+wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
+colnames(wtr_temp_1)<-c('DateTime','Temp')
+do<-get_var(SimFile, var_name = 'OXY_oxy', reference = 'surface', z_out = 1)
+colnames(do)<-c('DateTime','DO')
+
+#calculating O2 sat at 1m from water temp, assuming equilibrium
+do.obs<-do$DO
+do.sat.mg.L<-o2.at.sat.base(temp = wtr_temp_1$Temp)
+do.sat <- do.sat.mg.L*1000/32
+
+#flux in mmol m-2 day-1
 do.flux.cole.mod = (k.do.cole*(do.obs-do.sat))
 do.flux.vachon.mod = (k.do.vachon*(do.obs-do.sat))
 do.flux.read.mod = (k.do.read*(do.obs-do.sat))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250))
+plot(datetime,do.flux.cole.mod,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-450,250),main = "Modeled DO Flux")
 lines(datetime, do.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, do.flux.read.mod, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
@@ -111,30 +112,53 @@ abline(0,0, lty =2, col = 'red')
 
 ###############################################################################
 #####################ESTIMATE DO FLUX FROM OBS DO##############################
-
+setwd("~/Dropbox/Masters Writing/Flux/")
 do <-read.csv('surface_do.csv')
 daily_do <- c(na.interpolation(do$DO,option = 'spline'))
 plot(as.Date(do$DATETIME),daily_do,type = 'l', main = 'Spline')
+daily_do_mmol_m3<-daily_do*1000/32
 
-henry_do <- getKh(temperature = (wtr+273.15),gas = "O2")
-DOsat_atm <- getSaturation(LakeKh = henry_do, AtmP = Pressure, gas = 'O2') #in uM
+temp<-read.csv('surface_temp.csv')
+temp_daily <-c(na.interpolation(temp$TEMP, option = 'spline'))
+plot(as.Date(temp$datetime),temp_daily,type = 'l')
 
-do.flux.cole.obs = (k.do.cole*(daily_do - DOsat_atm))
-do.flux.vachon.obs = (k.do.vachon*(daily_do - DOsat_atm))
-do.flux.read.obs = (k.do.read*(daily_do - DOsat_atm))
+do.sat.obs<-o2.at.sat.base(temp=temp_daily) #mg/L
+do.sat.obs.mmol.m3 <- do.sat.obs *1000/32
+
+#flux in mmol m-2 day-1
+do.flux.cole.obs = (k.do.cole*(daily_do_mmol_m3 - do.sat.obs.mmol.m3))
+do.flux.vachon.obs = (k.do.vachon*(daily_do_mmol_m3 - do.sat.obs.mmol.m3))
+do.flux.read.obs = (k.do.read*(daily_do_mmol_m3 - do.sat.obs.mmol.m3))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,do.flux.cole.obs,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-100,50))
+plot(datetime,do.flux.cole.obs,type = 'l', ylab = expression(DO~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-150,300))
 lines(datetime, do.flux.vachon.obs, type ='l',col = 'red')
 lines(datetime, do.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty =2, col = 'red')
 
 ###############################################################################
+#####################ESTIMATE CO2 FLUX FROM OBS DO#############################
+#flux in mmol m-2 day-1
+co2.flux.cole.obs.do <- do.flux.cole.obs *-1 * (44/32)
+co2.flux.vachon.obs.do <- do.flux.vachon.obs * -1 * (44/32)
+co2.flux.read.obs.do <- do.flux.read.obs * -1 * (44/32)
+
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(datetime,co2.flux.cole.obs.do,type = 'l', ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim=c(-350,225))
+lines(datetime, co2.flux.vachon.obs.do, type ='l',col = 'red')
+lines(datetime, co2.flux.read.obs.do, type = 'l', col = 'blue')
+legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
+abline(0,0, lty =2, col = 'red')
+
+
+
+###############################################################################
 #####################ESTIMATE CO2 FLUX FROM MOD DO#############################
 
-#mg of CO2 per L per day
+#flux in mmol m-2 day-1
 co2.flux.cole.mod = do.flux.cole.mod * (44/32) * -1
 co2.flux.vachon.mod = do.flux.vachon.mod * (44/32) * -1
 co2.flux.read.mod = do.flux.read.mod * (44/32) * -1
