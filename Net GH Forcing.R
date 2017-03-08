@@ -49,6 +49,11 @@ net.forcing<-cbind(net.forcing, mod.netGHG, obs.netGHG)
 write.csv(net.forcing, file = 'netGHGforcing.csv',row.names = FALSE)
 
 ########################################################################
+#############NGHF USING OBSERVED FLUXES (CO2 FROM DO)###################
+
+
+
+########################################################################
 ######################BOTH NGHF, ONE PLOT###############################
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
