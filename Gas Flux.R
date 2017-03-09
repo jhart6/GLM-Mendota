@@ -183,8 +183,8 @@ abline(0,0, lty=2, col='red')
 #from temperature and pressure
 
 ####Calculating CO2 atm saturation####
-henry_co2 <- Kh_Plummer(wtr+273.15)
-CO2sat_atm <- getSaturation(LakeKh = henry_co2, AtmP = Pressure, gas = 'CO2') #in uM
+obs_henry_co2 <- Kh_Plummer(temp_daily+273.15)
+obs_CO2sat_atm <- getSaturation(LakeKh = obs_henry_co2, AtmP = Pressure, gas = 'CO2') #in uM
 
 #####Get Observed Data#####
 #needs to be interpolated to the daily time step
@@ -194,9 +194,9 @@ co2 <- read.csv('surface_co2.csv')
 daily_co2 <- c(na.interpolation(co2$CO2,option = 'spline'))
 plot(as.Date(co2$DATETIME),daily_co2, type = 'l', main = 'Spline')
 
-co2.flux.cole.obs = (k.co2.cole*(daily_co2 - CO2sat_atm))
-co2.flux.vachon.obs = (k.co2.vachon*(daily_co2 - CO2sat_atm))
-co2.flux.read.obs = (k.co2.read*(daily_co2 - CO2sat_atm))
+co2.flux.cole.obs = (k.co2.cole*(daily_co2 - obs_CO2sat_atm))
+co2.flux.vachon.obs = (k.co2.vachon*(daily_co2 - obs_CO2sat_atm))
+co2.flux.read.obs = (k.co2.read*(daily_co2 - obs_CO2sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
@@ -210,8 +210,8 @@ abline(0,0,lty=2,col='red')
 ########################ESTIMATE CH4 FLUX FROM OBS DATA########################
 
 ####Calculating CH4 atm saturation####
-henry_ch4 <- getKh(temperature = (wtr+273.15),gas = "CH4")
-CH4sat_atm <- getSaturation(LakeKh = henry_ch4, AtmP = Pressure, gas = 'CH4') #in uM
+obs_henry_ch4 <- getKh(temperature = (temp_daily+273.15),gas = "CH4")
+obs_CH4sat_atm <- getSaturation(LakeKh = obs_henry_ch4, AtmP = Pressure, gas = 'CH4') #in uM
 
 #####Get Observed Data#####
 ch4 <- read.csv('surface_ch4.csv')
@@ -219,9 +219,9 @@ daily_ch4<-c(na.interpolation(ch4$CH4,option = 'spline'))
 plot(as.Date(ch4$DATETIME),daily_ch4,type='l',main = 'Spline')
 
 #using observed CH4 data#
-ch4.flux.cole.obs = (k.ch4.cole*(daily_ch4 - CH4sat_atm))
-ch4.flux.vachon.obs = (k.ch4.vachon*(daily_ch4 - CH4sat_atm))
-ch4.flux.read.obs = (k.ch4.read*(daily_ch4 - CH4sat_atm))
+ch4.flux.cole.obs = (k.ch4.cole*(daily_ch4 - obs_CH4sat_atm))
+ch4.flux.vachon.obs = (k.ch4.vachon*(daily_ch4 - obs_CH4sat_atm))
+ch4.flux.read.obs = (k.ch4.read*(daily_ch4 - obs_CH4sat_atm))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
@@ -241,6 +241,10 @@ SimFile = paste(SimDir,'output.nc',sep = '')
 
 sim_ch4 <- get_var(SimFile, var_name = 'CAR_ch4', reference = 'surface', z_out =1)
 ch4.mod.obs <- sim_ch4$CAR_ch4_1
+
+####Calculating CH4 atm saturation####
+henry_ch4 <- getKh(temperature = (wtr+273.15),gas = "CH4")
+CH4sat_atm <- getSaturation(LakeKh = henry_ch4, AtmP = Pressure, gas = 'CH4') #in uM
 
 ch4.flux.cole.mod = (k.ch4.cole*(ch4.mod.obs - CH4sat_atm))
 ch4.flux.vachon.mod = (k.ch4.vachon*(ch4.mod.obs - CH4sat_atm))
