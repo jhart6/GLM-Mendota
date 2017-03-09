@@ -31,11 +31,11 @@ legend('topright',c(expression(Modeled~CH[4]~Flux),expression(Observed~CH[4]~Flu
 #####################CARBON DIOXIDE FLUX####################
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-300,2000))
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-300,2000),main=expression(All~CO[2]~Flux~Methods))
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs,type = 'l', lwd = 2, col = 'red')
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs.do,type='l',lwd=2, col='purple')
 abline(0,0,col='blue',lty =2,lwd=2)
-legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','red'))
+legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux~(via~CO[2])),expression(Observed~CO[2]~Flux~(via~DO))),lty = c(1,1,1),lwd=c(2,2,2),col=c('black','red','purple'))
 
 
 
