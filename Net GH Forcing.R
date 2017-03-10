@@ -67,15 +67,18 @@ write.csv(net.forcing, file = 'netGHGforcing.csv',row.names = FALSE)
 
 ########################################################################
 #######################ALL NGHF, ONE PLOT###############################
+setwd("~/Dropbox/GitHub Repos/GLM-Mendota/Data/")
+nghf<-read.csv("netGHGforcing.csv")
+
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,1000))
-lines(datetime, obs.netGHG,type = 'l', lwd = 2, col='red')
-lines(datetime, obs.netGHG.do,type = 'l', lwd = 2, col = 'purple')
-abline(0,0,col='blue',lty=2,lwd=2)
-legend('topright',c("NGHF from Modeled Fluxes",expression(NGHF~from~Observed~Fluxes~(CO[2]~via~CO[2])),expression(NGHF~from~Observed~Fluxes~(CO[2]~via~DO))),lwd=c(2,2,2),col=c('black','red','purple'))
+plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,1000))
+lines(datetime, nghf$obs.netGHG,type = 'l', lwd = 2, col='darkgreen')
+lines(datetime, nghf$obs.netGHG.do,type = 'l', lwd = 2, col = 'darkolivegreen3')
+abline(0,0,col='slategrey',lty=2,lwd=2)
+legend('topright',c("NGHF from Modeled Fluxes",expression(NGHF~from~Observed~Fluxes~(CO[2]~via~CO[2])),expression(NGHF~from~Observed~Fluxes~(CO[2]~via~DO))),lwd=c(2,2,2),col=c('black','darkgreen','darkolivegreen3'))
 
 
 
@@ -138,13 +141,14 @@ obs.inc.ch4.flux.mmolC <- obs.bastviken.total.ch4.flux * (12/16)
 
 obs.inc.netGHG <- (25*obs.inc.ch4.flux.mmolC) + obs.co2.flux.mmolC
 
+####THIS NGFH WITH EBULLITION PLOT####
 #increased NGHF plot
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200))
-lines(datetime,obs.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
-abline(0,0,lty=2, col='blue',lwd=2)
-legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
+plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200),col='darkgreen')
+lines(datetime,obs.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'violetred4')
+abline(0,0,lty=2, col='slategrey',lwd=2)
+legend('topleft',c(expression(NGHF~from~CH[4]~Diffusive~Flux),expression(NGHF~from~CH[4]~Diffusion~+~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('darkgreen','violetred4'))
 
 
 
