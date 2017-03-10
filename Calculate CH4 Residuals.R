@@ -100,10 +100,10 @@ quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
 par(new= TRUE)
-plot(as.Date(residual$Date),logch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+plot(as.Date(residual$Date),logch4_residual,type = 'l',col='firebrick',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
 axis(side = 4)
-mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='red')
-legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='firebrick')
+legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1))
 
 ####plot sim poc with log CH4 residuals####
 quartz()
