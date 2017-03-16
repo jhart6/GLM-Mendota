@@ -162,7 +162,7 @@ plot_var_compare(nc_file = SimFile, obsPOC, var_name='TOT_POC')
 plot_var_compare(nc_file = SimFile, obsALLDOC, var_name = 'all_DOC',col=c(4,7.5))
 plot_var_compare(nc_file = SimFile, obsDIC, var_name = 'DIC')
 plot_var_compare(nc_file = SimFile, obsCH4, var_name = 'CAR_ch4',col=c(0,1000))
-plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4')
+plot_var_compare(nc_file = SimFile, obsLOGCH4, var_name = 'log_CAR_ch4',col=c(-3,6))
 plot_var_compare(nc_file = SimFile, obsTN, var_name = 'TotN2',col=c(0,15))
 plot_var_compare(nc_file = SimFile, obsTP, var_name = 'TotP2',col=c(0,1))
 
