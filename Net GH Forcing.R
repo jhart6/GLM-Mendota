@@ -18,7 +18,7 @@ mod.ch4.flux.mmolC <- net.forcing$ch4.flux.read.mod * (12/16)
 net.forcing <- cbind(net.forcing, mod.co2.flux.mmolC, mod.ch4.flux.mmolC)
 
 #calculate Net GH Forcing
-mod.netGHG <- (25*net.forcing$mod.ch4.flux.mmolC) + net.forcing$mod.co2.flux.mmolC
+mod.netGHG <- (34*net.forcing$mod.ch4.flux.mmolC) + net.forcing$mod.co2.flux.mmolC
 
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
@@ -36,7 +36,7 @@ obs.ch4.flux.mmolC <- net.forcing$ch4.flux.read.obs * (12/16)
 net.forcing <- cbind(net.forcing, obs.co2.flux.mmolC, obs.ch4.flux.mmolC)
 
 #calculate Net GH Forcing
-obs.netGHG <- (25*net.forcing$obs.ch4.flux.mmolC) + net.forcing$obs.co2.flux.mmolC
+obs.netGHG <- (34*net.forcing$obs.ch4.flux.mmolC) + net.forcing$obs.co2.flux.mmolC
 
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
@@ -53,7 +53,7 @@ obs.ch4.flux.mmolC.do <- net.forcing$ch4.flux.read.obs * (12/16)
 net.forcing <- cbind(net.forcing, obs.co2.flux.mmolC.do, obs.ch4.flux.mmolC.do)
 
 #calculate NGHF
-obs.netGHG.do <- (25*net.forcing$obs.ch4.flux.mmolC.do) + net.forcing$obs.co2.flux.mmolC.do
+obs.netGHG.do <- (34*net.forcing$obs.ch4.flux.mmolC.do) + net.forcing$obs.co2.flux.mmolC.do
 
 xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
@@ -74,7 +74,7 @@ xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,1000))
+plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,1070))
 lines(datetime, nghf$obs.netGHG,type = 'l', lwd = 2, col='darkgreen')
 lines(datetime, nghf$obs.netGHG.do,type = 'l', lwd = 2, col = 'darkolivegreen3')
 abline(0,0,col='slategrey',lty=2,lwd=2)
