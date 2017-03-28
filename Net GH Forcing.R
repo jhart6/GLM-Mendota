@@ -12,8 +12,8 @@ datetime = as.Date(net.forcing$datetime)
 ########################################################################
 ######################NGHF USING MODELED FLUXES#########################
 #convert gas fluxes to mmol of C m-2 day-1
-mod.co2.flux.mmolC <- net.forcing$co2.flux.read.mod * (12/44)
-mod.ch4.flux.mmolC <- net.forcing$ch4.flux.read.mod * (12/16)
+mod.co2.flux.mmolC <- net.forcing$co2.flux.read.mod 
+mod.ch4.flux.mmolC <- net.forcing$ch4.flux.read.mod 
 
 net.forcing <- cbind(net.forcing, mod.co2.flux.mmolC, mod.ch4.flux.mmolC)
 
@@ -30,8 +30,8 @@ abline(0,0,lty=2, col='blue',lwd=2)
 ########################################################################
 ############NGHF USING OBSERVED FLUXES (CO2 via CO2)####################
 #convert gas fluxes to mmol of C m-2 day-1
-obs.co2.flux.mmolC <- net.forcing$co2.flux.read.obs * (12/44)
-obs.ch4.flux.mmolC <- net.forcing$ch4.flux.read.obs * (12/16)
+obs.co2.flux.mmolC <- net.forcing$co2.flux.read.obs 
+obs.ch4.flux.mmolC <- net.forcing$ch4.flux.read.obs 
 
 net.forcing <- cbind(net.forcing, obs.co2.flux.mmolC, obs.ch4.flux.mmolC)
 
@@ -47,8 +47,8 @@ abline(0,0,lty=2, col='blue',lwd=2)
 
 ########################################################################
 #############NGHF USING OBSERVED FLUXES (CO2 via DO)###################
-obs.co2.flux.mmolC.do <- net.forcing$co2.flux.read.obs.do * (12/44)
-obs.ch4.flux.mmolC.do <- net.forcing$ch4.flux.read.obs * (12/16)
+obs.co2.flux.mmolC.do <- net.forcing$co2.flux.read.obs.do 
+obs.ch4.flux.mmolC.do <- net.forcing$ch4.flux.read.obs 
 
 net.forcing <- cbind(net.forcing, obs.co2.flux.mmolC.do, obs.ch4.flux.mmolC.do)
 
@@ -74,7 +74,7 @@ xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-60,1070))
+plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-250,2700))
 lines(datetime, nghf$obs.netGHG,type = 'l', lwd = 2, col='darkgreen')
 lines(datetime, nghf$obs.netGHG.do,type = 'l', lwd = 2, col = 'darkolivegreen3')
 abline(0,0,col='slategrey',lty=2,lwd=2)
