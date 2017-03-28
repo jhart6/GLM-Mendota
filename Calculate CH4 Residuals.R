@@ -10,7 +10,7 @@ setwd("~/Dropbox/Mendota Summer 16/R/")
 weekly_ch4<-read.csv("weekly_ch4_20.csv")
 
 #visualize weekely observed CH4 data
-plot(as.Date(weekly_ch4$DATETIME),weekly_ch4$CH4)
+plot(as.Date(weekly_ch4$DATETIME),weekly_ch4$CH4,pch=20)
 
 #call interpolation package and create weekly ts vector
 library(imputeTS)
@@ -59,7 +59,6 @@ daily_mod_logch4<-get_var(SimFile, var_name = 'log_CAR_ch4',reference = 'surface
 daily_mod_ch4_short<-daily_mod_ch4[47:200,]
 daily_mod_logch4_short<-daily_mod_logch4[47:200,]
 
-
 #assemble data frame with all relevant data
 col_headers <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','DailyModLogCH4')
 residual<-data.frame(weekly_ch4$DATETIME)
@@ -96,6 +95,7 @@ daily_mod_POC_short<-daily_mod_POC[47:200,]
 
 
 ####plot interp obs poc with log CH4 residuals####
+##WINNER##
 quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
@@ -105,35 +105,59 @@ axis(side = 4)
 mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='firebrick')
 legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1))
 
-####plot sim poc with log CH4 residuals####
-quartz()
-par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(residual$Date),daily_mod_POC_short$TOT_POC_3,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
-par(new= TRUE)
-plot(as.Date(residual$Date),logch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
-axis(side = 4)
-mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='red')
-legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+# ####plot sim poc with log CH4 residuals####
+# #this figure not used#
+# quartz()
+# par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(as.Date(residual$Date),daily_mod_POC_short$TOT_POC_3,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
+# par(new= TRUE)
+# plot(as.Date(residual$Date),logch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+# axis(side = 4)
+# mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='red')
+# legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+# 
+# ####plot sim poc with CH4 residuals####
+# #this figure not used#
+# quartz()
+# par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
+# par(new= TRUE)
+# plot(as.Date(residual$Date),ch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+# axis(side = 4)
+# mtext(side = 4, line = 2.5, 'CH4 Residuals',col='red')
+# legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
 
-####plot sim poc with CH4 residuals####
-quartz()
-par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
-par(new= TRUE)
-plot(as.Date(residual$Date),ch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
-axis(side = 4)
-mtext(side = 4, line = 2.5, 'CH4 Residuals',col='red')
-legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+# ####plot mod poc with CH4 residuals####
+# #this figure not used#
+# quartz()
+# par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(as.Date(residual$Date),daily_mod_POC_short$TOT_POC_3,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
+# par(new= TRUE)
+# plot(as.Date(residual$Date),ch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+# axis(side = 4)
+# mtext(side = 4, line = 2.5, 'CH4 Residuals',col='red')
+# legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
 
-####plot mod poc with CH4 residuals####
+
+####Add discrete sampling points to obs POC vs log CH4 residuals plot####
+discrete<-cbind(residual,weekly_poc$POC,logch4_residual)
+colnames(discrete) <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','DailyModLogCH4','ObsPOC','LogResidual')
+
 quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(residual$Date),daily_mod_POC_short$TOT_POC_3,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)))
-par(new= TRUE)
-plot(as.Date(residual$Date),ch4_residual,type = 'l',col='red',lwd=2,axes=FALSE, xlab = NA, ylab = NA)
+plot(as.Date(discrete$Date),discrete$ObsPOC,pch=20,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)),ylim=c(0.6,1.7),cex=2)
+par(new=TRUE)
+plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab=NA,ylab=NA,ylim=c(0.6,1.7),yaxt='n')
+par(new=TRUE)
+plot(as.Date(residual$Date),logch4_residual,type = 'l',col='firebrick',lwd=2,axes=FALSE, xlab = NA, ylab = NA,ylim=c(-3,2.5))
 axis(side = 4)
-mtext(side = 4, line = 2.5, 'CH4 Residuals',col='red')
-legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),lty=c(1,1))
+side4label <- expression(log(CH[4])~Residuals)
+mtext(side = 4, line = 2.5, side4label,col='firebrick')
+par(new=TRUE)
+plot(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogResidual[which(is.na(discrete$ObsPOC)==FALSE)],,axes=FALSE,xlab=NA,ylab=NA,ylim=c(-3,2.5),pch=20,col=c('firebrick'),cex=2)
+obsch4resid <- expression(Observed~log(CH[4])~Residual)
+legend('topleft',c('POC @ 3m', 'Observed POC',side4label,obsch4resid),lwd=c(2,NA,2,NA),col=c('black','black','firebrick','firebrick'),lty=c(1,NA,1,NA),pch=c(NA,20,NA,20))
+
 
 
 
@@ -144,15 +168,13 @@ legend('topleft',c('POC @ 3m','CH4 Residuals'),lwd=c(2,2),col=c('black','red'),l
 weekly_doc<-read.csv("weekly_doc_gas.csv")
 d<-weekly_doc$DOC
 
-####interpolate weekly poc to daily####
+####interpolate weekly doc to daily####
 interp_spline_d<-c(na.interpolation(d,option = 'spline'))
 plot(as.Date(weekly_doc$DATETIME),interp_spline_d,type='l')
 
 ####extract modeled DOC at 3m####
 daily_mod_DOC<-get_var(SimFile, var_name = 'DOC',reference = 'surface',z_out=3)
 daily_mod_DOC_short<-daily_mod_DOC[47:200,]
-
-
 
 ####plot interp obs doc with log CH4 residuals####
 quartz()
