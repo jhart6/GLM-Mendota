@@ -60,7 +60,7 @@ run_glm(SimDir)
 
 ####Plot GLM Results####
 #know your options of things to plot from output.nc
-vars<-sim_vars('output.nc') #sim_vars = simulation variables
+vars<-sim_vars(SimFile) #sim_vars = simulation variables
 View(vars)
 
 #Convert Variables
