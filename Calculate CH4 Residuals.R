@@ -51,6 +51,10 @@ plot(as.Date(weekly_logch4$DATETIME),stine_interp_logx,type='l',main = 'Stine')
 
 
 ####Extract Modeled CH4####
+SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+setwd(SimDir) #setwd
+SimFile = paste(SimDir,'output.nc',sep = '') 
+
 daily_mod_ch4<-get_var(SimFile, var_name = 'CAR_ch4',reference='surface',z_out = 20)
 daily_mod_logch4<-get_var(SimFile, var_name = 'log_CAR_ch4',reference = 'surface',z_out = 20)
 
@@ -81,6 +85,7 @@ plot(as.Date(residual$Date),logch4_residual,type = 'l',main = 'LOG CH4 Residuals
 
 ####COMPARE CH4 RESIDUALS TO POC, BOTH OBS AND MODELED####
 ####load obs POC data####
+setwd("~/Dropbox/Mendota Summer 16/R/")
 weekly_poc<-read.csv("weekly_poc_gas.csv")
 p<-weekly_poc$POC
 
@@ -142,6 +147,7 @@ legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','fi
 ####Add discrete sampling points to obs POC vs log CH4 residuals plot####
 discrete<-cbind(residual,weekly_poc$POC,logch4_residual)
 colnames(discrete) <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','DailyModLogCH4','ObsPOC','LogResidual')
+write.csv(discrete,'ch4_residuals.csv',row.names=FALSE)
 
 quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
