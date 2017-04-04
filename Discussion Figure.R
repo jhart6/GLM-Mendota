@@ -19,11 +19,10 @@ daily_co2 <- c(na.interpolation(co2$CO2,option = 'spline'))
 plot(as.Date(co2$DATETIME),daily_co2, type = 'l', main = 'Spline')
 
 #plot
-xlab=expression(Surface~CO[2]~(mmol~m^-3))
-ylab=expression(Surface~CH[4]~(mmol~m^-3))
-plot(daily_co2,daily_ch4,pch=16,xlab=xlab,ylab=ylab) #autocorrelation issue?
-plot(co2$CO2,ch4$CH4,pch=16,xlab=xlab,ylab=ylab)
-mod<-lm(ch4$CH4~co2$CO2)
+xlab=expression(Log~(Surface~CO[2])~(mmol~m^-3))
+ylab=expression(Log~(Surface~CH[4])~(mmol~m^-3))
+plot(log10(co2$CO2),log10(ch4$CH4),pch=16,xlab=xlab,ylab=ylab)
+mod<-lm(log10(ch4$CH4)~log10(co2$CO2))
 abline(mod)
 summary(mod)
 
@@ -82,50 +81,66 @@ cum_co2<-cumsum(mysteryCO2$interp_co2)
 cum_nep<-cumsum(mysteryCO2$interp_nep)
 cum_poc<-cumsum(mysteryCO2$interp_poc) #stream poc
 cum_doc<-cumsum(mysteryCO2$interp_doc) #stream doc
-cum_toc<-cumsum(mysteryCO2$interp_toc)
+
+#manipulating flow vars
+dorn_flow<-dorn$FLOW*86400 #m3/day
+dorn_flow_short<-dorn_flow[16:215]
+sixmile_flow<-sixmile$FLOW*86400
+sixmile_flow_short<-sixmile_flow[16:215]
+pb_flow<-pb$FLOW*86400
+pb_flow_short<-pb_flow[16:215]
+yahara_flow<-yahara$FLOW*86400
+yahara_flow_short<-yahara_flow[16:215]
+all_flow<-dorn_flow_short+sixmile_flow_short+pb_flow_short+yahara_flow_short
+
+lake.area = 3961 * 10000
+
+#calculating load
+toc_load<-(interp_toc*all_flow)/lake.area
+toc_load_interp<-c(na.interpolation(toc_load,option='linear'))
+cum_toc<-cumsum(toc_load_interp)
 
 cumsums<-data.frame(mysteryCO2$Date,cum_co2,cum_nep,cum_toc,cum_poc,cum_doc,hypo_poc_daily_mmol_short)
 
 #cumulative sum plot
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(cumsums$mysteryCO2.Date,cum_co2,type='l',col='blue',ylim=c(-10500,500000),xlab='Date',ylab=expression(Cumulative~Sum))
+plot(cumsums$mysteryCO2.Date,cum_co2,type='l',col='blue',ylim=c(-12000,35000),xlab='Date',ylab=expression(Cumulative~Sum))
 lines(cumsums$mysteryCO2.Date,cum_nep,col='red')
 lines(cumsums$mysteryCO2.Date,cum_toc,col='brown')
 lines(cumsums$mysteryCO2.Date,hypo_poc_daily_mmol_short,col='purple')
 legend('topleft',c('Cumulative CO2 Flux via CO2 (mmol/m2/day)','Cumulative CO2 Flux via DO (mmol/m2/day)','Cumulative TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
 
 #time series plot
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(mysteryCO2$Date,mysteryCO2$interp_co2,type='l',col='blue',ylim=c(-250,3700),xlab='Date',ylab=expression(Time~Series))
-lines(mysteryCO2$Date,mysteryCO2$interp_nep,col='red')
-lines(mysteryCO2$Date,mysteryCO2$interp_toc,col='brown')
-lines(mysteryCO2$Date,hypo_poc_daily_mmol_short,col='purple')
-legend('topleft',c('TS CO2 Flux via CO2 (mmol/m2/day)','TS CO2 Flux via DO (mmol/m2/day)','TS TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
-
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(mysteryCO2$Date,mysteryCO2$interp_co2,type='l',col='blue',ylim=c(-250,3700),xlab='Date',ylab=expression(Time~Series))
+# lines(mysteryCO2$Date,mysteryCO2$interp_nep,col='red')
+# lines(mysteryCO2$Date,mysteryCO2$interp_toc,col='brown')
+# lines(mysteryCO2$Date,hypo_poc_daily_mmol_short,col='purple')
+# legend('topleft',c('TS CO2 Flux via CO2 (mmol/m2/day)','TS CO2 Flux via DO (mmol/m2/day)','TS TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
+# 
 
 ####Both Panels Together####
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-par(mfrow=c(2,2))
+par(mfrow=c(2,1))
 
-xlab=expression(Surface~CO[2]~(mmol~m^-3))
-ylab=expression(Surface~CH[4]~(mmol~m^-3))
-plot(daily_co2,daily_ch4,pch=16,xlab=xlab,ylab=ylab) #autocorrelation issue?
-plot(co2$CO2,ch4$CH4,pch=16,xlab=xlab,ylab=ylab)
-mod<-lm(ch4$CH4~co2$CO2)
+xlab=expression(Log~(Surface~CO[2])~(mmol~m^-3))
+ylab=expression(Log~(Surface~CH[4])~(mmol~m^-3))
+plot(log10(co2$CO2),log10(ch4$CH4),pch=16,xlab=xlab,ylab=ylab)
+mod<-lm(log10(ch4$CH4)~log10(co2$CO2))
 abline(mod)
 summary(mod)
 
-plot(cumsums$mysteryCO2.Date,cum_co2,type='l',col='blue',ylim=c(-10500,500000),xlab='Date',ylab=expression(Cumulative~Sum))
+plot(cumsums$mysteryCO2.Date,cum_co2,type='l',col='blue',ylim=c(-12000,35000),xlab='Date',ylab=expression(Cumulative~Sum))
 lines(cumsums$mysteryCO2.Date,cum_nep,col='red')
 lines(cumsums$mysteryCO2.Date,cum_toc,col='brown')
 lines(cumsums$mysteryCO2.Date,hypo_poc_daily_mmol_short,col='purple')
-legend('topleft',c('Cumulative CO2 Flux via CO2 (mmol/m2/day)','Cumulative CO2 Flux via DO (mmol/m2/day)','Cumulative TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
+legend('topleft',c('Cumulative CO2 Flux via CO2 (mmol/m2/day)','Cumulative CO2 Flux via DO (mmol/m2/day)','Cumulative TOC Inflow (mmol/m2/day)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
 
-plot(mysteryCO2$Date,mysteryCO2$interp_co2,type='l',col='blue',ylim=c(-250,4200),xlab='Date',ylab=expression(Time~Series))
-lines(mysteryCO2$Date,mysteryCO2$interp_nep,col='red')
-lines(mysteryCO2$Date,mysteryCO2$interp_toc,col='brown')
-lines(mysteryCO2$Date,hypo_poc_daily_mmol_short,col='purple')
-legend('topleft',c('TS CO2 Flux via CO2 (mmol/m2/day)','TS CO2 Flux via DO (mmol/m2/day)','TS TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
+# plot(mysteryCO2$Date,mysteryCO2$interp_co2,type='l',col='blue',ylim=c(-250,4200),xlab='Date',ylab=expression(Time~Series))
+# lines(mysteryCO2$Date,mysteryCO2$interp_nep,col='red')
+# lines(mysteryCO2$Date,mysteryCO2$interp_toc,col='brown')
+# lines(mysteryCO2$Date,hypo_poc_daily_mmol_short,col='purple')
+# legend('topleft',c('TS CO2 Flux via CO2 (mmol/m2/day)','TS CO2 Flux via DO (mmol/m2/day)','TS TOC Inflow (mmol/m3)','Hypolimnetic POC (not cumulative; mg/L)'),lty=c(1,1,1,1),col=c('blue','red','brown','purple'))
