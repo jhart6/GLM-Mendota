@@ -31,7 +31,7 @@ legend('topright',c(expression(Modeled~CH[4]~Flux),expression(Observed~CH[4]~Flu
 #####################CARBON DIOXIDE FLUX####################
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-300,2000),main=expression(All~CO[2]~Flux~Methods))
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-300,500),main=expression(All~CO[2]~Flux~Methods))
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs,type = 'l', lwd = 2, col = 'red')
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs.do,type='l',lwd=2, col='purple')
 abline(0,0,col='blue',lty =2,lwd=2)
@@ -58,27 +58,27 @@ legend('topright',c('Modeled DO Flux','Observed DO Flux'),lty = c(1,1),lwd=c(2,2
 
 #ch4
 par(mar=c(0,4,0,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(flux$datetime),flux$ch4.flux.read.mod,type='l', lwd=2, ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = NA,ylim=c(-3,20),xaxt='n')
+plot(as.Date(flux$datetime),flux$ch4.flux.read.mod,type='l', lwd=2, ylab = expression(CH[4]~Flux~(mmol~m^-2~day^-1)),xlab = NA,ylim=c(-3,15),xaxt='n')
 lines(as.Date(flux$datetime),flux$ch4.flux.read.obs,type = 'l', lwd = 2, col = 'firebrick')
 abline(0,0,col='slategrey',lty=2,lwd=2)
 
 par(new=TRUE)
-plot(as.Date(flux$datetime),flux$ch4.flux.read.mod,type='n',xlab=NA,ylab=NA,xaxt='n',axes=FALSE,ylim=c(-0.036,0.24))
-axis(side=4,ylim=c(-0.036,0.24))
+plot(as.Date(flux$datetime),flux$ch4.flux.read.mod,type='n',xlab=NA,ylab=NA,xaxt='n',axes=FALSE,ylim=c(-0.036,0.18))
+axis(side=4,ylim=c(-0.036,0.18))
 CH4exp<-expression(CH[4]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4,line=2,CH4exp,cex=0.675)
 legend('topright',c(expression(Modeled~CH[4]~Flux),expression(Observed~CH[4]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','firebrick'))
 
 #co2
 par(mar=c(3,4,0,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-500,2000))
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-500,750))
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs,type = 'l', lwd = 2, col = 'gold1')
 lines(as.Date(flux$datetime),flux$co2.flux.read.obs.do,type='l',lwd=2, col='darkorange2')
 abline(0,0,col='slategrey',lty =2,lwd=2)
 
 par(new=TRUE)
-plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='n',xlab=NA,ylab=NA,xaxt='n',axes=FALSE,ylim=c(-6,24))
-axis(side=4,ylim=c(-6,24))
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='n',xlab=NA,ylab=NA,xaxt='n',axes=FALSE,ylim=c(-6,9))
+axis(side=4,ylim=c(-6,9))
 CO2exp<-expression(CO[2]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4, line=2, CO2exp, cex=0.675)
 legend('topright',c(expression(Modeled~CO[2]~Flux~(via~DO)),expression(Observed~CO[2]~Flux~(via~CO[2])),expression(Observed~CO[2]~Flux~(via~DO))),lty = c(1,1,1),lwd=c(2,2,2),col=c('black','gold1','darkorange2'))
