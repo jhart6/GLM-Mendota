@@ -113,6 +113,10 @@ lines(datetime, do.flux.read.mod, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty =2, col = 'red')
 
+auc(time(do.flux.read.mod),do.flux.read.mod)
+mean(do.flux.read.mod,na.rm=TRUE)
+sum(do.flux.read.mod,na.rm=TRUE)
+
 ###############################################################################
 #####################ESTIMATE DO FLUX FROM OBS DO##############################
 setwd("~/Dropbox/Masters Writing/Flux/")
@@ -142,6 +146,10 @@ lines(datetime, do.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty =2, col = 'red')
 
+auc(time(do.flux.read.obs),do.flux.read.obs)
+mean(do.flux.read.obs,na.rm=TRUE)
+sum(do.flux.read.obs,na.rm=TRUE)
+
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM OBS DO#############################
 #flux in mmol m-2 day-1
@@ -157,7 +165,9 @@ lines(datetime, co2.flux.read.obs.do, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty =2, col = 'red')
 
-
+auc(time(co2.flux.read.obs.do),co2.flux.read.obs.do)
+mean(co2.flux.read.obs.do,na.rm=TRUE)
+sum(co2.flux.read.obs.do,na.rm=TRUE)
 
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM MOD DO#############################
@@ -174,6 +184,10 @@ lines(datetime, co2.flux.vachon.mod, type ='l',col = 'red')
 lines(datetime, co2.flux.read.mod, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0, lty=2, col='red')
+
+auc(time(co2.flux.read.mod),co2.flux.read.mod)
+mean(co2.flux.read.mod,na.rm=TRUE)
+sum(co2.flux.read.mod,na.rm=TRUE)
 
 
 ###############################################################################
@@ -206,6 +220,10 @@ lines(datetime, co2.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0,lty=2,col='red')
 
+auc(time(co2.flux.read.obs),co2.flux.read.obs)
+mean(co2.flux.read.obs,na.rm=TRUE)
+sum(co2.flux.read.obs,na.rm=TRUE)
+
 ###############################################################################
 ########################ESTIMATE CH4 FLUX FROM OBS DATA########################
 
@@ -231,6 +249,9 @@ lines(datetime, ch4.flux.read.obs, type = 'l', col = 'blue')
 legend('topright',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0,lty=2,col='red')
 
+auc(time(ch4.flux.read.obs),ch4.flux.read.obs)
+mean(ch4.flux.read.obs,na.rm=TRUE)
+sum(ch4.flux.read.obs,na.rm=TRUE)
 
 ###############################################################################
 ########################ESTIMATE CH4 FLUX FROM MOD DATA########################
@@ -258,6 +279,9 @@ lines(datetime, ch4.flux.read.mod, type = 'l', col = 'blue')
 legend('topleft',c('k600.Cole','k600.Vachon','k600.Read'),col = c('black','red','blue'),lty = c(1,1,1))
 abline(0,0,lty=2,col='red')
 
+auc(time(ch4.flux.read.mod),ch4.flux.read.mod)
+mean(ch4.flux.read.mod,na.rm=TRUE)
+sum(ch4.flux.read.mod,na.rm=TRUE)
 
 ###############################################################################
 ##########################EXPORT DATA FOR POSTERITY############################
