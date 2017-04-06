@@ -68,4 +68,3 @@ getSaturation <- function(LakeKh, AtmP, gas){
 Elevation = 850
 Pressure=(1-(.0000225577*Elevation))^5.25588
 
-
