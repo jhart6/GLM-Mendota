@@ -85,86 +85,86 @@ legend('topright',c("NGHF from Modeled Fluxes",expression(NGHF~from~Observed~Flu
 
 
 
-########################################################################
-##############################INCLUDE EBULLITION########################
-####from MODELED gas fluxes####
-#Bastviken et al. 2004: 45% ebullition based on lake size
-#Bastviken et al. 2004: 60% ebullition, generally
-#Casper et al. 2000: 96% ebullition, based on tropic state
-
-mod.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/55)
-mod.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/40)
-mod.casper.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/4)
-
-#increased CH4 flux plot
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime, net.forcing$ch4.flux.read.mod, type = 'l',ylim = c(-10,300),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
-lines(datetime, mod.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
-lines(datetime, mod.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
-lines(datetime, mod.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
-legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
-abline(0,0,lty=2,lwd=2,col='blue')
-
-#convert to mmol C m^-2 day^-1
-mod.inc.ch4.flux.mmolC <- mod.bastviken.total.ch4.flux * (12/16)
-
-mod.inc.netGHG <- (25*mod.inc.ch4.flux.mmolC) + mod.co2.flux.mmolC
-
-#increased NGHF plot
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,mod.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,500))
-lines(datetime,mod.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
-abline(0,0,lty=2, col='blue',lwd=2)
-legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
-
-
-
-#####from OBSERVED gas fluxes (CO2 via CO2)#####
-obs.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/55)
-obs.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/40)
-obs.casper.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/4)
-
-#increased CH4 flux plot
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime, net.forcing$ch4.flux.read.obs, type = 'l',ylim = c(0, 450),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
-lines(datetime, obs.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
-lines(datetime, obs.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
-lines(datetime, obs.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
-legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
-abline(0,0,lty=2,lwd=2,col='blue')
-
-#convert to mmol C m^-2 day^-1
-obs.inc.ch4.flux.mmolC <- obs.bastviken.total.ch4.flux * (12/16)
-
-obs.inc.netGHG <- (25*obs.inc.ch4.flux.mmolC) + obs.co2.flux.mmolC
-
-####THIS NGFH WITH EBULLITION PLOT####
-#increased NGHF plot
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200),col='darkgreen')
-lines(datetime,obs.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'violetred4')
-abline(0,0,lty=2, col='slategrey',lwd=2)
-legend('topleft',c(expression(NGHF~from~CH[4]~Diffusive~Flux),expression(NGHF~from~CH[4]~Diffusion~+~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('darkgreen','violetred4'))
-
-
-
-
-####from OBSERVED gas fluxes (CO2 via DO)####
-#use same obs.bastviken.total.ch4.flux estimates
-#use same obs.inc.ch4.flux.mmolC
-
-obs.inc.netGHG.do <- (25*obs.inc.ch4.flux.mmolC) + obs.co2.flux.mmolC.do
-
-quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200))
-lines(datetime,obs.inc.netGHG.do,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
-abline(0,0,lty=2, col='blue',lwd=2)
-legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
-
-
-
+# ########################################################################
+# ##############################INCLUDE EBULLITION########################
+# ####from MODELED gas fluxes####
+# #Bastviken et al. 2004: 45% ebullition based on lake size
+# #Bastviken et al. 2004: 60% ebullition, generally
+# #Casper et al. 2000: 96% ebullition, based on tropic state
+# 
+# mod.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/55)
+# mod.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/40)
+# mod.casper.total.ch4.flux <- net.forcing$ch4.flux.read.mod * (100/4)
+# 
+# #increased CH4 flux plot
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(datetime, net.forcing$ch4.flux.read.mod, type = 'l',ylim = c(-10,300),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
+# lines(datetime, mod.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
+# lines(datetime, mod.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
+# lines(datetime, mod.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
+# legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
+# abline(0,0,lty=2,lwd=2,col='blue')
+# 
+# #convert to mmol C m^-2 day^-1
+# mod.inc.ch4.flux.mmolC <- mod.bastviken.total.ch4.flux * (12/16)
+# 
+# mod.inc.netGHG <- (25*mod.inc.ch4.flux.mmolC) + mod.co2.flux.mmolC
+# 
+# #increased NGHF plot
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(datetime,mod.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,500))
+# lines(datetime,mod.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
+# abline(0,0,lty=2, col='blue',lwd=2)
+# legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
+# 
+# 
+# 
+# #####from OBSERVED gas fluxes (CO2 via CO2)#####
+# obs.bastviken.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/55)
+# obs.bastviken.high.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/40)
+# obs.casper.total.ch4.flux <- net.forcing$ch4.flux.read.obs * (100/4)
+# 
+# #increased CH4 flux plot
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(datetime, net.forcing$ch4.flux.read.obs, type = 'l',ylim = c(0, 450),xlab = 'Date', ylab = expression(mmol~m^-2~day^-1),lwd=2)
+# lines(datetime, obs.bastviken.total.ch4.flux, type = 'l', col='red',lwd=2)
+# lines(datetime, obs.bastviken.high.total.ch4.flux, type = 'l', col = 'blue',lwd=2)
+# lines(datetime, obs.casper.total.ch4.flux, type = 'l', col = 'purple',lwd=2)
+# legend('topleft',c('CH4 Diffusive Flux','45% Ebullition','60% Ebullition','96% Ebullition'),lty = c(1,1,1,1), col = c('black','red','blue','purple'))
+# abline(0,0,lty=2,lwd=2,col='blue')
+# 
+# #convert to mmol C m^-2 day^-1
+# obs.inc.ch4.flux.mmolC <- obs.bastviken.total.ch4.flux * (12/16)
+# 
+# obs.inc.netGHG <- (25*obs.inc.ch4.flux.mmolC) + obs.co2.flux.mmolC
+# 
+# ####THIS NGFH WITH EBULLITION PLOT####
+# #increased NGHF plot
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200),col='darkgreen')
+# lines(datetime,obs.inc.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'violetred4')
+# abline(0,0,lty=2, col='slategrey',lwd=2)
+# legend('topleft',c(expression(NGHF~from~CH[4]~Diffusive~Flux),expression(NGHF~from~CH[4]~Diffusion~+~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('darkgreen','violetred4'))
+# 
+# 
+# 
+# 
+# ####from OBSERVED gas fluxes (CO2 via DO)####
+# #use same obs.bastviken.total.ch4.flux estimates
+# #use same obs.inc.ch4.flux.mmolC
+# 
+# obs.inc.netGHG.do <- (25*obs.inc.ch4.flux.mmolC) + obs.co2.flux.mmolC.do
+# 
+# quartz()
+# par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+# plot(datetime,obs.netGHG,type = 'l',lwd=2,ylab=ylab, xlab = xlab,ylim=c(-60,1200))
+# lines(datetime,obs.inc.netGHG.do,type = 'l',lwd=2,ylab=ylab, xlab = xlab, col = 'red')
+# abline(0,0,lty=2, col='blue',lwd=2)
+# legend('topleft',c(expression(CH[4]~Diffusive~Flux~Only),expression(CH[4]~Diffusion~and~Ebullition)),lty=c(1,1),lwd=c(2,2), col=c('black','red'))
+# 
+# 
+# 
