@@ -4,6 +4,7 @@
 
 #working directory for observed data
 setwd("~/Dropbox/Mendota Summer 16/R/")
+residual<-read.csv("ch4_residuals.csv")
 
 #working directory for modeled data
 library(dplyr)
@@ -51,7 +52,7 @@ plot(as.Date(weekly_do$DateTime),interp_spline_do,type='l')
 daily_mod_do<-get_var(SimFile,var_name='DO',reference='surface',z_out=3)
 daily_mod_do_short<-daily_mod_do[47:200,]
 
-#plot interp obs data with log CH4 residuals
+#plot interp obs data with log CH4 residuals (YES)
 quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 plot(as.Date(weekly_do$DateTime),interp_spline_do,type = 'l',lwd = 2,xlab = expression(Date),ylab = expression (DO~(mg~L^-1)))

@@ -120,7 +120,7 @@ quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 xlab = 'Date'
 ylab = expression(Cumulative~Flux~(mmol~m^-2~d^-1))
-plot(poly_x,nep_y,type = 'n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
+plot(poly_x,nep_y,type = 'n',xlab=xlab,ylab=ylab,ylim=c(-500,10500))
 polygon(poly_x,nep_y,col='red')
 par(new=TRUE)
 polygon(poly_x,toc_y,col='blue')
@@ -205,7 +205,7 @@ nep_y <- c(cum_nep,rep(0,length(cum_nep)))
 toc_y <- c(cum_toc,rep(0,length(cum_toc)))
 xlab = 'Date'
 ylab = expression(mmol~m^-2~d^-1)
-plot(poly_x,nep_y,type = 'n',xlab=xlab,ylab=ylab,ylim=c(-500,35000),cex.axis=0.8,cex.lab=0.8)
+plot(poly_x,nep_y,type = 'n',xlab=xlab,ylab=ylab,ylim=c(-500,10500),cex.axis=0.8,cex.lab=0.8)
 polygon(poly_x,nep_y,col='dodgerblue3')
 par(new=TRUE)
 polygon(poly_x,toc_y,col='lightsalmon4')
@@ -215,7 +215,7 @@ legend('topleft',c(expression(Cumulative~CO[2]~Flux~via~CO[2]),'Cumulative DO Fl
 
 par(new=TRUE)
 par(fig=c(0,1,0,0.25))
-plot(as.Date(flux$datetime),flux$ch4.flux.read.obs,type='l',xlab=xlab,ylab=expression(mmol~m^-2~d^-1),cex.lab=0.8,cex.axis=0.8,col='firebrick',lwd=1.5,ylim=c(-3,18))
+plot(as.Date(flux$datetime),flux$ch4.flux.read.obs,type='l',xlab=xlab,ylab=expression(mmol~m^-2~d^-1),cex.lab=0.8,cex.axis=0.8,col='firebrick',lwd=1.5,ylim=c(-3,10))
 abline(0,0,col='slategrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Observed~CH[4]~Flux)),lty=1,lwd=2,col='firebrick',cex=0.8)
 
