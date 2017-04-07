@@ -9,7 +9,6 @@ library(LakeMetabolizer)
 library(dplyr)
 library(lubridate)
 library(readr)
-library(dplyr)
 library(tidyr)
 
 ###############################################################################
