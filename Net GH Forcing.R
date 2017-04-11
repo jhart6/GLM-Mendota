@@ -74,11 +74,11 @@ xlab = expression(Date)
 ylab = expression(Net~Greenhouse~Forcing~(mmol~C~m^-2~day^-1))
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-300,850))
+plot(datetime,nghf$mod.netGHG,type = 'l', lwd = 2,ylab = ylab, xlab = xlab,ylim=c(-300,725))
 lines(datetime, nghf$obs.netGHG,type = 'l', lwd = 2, col='darkgreen')
 #lines(datetime, nghf$obs.netGHG.do,type = 'l', lwd = 2, col = 'darkolivegreen3')
 abline(0,0,col='slategrey',lty=2,lwd=2)
-legend('topright',c("NGHF from Modeled Fluxes",expression(NGHF~from~Observed~Fluxes~(CO[2]~via~CO[2]))),lwd=c(2,2),col=c('black','darkgreen'))
+legend('topright',c("NGHF from Modeled Fluxes",expression(NGHF~from~Observed~Fluxes)),lwd=c(2,2),col=c('black','darkgreen'))
 
 
 

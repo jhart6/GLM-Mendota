@@ -81,5 +81,5 @@ plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='n',xlab=NA,ylab=NA,xax
 axis(side=4,ylim=c(-6,9))
 CO2exp<-expression(CO[2]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4, line=2, CO2exp, cex=0.675)
-legend('topright',c(expression(Modeled~CO[2]~Flux~(via~DO)),expression(Observed~CO[2]~Flux~(via~CO[2]))),lty = c(1,1),lwd=c(2,2),col=c('black','gold1'))
+legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','gold1'))
 
