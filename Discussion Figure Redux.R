@@ -95,8 +95,9 @@ autoch.daily.interp<-na.interpolation(autoch.daily)
 
 autoch<-cumsum(autoch.daily.interp)
 
-
-
+####TOC LOAD####
+toc<-(load-export)+autoch.daily.interp
+cum.toc<-cumsum(toc)
 
 ####EXTRACT CO2 FLUX DATA####
 co2.flux<-flux$co2.flux.read.obs
@@ -112,18 +113,20 @@ date<-as.Date(flux$datetime)
 poly_x <- c(date,rev(date))
 auto_y <- c(autoch,rep(0,length(autoch)))
 alloch_y <- c(alloch, rep(0,length(alloch)))
+toc_y <- c(cum.toc,rep(0,length(cum.toc)))
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 xlab='Date'
-ylab=expression(Cumulative~OC~Load~(mmol~m^-2~day^-1))
-plot(poly_x,auto_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,9000))
+ylab=expression(Cumulative~OC~Load~(mmol~m^-2))
+plot(poly_x,toc_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,9500))
+polygon(poly_x,toc_y,col='firebrick')
 polygon(poly_x,auto_y,col='forestgreen')
 par(new=TRUE)
 polygon(poly_x,alloch_y,col='lightsalmon4')
 lines(date,cum.co2,type='l',lwd=3)
 abline(0,0,col='darkgrey',lty=2,lwd=1.5)
-legend('topleft',c(expression(Cumulative~CO[2]~Flux~via~CO[2]),'Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA),lwd=c(2,NA,NA),pch=c(NA,15,15),col=c('black','forestgreen','lightsalmon4'))
+legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total OC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','firebrick','forestgreen','lightsalmon4'))
 
 
 
