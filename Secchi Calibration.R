@@ -23,6 +23,29 @@ df<-cbind(df,secchi)
 plot(df$DateTime,df$extc_coef.elv_2.5,type='l')
 plot(df$DateTime,df$secchi,type='l')
 
+
+###plot modeled secchi and observed secchi on the same plot
+date<-as.Date(df$DateTime)
+mod.secchi<-secchi
+setwd("~/Dropbox/Mendota Summer 16/R/")
+weekly.secchi<-read.csv("weekly_secchi.csv")
+
+library(imputeTS)
+daily.secchi<-na.interpolation(weekly.secchi$secchi,option='linear')
+
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+plot(date,mod.secchi,type='l',lwd=2,xlab='Date',ylab='Secchi Depth (m)',ylim=c(1,5))
+lines(date,daily.secchi,lwd=2,col='red')
+legend('topright',c('Observed Secchi Depth','Modeled Secchi Depth'),col=c('red','black'),lty=c(1,1),lwd=c(2,2))
+
+
+
+
+
+
+
+
 #What could be off
 plot_var(SimFile, var_name = 'PHY_TPHYS')
 plot_var(file=nc_file,'DOC',fig_path=FALSE)
