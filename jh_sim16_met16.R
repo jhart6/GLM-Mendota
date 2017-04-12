@@ -186,10 +186,12 @@ compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth',as_value=TRUE, na.rm 
 #rmse 
 compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth', as_value=FALSE, na.rm = TRUE, precision = 'days', method = 'interp')
 
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 therm_depths <- compare_to_field(SimFile, obsTEMP, metric="thermo.depth", as_value=TRUE, na.rm=TRUE)
-plot(therm_depths$DateTime, therm_depths$obs, type="l", col="blue", ylim=c(0,32), ylab="Thermocline depth in meters")  
-lines(therm_depths$DateTime, therm_depths$mod, col="red") 
-legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("blue", "red")) 
+plot(therm_depths$DateTime, therm_depths$obs, type="l",col='red', lwd=2,ylim=rev(c(0,25)), ylab="Thermocline Depth (m)",xlab='Date')  
+lines(therm_depths$DateTime, therm_depths$mod,lwd=2) 
+legend("topright",c("Observed", "Modeled"),lty=c(1,1), col=c("red", "black"),lwd=c(2,2)) 
 
 ###Water Temperature Comparison###
 #value comparison
