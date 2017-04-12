@@ -2,7 +2,7 @@
 
 NSpecies <- function(SimFile,Depth){
   myZ = Depth
-  myYlabel = 'N speciation (mmol/m3)'
+  myYlabel = expression(N~Speciation~(mmol~m^-3))
   Vars2Plot = c('TOT_tn','OGM_pon','OGM_don','NIT_amm','NIT_nit','PHY_CYANOPCH1_IN',
                 'PHY_CYANONPCH2_IN','PHY_CHLOROPCH3_IN','PHY_DIATOMPCH4_IN')
   ColorSch = c('black','green','blue','red','grey','blue','red','green','black','white')

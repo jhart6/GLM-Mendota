@@ -2,7 +2,7 @@
 
 PSpecies <- function(SimFile,Depth){
   myZ = Depth
-  myYlabel = 'P speciation (mmol/m3)'
+  myYlabel = expression(P~Speciation~(mmol~m^-3))
   Vars2Plot = c('TOT_tp','OGM_pop','OGM_dop','PHS_frp','PHS_frp_ads','PHY_CYANOPCH1_IP',
                 'PHY_CYANONPCH2_IP','PHY_CHLOROPCH3_IP','PHY_DIATOMPCH4_IP')
   ColorSch = c('black','green','blue','red','grey','blue','red','green','black','white')
