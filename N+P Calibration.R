@@ -7,7 +7,11 @@ nc_file <- file.path(SimDir, 'output.nc')
 
 convert_sim_var(nc_file, TotN2 = TOT_tn * 14/1000, unit = 'mg/L',overwrite = T)
 
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 NSpecies(SimFile, 3)
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 NSpecies(SimFile, 20)
 
 plot_var(file=nc_file, 'TotN2', fig_path = FALSE)
@@ -25,7 +29,11 @@ nc_file <- file.path(SimDir, 'output.nc')
 
 convert_sim_var(nc_file, TotP2 = TOT_tp * 30.97/1000, unit = 'mg/L',overwrite = T)
 
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 PSpecies(SimFile, 3)
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
 PSpecies(SimFile, 20)
 
 plot_var(file=nc_file, 'TotP2', fig_path = FALSE)
