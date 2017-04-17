@@ -10,6 +10,7 @@ library(dplyr)
 library(lubridate)
 library(readr)
 library(tidyr)
+library(flux)
 
 ###############################################################################
 #####################ESTIMATE CO2 FLUX FROM DO IN GLM##########################
