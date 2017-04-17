@@ -47,8 +47,8 @@ lake.area = 3961 * 10000
 
 #calculating load
 toc_load<-(interp_toc*all_flow)/lake.area #mmol/m2
-load<-c(na.interpolation(toc_load,option='linear'))
-plot(as.Date(dorn_short$Time),load,type='l')
+toc.load<-c(na.interpolation(toc_load,option='linear'))
+plot(as.Date(dorn_short$Time),toc.load,type='l')
 
 #calculating export
 outflow_flow<-outflow_short$FLOW*86400 #m^3
@@ -62,9 +62,9 @@ surface_toc_mg.L<-lake.doc+lake.poc #g/m^3 or mg/L
 surface_toc<-surface_toc_mg.L * 1000/12 #mmol/m3
 
 toc_export<-(outflow_flow*surface_toc)/lake.area #mmol/m2
-export<-na.interpolation(toc_export,option='linear')
+toc.export<-na.interpolation(toc_export,option='linear')
 
-alloch<-cumsum(load-export) #in mmol/m2/day
+alloch<-cumsum(toc.load-toc.export) #in mmol/m2/day
 
 
 
@@ -96,7 +96,7 @@ autoch.daily.interp<-na.interpolation(autoch.daily)
 autoch<-cumsum(autoch.daily.interp)
 
 ####TOC LOAD####
-toc<-(load-export)+autoch.daily.interp
+toc<-(toc.load-toc.export)+autoch.daily.interp
 cum.toc<-cumsum(toc)
 
 ####EXTRACT CO2 FLUX DATA####
@@ -129,5 +129,33 @@ abline(0,0,col='darkgrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total OC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','firebrick','forestgreen','lightsalmon4'))
 
 
+####to add DIC to polygon figure, source the DIC plot script, then continue####
+source("~/Dropbox/GitHub Repos/GLM-Mendota/DIC Plot.R")
+net.dic<-dic.load-dic.export
+cum.dic<-cumsum(net.dic)
 
+allC<-(toc.load-toc.export)+autoch.daily.interp+net.dic
+cum.allC<-cumsum(allC)
+
+date<-as.Date(flux$datetime)
+poly_x <- c(date,rev(date))
+auto_y <- c(autoch,rep(0,length(autoch)))
+alloch_y <- c(alloch, rep(0,length(alloch)))
+toc_y <- c(cum.toc,rep(0,length(cum.toc)))
+dic_y <-c(cum.dic,rep(0,length(cum.dic)))
+allC_y <- c(cum.allC,rep(0,length(cum.allC)))
+
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+xlab='Date'
+ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
+polygon(poly_x,allC_y,col='firebrick')
+polygon(poly_x,dic_y,col='dodgerblue3')
+polygon(poly_x,auto_y,col='forestgreen')
+par(new=TRUE)
+polygon(poly_x,alloch_y,col='lightsalmon4')
+lines(date,cum.co2,type='l',lwd=3)
+abline(0,0,col='darkgrey',lty=2,lwd=1.5)
+legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total C','Cumulative DIC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA),pch=c(NA,15,15,15,15),col=c('black','firebrick','dodgerblue3','forestgreen','lightsalmon4'))
 
