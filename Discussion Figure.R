@@ -3,6 +3,7 @@
 #JAH
 
 library(imputeTS)
+library(glmtools)
 
 ####Panel ONE####
 #surface CH4 against surface CO2
