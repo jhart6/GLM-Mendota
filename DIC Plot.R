@@ -51,7 +51,7 @@ dic_export<-(outflow_flow*lake.dic.mmol.m3)/lake.area
 dic.export<-c(na.interpolation(dic_export,option='linear'))  
 
 quartz()
-par(mar=c(3,4,1,4),mgp=c(2,0.5,0),tck=-0.02)
+par(mar=c(3,4,1,4),mgp=c(2,0.5,0),tck=-0.02,bg='white')
 plot(dic.load,dic.export,pch=16,cex=1.25,ylab=expression(DIC~Export~(mmol~m^-2)),xlab=expression(DIC~Load~(mmol~m^-2)),ylim=c(0,500),xlim=c(0,500))  
 dic.mod<-lm(dic.export~dic.load)
 abline(dic.mod,lwd=1.5)
