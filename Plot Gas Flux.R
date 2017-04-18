@@ -83,3 +83,27 @@ CO2exp<-expression(CO[2]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4, line=2, CO2exp, cex=0.675)
 legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','gold1'))
 
+
+
+
+
+####CO2 Plot with White Background####
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='l',lwd =2,ylab = expression(CO[2]~Flux~(mmol~m^-2~day^-1)),xlab = expression(Date),ylim = c(-500,750))
+lines(as.Date(flux$datetime),flux$co2.flux.read.obs,type = 'l', lwd = 2, col = 'gold1')
+#lines(as.Date(flux$datetime),flux$co2.flux.read.obs.do,type='l',lwd=2, col='darkorange2')
+abline(0,0,col='slategrey',lty =2,lwd=2)
+
+par(new=TRUE)
+plot(as.Date(flux$datetime),flux$co2.flux.read.mod,type ='n',xlab=NA,ylab=NA,xaxt='n',axes=FALSE,ylim=c(-6,9))
+axis(side=4,ylim=c(-6,9))
+CO2exp<-expression(CO[2]~Flux~(g~C~m^-2~day^-1))
+mtext(side=4, line=2, CO2exp)
+legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','gold1'))
+
+
+
+
+
+
