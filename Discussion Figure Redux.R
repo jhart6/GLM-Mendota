@@ -116,7 +116,7 @@ alloch_y <- c(alloch, rep(0,length(alloch)))
 toc_y <- c(cum.toc,rep(0,length(cum.toc)))
 
 quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 xlab='Date'
 ylab=expression(Cumulative~OC~Load~(mmol~m^-2))
 plot(poly_x,toc_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,9500))
@@ -127,6 +127,21 @@ polygon(poly_x,alloch_y,col='lightsalmon4')
 lines(date,cum.co2,type='l',lwd=3)
 abline(0,0,col='darkgrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total OC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','firebrick','forestgreen','lightsalmon4'))
+
+#same plot with color-blind friendly colors
+quartz()
+par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~OC~Load~(mmol~m^-2))
+plot(poly_x,toc_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,9500))
+polygon(poly_x,toc_y,col='dodgerblue3')
+polygon(poly_x,auto_y,col='forestgreen')
+par(new=TRUE)
+polygon(poly_x,alloch_y,col='lightsalmon4')
+lines(date,cum.co2,type='l',lwd=3)
+abline(0,0,col='darkgrey',lty=2,lwd=1.5)
+legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total OC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','dodgerblue3','forestgreen','lightsalmon4'))
+
 
 
 ####to add DIC to polygon figure, source the DIC plot script, then continue####
@@ -146,7 +161,7 @@ dic_y <-c(cum.dic,rep(0,length(cum.dic)))
 allC_y <- c(cum.allC,rep(0,length(cum.allC)))
 
 quartz()
-par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 xlab='Date'
 ylab=expression(Cumulative~C~Load~(mmol~m^-2))
 plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
@@ -158,4 +173,19 @@ polygon(poly_x,alloch_y,col='lightsalmon4')
 lines(date,cum.co2,type='l',lwd=3)
 abline(0,0,col='darkgrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total C','Cumulative DIC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA),pch=c(NA,15,15,15,15),col=c('black','firebrick','dodgerblue3','forestgreen','lightsalmon4'))
+
+#same plot, color-blind friendly colors
+quartz()
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
+polygon(poly_x,allC_y,col='dodgerblue3')
+polygon(poly_x,dic_y,col='lightsalmon')
+polygon(poly_x,auto_y,col='forestgreen')
+par(new=TRUE)
+polygon(poly_x,alloch_y,col='lightsalmon4')
+lines(date,cum.co2,type='l',lwd=3)
+abline(0,0,col='darkgrey',lty=2,lwd=1.5)
+legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total C','Cumulative DIC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA),pch=c(NA,15,15,15,15),col=c('black','dodgerblue3','lightsalmon','forestgreen','lightsalmon4'))
 
