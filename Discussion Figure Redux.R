@@ -64,6 +64,8 @@ surface_toc<-surface_toc_mg.L * 1000/12 #mmol/m3
 toc_export<-(outflow_flow*surface_toc)/lake.area #mmol/m2
 toc.export<-na.interpolation(toc_export,option='linear')
 
+oc.in<-cumsum(toc.load)
+oc.out<-cumsum(toc.export)
 alloch<-cumsum(toc.load-toc.export) #in mmol/m2/day
 
 
@@ -149,6 +151,9 @@ source("~/Dropbox/GitHub Repos/GLM-Mendota/DIC Plot.R")
 net.dic<-dic.load-dic.export
 cum.dic<-cumsum(net.dic)
 
+dic.in<-cumsum(dic.load)
+dic.out<-cumsum(dic.export)
+
 allC<-(toc.load-toc.export)+autoch.daily.interp+net.dic
 cum.allC<-cumsum(allC)
 
@@ -188,4 +193,63 @@ polygon(poly_x,alloch_y,col='lightsalmon4')
 lines(date,cum.co2,type='l',lwd=3)
 abline(0,0,col='darkgrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Cumulative~Observed~CO[2]~Flux),'Cumulative Total C','Cumulative DIC','Cumulative Autochthonous OC','Cumulative Allochthonous OC'),lty=c(1,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA),pch=c(NA,15,15,15,15),col=c('black','dodgerblue3','lightsalmon','forestgreen','lightsalmon4'))
+
+
+
+#plot with DIC and TOC polygons
+date<-as.Date(flux$datetime)
+poly_x <- c(date,rev(date))
+auto_y <- c(autoch,rep(0,length(autoch)))
+alloch_y <- c(alloch, rep(0,length(alloch)))
+toc_y <- c(cum.toc,rep(0,length(cum.toc)))
+dic_y <-c(cum.dic,rep(0,length(cum.dic)))
+allC_y <- c(cum.allC,rep(0,length(cum.allC)))
+
+quartz()
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
+polygon(poly_x,allC_y,col='dodgerblue3')
+polygon(poly_x,dic_y,col='palevioletred4')
+polygon(poly_x,toc_y,col='slategrey')
+polygon(poly_x,auto_y,col='springgreen4')
+polygon(poly_x,alloch_y,col='sienna1')
+lines(date,cum.co2,type='l',lwd=3)
+abline(0,0,col='darkgrey',lty=2,lwd=1.5)
+legend('topleft',c(expression(Observed~CO[2]~Flux),'Cumulative Total C',expression(DIC[IN]-DIC[OUT]),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA,NA),pch=c(NA,15,15,15,15,15),col=c('black','dodgerblue3','palevioletred4','slategrey','springgreen4','sienna1'))
+
+
+#separate out imports and exports
+poly.dic.in<-c(dic.in,rep(0,length(dic.in)))
+poly.dic.out<-c((-1*dic.out),rep(0,length(dic.out)))
+poly.oc.in<-c(oc.in,rep(0,length(oc.in)))
+poly.oc.out<-c((-1*oc.out),rep(0,length(oc.out)))
+
+#DIC: net, in and out
+quartz()
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-10000,35000))
+polygon(poly_x,poly.dic.in,col='violetred1')
+polygon(poly_x,poly.dic.out,col='pink')
+polygon(poly_x,dic_y,col='violetred4')
+legend('topleft',c(expression(DIC[IN]-DIC[OUT]),expression(DIC[IN]),expression(DIC[OUT])),col=c('violetred4','violetred1','pink'),pch=c(15,15,15))
+
+#OC: net, in and out
+quartz()
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-1000,5000))
+polygon(poly_x,poly.oc.in,col='salmon3')
+polygon(poly_x,poly.oc.out,col='lightsalmon')
+polygon(poly_x,alloch_y,col='salmon4')
+legend('topleft',c(expression(OC[IN]-OC[OUT]),expression(OC[IN]),expression(OC[OUT])),col=c('salmon4','salmon3','lightsalmon'),pch=c(15,15,15))
+
+#NPP polygon
+polygon(poly_x,auto_y,col='forestgreen')
+abline(0,0,col='midnightblue',lwd=3,lty=2)
+
 
