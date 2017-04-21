@@ -16,6 +16,7 @@ library(lubridate)
     
 #where is the model on your computer & set working directory
 SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+SimDir = '~/Dropbox/LaMe GLM Calibration/170223_Final Fixes/'
 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
