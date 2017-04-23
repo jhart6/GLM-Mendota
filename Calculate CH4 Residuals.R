@@ -51,6 +51,7 @@ plot(as.Date(weekly_logch4$DATETIME),stine_interp_logx,type='l',main = 'Stine')
 
 
 ####Extract Modeled CH4####
+library(glmtools)
 SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
@@ -150,7 +151,7 @@ colnames(discrete) <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','Dai
 write.csv(discrete,'ch4_residuals.csv',row.names=FALSE)
 
 quartz()
-par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
+par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 plot(as.Date(discrete$Date),discrete$ObsPOC,pch=20,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)),ylim=c(0.6,1.7),cex=2)
 par(new=TRUE)
 plot(as.Date(residual$Date),interp_spline_p,type = 'l',lwd = 2,xlab=NA,ylab=NA,ylim=c(0.6,1.7),yaxt='n')
@@ -164,3 +165,9 @@ plot(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogRe
 obsch4resid <- expression(Observed~log(CH[4])~Residual)
 legend('topleft',c('POC @ 3m', 'Observed POC',side4label,obsch4resid),lwd=c(2,NA,2,NA),col=c('black','black','firebrick','firebrick'),lty=c(1,NA,1,NA),pch=c(NA,20,NA,20))
 
+quartz()
+par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+plot(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogResidual[which(is.na(discrete$ObsPOC)==FALSE)],ylab=obsch4resid,xlab='Date',ylim=c(-3,2.5),pch=20,col=c('firebrick'),cex=2)
+par(new=TRUE)
+plot(as.Date(residual$Date),logch4_residual,type = 'l',col='firebrick',lwd=2,axes=FALSE, xlab = NA, ylab = NA,ylim=c(-3,2.5))
+abline(0,0,col='slategrey',lty=2,lwd=2)
