@@ -48,7 +48,7 @@ plot(as.Date(temp$datetime),do.supersat,type='l')
 ####Create plots####
 #supersaturation plot
 quartz()
-par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02)
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 plot(do.supersat,co2.supersat,type='n',xlim=c(-100,100),ylim=c(-100,100),ylab=expression((CO[2][Obs]-CO[2][Eq])),xlab=expression((DO[Obs]-DO[Eq])))
 abline(h=0,col='red',lty=2,lwd=2)
 abline(v=0,col='red',lty=2,lwd=2)
@@ -67,7 +67,7 @@ ylab.do=expression(Biological~CO[2]~Flux~(mmol~m^-2~day^-1))
 ylab.obs=expression(Observed~CO[2]~Flux~(mmol~m^-2~day^-1))
 
 quartz()
-par(mfrow=c(1,2),mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02)
+par(mfrow=c(1,2),mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 plot(do.flux.read.obs,co2.flux.read.obs.do,pch=16,xlim=c(-200,300),ylim=c(-200,300),xlab=xlab,ylab=ylab.do)
 abline(0,-1,col='red',lwd=2)
 plot(do.flux.read.obs,co2.flux.read.obs,pch=16,ylim=c(-200,300),xlim=c(-200,300),xlab=xlab,ylab=ylab.obs)
