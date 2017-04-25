@@ -208,7 +208,7 @@ allC_y <- c(cum.allC,rep(0,length(cum.allC)))
 quartz()
 par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 xlab='Date'
-ylab=expression(Cumulative~C~Load~(mmol~m^-2))
+ylab=expression(Cumulative~C~Retention~(mmol~m^-2))
 plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
 polygon(poly_x,allC_y,col='dodgerblue3')
 polygon(poly_x,dic_y,col='palevioletred4')
@@ -218,6 +218,16 @@ polygon(poly_x,alloch_y,col='sienna1')
 lines(date,cum.co2,type='l',lwd=3)
 abline(0,0,col='darkgrey',lty=2,lwd=1.5)
 legend('topleft',c(expression(Observed~CO[2]~Flux),'Cumulative Total C',expression(DIC[IN]-DIC[OUT]),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA,NA),pch=c(NA,15,15,15,15,15),col=c('black','dodgerblue3','palevioletred4','slategrey','springgreen4','sienna1'))
+
+
+legend('topleft',c(expression(Observed~CO[2]~Flux),expression(DIC[IN]-DIC[OUT]),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA),pch=c(NA,15,15,15,15),col=c('black','palevioletred4','slategrey','springgreen4','sienna1'))
+legend('topleft',c(expression(Observed~CO[2]~Flux),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','slategrey','springgreen4','sienna1'))
+legend('topleft',c(expression(Observed~CO[2]~Flux),'NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA),lwd=c(2,NA,NA),pch=c(NA,15,15),col=c('black','springgreen4','sienna1'))
+legend('topleft',c(expression(Observed~CO[2]~Flux),expression(OC[IN]-OC[OUT])),lty=c(1,NA),lwd=c(2,NA),pch=c(NA,15),col=c('black','sienna1'))
+
+
+
+
 
 
 #separate out imports and exports
