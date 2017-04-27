@@ -224,7 +224,7 @@ legend('topleft',c(expression(Observed~CO[2]~Flux),expression(DIC[IN]-DIC[OUT]),
 legend('topleft',c(expression(Observed~CO[2]~Flux),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA),lwd=c(2,NA,NA,NA),pch=c(NA,15,15,15),col=c('black','slategrey','springgreen4','sienna1'))
 legend('topleft',c(expression(Observed~CO[2]~Flux),'NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA),lwd=c(2,NA,NA),pch=c(NA,15,15),col=c('black','springgreen4','sienna1'))
 legend('topleft',c(expression(Observed~CO[2]~Flux),expression(OC[IN]-OC[OUT])),lty=c(1,NA),lwd=c(2,NA),pch=c(NA,15),col=c('black','sienna1'))
-
+legend('topleft',c(expression(Observed~CO[2]~Flux)),lty=c(1),lwd=c(2),col=c('black'))
 
 
 
