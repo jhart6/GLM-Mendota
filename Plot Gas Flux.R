@@ -134,6 +134,7 @@ axis(side=4,ylim=c(-7.2,7.2))
 DOexp<-expression(DO~Flux~(g~O[2]~m^-2~day^-1))
 mtext(side=4,line=2,DOexp,cex=0.675)
 legend('topright',c('Modeled DO Flux','Observed DO Flux'),lty = c(1,1),lwd=c(2,2),col=c('black','dodgerblue3'))
+mtext("a",side=3,line=-2,adj=0.05)
 
 #ch4
 par(mar=c(0,4,0,4),mgp=c(1.5,0.5,0),tck=-0.02)
@@ -149,6 +150,7 @@ axis(side=4,ylim=c(-0.036,0.18))
 CH4exp<-expression(CH[4]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4,line=2,CH4exp,cex=0.675)
 legend('topright',c(expression(Modeled~CH[4]~Flux),expression(Observed~CH[4]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','firebrick'))
+mtext("b",side=3,line=-2,adj=0.05)
 
 #co2
 par(mar=c(3,4,0,4),mgp=c(1.5,0.5,0),tck=-0.02)
@@ -165,6 +167,7 @@ axis(side=4,ylim=c(-6,9))
 CO2exp<-expression(CO[2]~Flux~(g~C~m^-2~day^-1))
 mtext(side=4, line=2, CO2exp, cex=0.675)
 legend('topright',c(expression(Modeled~CO[2]~Flux),expression(Observed~CO[2]~Flux)),lty = c(1,1),lwd=c(2,2),col=c('black','gold1'))
+mtext("c",side=3,line=-2,adj=0.05)
 
 
 
