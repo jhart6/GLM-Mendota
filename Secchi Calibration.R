@@ -35,7 +35,7 @@ daily.secchi<-na.interpolation(weekly.secchi$secchi,option='linear')
 
 quartz()
 par(mar=c(3,3,1,4),mgp=c(1.5,0.5,0),tck=-0.02)
-plot(date,mod.secchi,type='l',lwd=2,xlab='Date',ylab='Secchi Depth (m)',ylim=c(1,5))
+plot(date,mod.secchi,type='l',lwd=2,xlab='Date',ylab='Secchi Depth (m)',ylim=rev(c(0,5)))
 lines(date,daily.secchi,lwd=2,col='red')
 legend('topright',c('Observed Secchi Depth','Modeled Secchi Depth'),col=c('red','black'),lty=c(1,1),lwd=c(2,2))
 
