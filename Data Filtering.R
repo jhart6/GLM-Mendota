@@ -6,7 +6,7 @@ thermocline <- compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth',as_val
 write.csv(thermocline,file = 'thermocline.csv',row.names = FALSE)
  
 #Temperature 
-watertemp <- compare_to_field(SimFile, obsTEMP, metric = 'water.temperature', as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
+watertemp <- get_var(SimFile, var_name = 'temp', reference='surface',z_out = c(0:20))
 write.csv(watertemp, file = 'watertemp.csv',row.names = FALSE)
 
 #Dissolved Oxygen
