@@ -29,6 +29,10 @@ pdf(file = 'mod_dic.pdf',bg='white')
 plot_field_glm('dic_long.csv','DIC','mg/L')
 dev.off()
 
+pdf(file = 'mod_ch4.pdf',bg='white')
+plot_field_glm('logCH4_long.csv','log(CH4)','umol/L')
+dev.off()
+
 #for plots of observed data
 setwd("~/Dropbox/LaMe GLM Calibration/Observed Data/")
 
@@ -58,4 +62,8 @@ dev.off()
 
 pdf(file = 'obs_dic.pdf',bg='white')
 plot_field('field_dic.csv','DIC','mg/L')
+dev.off()
+
+pdf(file = 'obs_ch4.pdf',bg='white')
+plot_field('field_log_ch4.csv','log(CH4)','umol/L')
 dev.off()
