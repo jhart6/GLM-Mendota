@@ -7,17 +7,17 @@
 #carbon = PuRd
 #ysi vars = OrRd
 
-#examples
-plot_field('field_ch4.csv','CH4','umol/L')
-plot_field(c('field_poc.csv','field_log(CH4).csv'),c('POC','log(CH4'),c('mg/L','umol/L'),xlims = as.Date(c('2016-04-15','2016-11-15')))
-
-quartz()
-par(bg='white',mar=c(2,5,2,1))
-plot_field('field_poc.csv','POC','mg/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
-plot_field('field_log(CH4).csv','log(CH4)','umol/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
-plot_field('field_log(CO2).csv','log(CO2)','umol/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
-
-setwd("~/Dropbox/Mendota Summer 16/R/plot_field/")
+# #examples
+# plot_field('field_ch4.csv','CH4','umol/L')
+# plot_field(c('field_poc.csv','field_log(CH4).csv'),c('POC','log(CH4'),c('mg/L','umol/L'),xlims = as.Date(c('2016-04-15','2016-11-15')))
+# 
+# quartz()
+# par(bg='white',mar=c(2,5,2,1))
+# plot_field('field_poc.csv','POC','mg/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
+# plot_field('field_log(CH4).csv','log(CH4)','umol/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
+# plot_field('field_log(CO2).csv','log(CO2)','umol/L',xlims=as.Date(c('2016-04-15','2016-11-15')))
+# 
+# setwd("~/Dropbox/Mendota Summer 16/R/plot_field/")
 
 plot_field <- function(filename,var_name,units = 'units',xlims = NULL){
   library(glmtools)
