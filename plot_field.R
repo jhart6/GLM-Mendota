@@ -52,7 +52,8 @@ plot_field <- function(filename,var_name,units = 'units',xlims = NULL){
     
     interped = interp(x, y, z, full_x, full_y)
     
-    colors = brewer.pal(9,'BuPu')
+    colors = rev(rainbow(9))
+    #colors = brewer.pal(9,'BuPu')
     col_lim <- range(data[,3], na.rm = TRUE)
     levels <- pretty(col_lim, 6)
     

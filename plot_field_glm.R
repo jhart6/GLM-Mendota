@@ -41,7 +41,8 @@ plot_field_glm <- function(filename,var_name,units = 'units',xlims = NULL){
     
     interped = interp(x, y, z, full_x, full_y)
     
-    colors = brewer.pal(9,'BuGn')
+    colors = rev(rainbow(9))
+    #colors = brewer.pal(9,'Spectral')
     col_lim <- range(data[,3], na.rm = TRUE)
     levels <- pretty(col_lim, 6)
     
