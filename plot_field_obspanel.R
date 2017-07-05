@@ -71,9 +71,9 @@ plot_field_obspanel <- function(filename,var_name,units = 'units',xlims = NULL,c
                     levels=levels, col=colors)
     points(x,y)
     
-    #bar_title <- expression(POC~(mg~L^-1))
+    bar_title <- expression(POC~(mg~L^-1))
     #bar_title <- expression(log(CH[4])~(mu*mol~L^-1))
-    bar_title <- expression(log(CO[2])~(mu*mol~L^-1))
+    #bar_title <- expression(log(CO[2])~(mu*mol~L^-1))
     #bar_title <- paste(var_name[v],' (',units[v],')',sep='')
     color_key(levels, colors, subs=levels, col_label = bar_title)
   }
