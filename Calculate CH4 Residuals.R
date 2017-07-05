@@ -111,6 +111,8 @@ axis(side = 4)
 mtext(side = 4, line = 2.5, 'log(CH4) Residuals',col='firebrick')
 legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1))
 
+
+
 # ####plot sim poc with log CH4 residuals####
 # #this figure not used#
 # quartz()
@@ -171,3 +173,24 @@ plot(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogRe
 par(new=TRUE)
 plot(as.Date(residual$Date),logch4_residual,type = 'l',col='firebrick',lwd=2,axes=FALSE, xlab = NA, ylab = NA,ylim=c(-3,2.5))
 abline(0,0,col='slategrey',lty=2,lwd=2)
+
+
+####Manuscript Worthy Figure####
+setwd("~/Dropbox/Masters Writing/Figures/Tiffs for L&O/")
+
+png('Figure 5.png',width=7,height=5,units='in',res=300)
+tiff('Figure 5.tiff',width=7,height=5,units='in',res=300)
+
+#quartz()
+par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+plot(as.Date(discrete$Date),discrete$ObsPOC,pch=20,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)),ylim=c(0.6,1.75),cex=1.5)
+lines(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==F)]),discrete$ObsPOC[which(is.na(discrete$ObsPOC)==F)],lwd=2)
+par(new=TRUE)
+plot(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogResidual[which(is.na(discrete$ObsPOC)==FALSE)],axes=FALSE,xlab=NA,ylab=NA,ylim=c(-3,2.5),pch=20,col=c('firebrick'),cex=1.5)
+lines(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==FALSE)]),discrete$LogResidual[which(is.na(discrete$ObsPOC)==FALSE)],col='firebrick',lwd=2)
+axis(side = 4)
+side4label <- expression(log(CH[4])~Residuals)
+mtext(side = 4, line = 1.75, side4label,col='firebrick')
+legend('topleft',c('Observed POC',obsch4resid),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1),pch=c(20,20))
+dev.off()
+
