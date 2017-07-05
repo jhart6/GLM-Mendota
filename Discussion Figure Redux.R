@@ -263,3 +263,25 @@ polygon(poly_x,auto_y,col='forestgreen')
 abline(0,0,col='midnightblue',lwd=3,lty=2)
 
 
+####Manuscript Worthy TIFF for L&O####
+setwd("~/Dropbox/Masters Writing/Figures/Tiffs for L&O/")
+
+png('Figure 7.png',width=7,height=5,res=300,units='in')
+tiff('Figure 7.tiff',width=7,height=5,res=300,units='in')
+
+#quartz()
+par(mar=c(3,3,1,1),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
+xlab='Date'
+ylab=expression(Cumulative~C~Retention~(mmol~m^-2))
+plot(poly_x,allC_y,type='n',xlab=xlab,ylab=ylab,ylim=c(-500,35000))
+polygon(poly_x,allC_y,col='orchid4')
+polygon(poly_x,dic_y,col='royalblue4')
+polygon(poly_x,toc_y,col='deepskyblue3') #royalblue1
+polygon(poly_x,auto_y,col='green3')
+polygon(poly_x,alloch_y,col='deeppink3') #magenta2 #maroon1
+lines(date,cum.co2,type='l',lwd=3)
+abline(0,0,col='black',lty=2,lwd=1.5)
+legend('topleft',c(expression(Observed~CO[2]~Flux),'Cumulative Total C',expression(DIC[IN]-DIC[OUT]),'Cumulative TOC','NPP',expression(OC[IN]-OC[OUT])),lty=c(1,NA,NA,NA,NA,NA),lwd=c(2,NA,NA,NA,NA,NA),pch=c(NA,15,15,15,15,15),col=c('black','orchid4','royalblue4','deepskyblue3','green3','deeppink3'))
+
+dev.off()
+
