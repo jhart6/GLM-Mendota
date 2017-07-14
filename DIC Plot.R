@@ -57,5 +57,11 @@ dic.mod<-lm(dic.export~dic.load)
 abline(dic.mod,lwd=1.5)
 abline(0,1,col='red',lwd=1.5)
 
+cum.dic.load<-sum(dic.load)
+cum.dic.load.g.m2<-cum.dic.load*12.01/1000
+  
+cum.dic.export<-sum(dic.export)
+cum.dic.export.g.m2<-cum.dic.export*12.01/1000
+
 
 
