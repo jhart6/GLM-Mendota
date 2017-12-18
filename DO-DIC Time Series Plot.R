@@ -3,7 +3,7 @@
   #idea, but also including observed DIC at least somewhere in the manuscript
 
 #extract modeled DIC data
-setwd("~/Dropbox/LaMe GLM Calibration/Modeled Data/")
+setwd("~/Dropbox/LaMe GLM Calibration/Modeled Data/JuliaCalibration/")
 mod.dic<-read.csv('dic.csv')
 View(mod.dic)
 
