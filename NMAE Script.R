@@ -8,10 +8,16 @@ library(GLMr)
 library(lubridate)
 library(tidyr)
 
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
-setwd(SimDir) 
-SimFile = paste(SimDir,'output.nc',sep = '') 
-nc_file <- file.path(SimDir, 'output.nc') 
+# SimFile directory for JuliaCalibration output.nc
+# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# setwd(SimDir) 
+# SimFile = paste(SimDir,'output.nc',sep = '') 
+# nc_file <- file.path(SimDir, 'output.nc') 
+
+#designate PaulCalibration output.nc file as SimFile
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
+setwd(SimDir) #setwd
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
 
 z_out = c(3,10,12,14,20)
 t_out = c('2016-04-15','2016-04-22','2016-05-06','2016-05-12','2016-05-20','2016-05-23','2016-06-01','2016-06-06','2016-06-13','2016-06-21','2016-06-27','2016-07-06','2016-07-12','2016-07-19','2016-07-26','2016-08-02','2016-08-08','2016-08-16','2016-08-23','2016-08-30','2016-09-08','2016-09-12','2016-10-04','2016-10-10','2016-10-17','2016-10-25','2016-11-01','2016-11-14')
