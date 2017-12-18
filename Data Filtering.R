@@ -1,5 +1,22 @@
+#script to extract simulation variables from output.nc and convert to CSVs
+#i.e. easiest way to preserve simulation output in case of GLM glitch/bug/calibration error
+#should just be able to "source" this script to generate all output
 
-setwd("~/Dropbox/LaMe GLM Calibration/Modeled Data/")
+library(dplyr)
+library(glmtools)
+library(GLMr)
+library(lubridate)
+
+#designate output.nc file as SimFile
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
+setwd(SimDir) #setwd
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
+
+#designate final destination for output CSV's
+#for original MS submissiong
+#setwd("~/Dropbox/LaMe GLM Calibration/Modeled Data/JuliaCalibration/")
+#for manuscript revisions (Paul's output.nc file)
+setwd("~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/")
 
 #Thermocline
 thermocline <- compare_to_field(SimFile, obsTEMP, metric = 'thermo.depth',as_value=TRUE, na.rm = TRUE, precision = 'days', method = 'interp')
