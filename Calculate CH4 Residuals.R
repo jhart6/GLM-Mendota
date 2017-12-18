@@ -52,9 +52,12 @@ plot(as.Date(weekly_logch4$DATETIME),stine_interp_logx,type='l',main = 'Stine')
 
 ####Extract Modeled CH4####
 library(glmtools)
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# setwd(SimDir) #setwd
+# SimFile = paste(SimDir,'output.nc',sep = '') 
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
 setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '') 
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
 
 daily_mod_ch4<-get_var(SimFile, var_name = 'CAR_ch4',reference='surface',z_out = 20)
 daily_mod_logch4<-get_var(SimFile, var_name = 'log_CAR_ch4',reference = 'surface',z_out = 20)
@@ -94,9 +97,9 @@ p<-weekly_poc$POC
 interp_spline_p<-c(na.interpolation(p,option = 'spline'))
 plot(as.Date(weekly_poc$DATETIME),interp_spline_p,type='l')
 
-####extract modeled POC at 3m####
-daily_mod_POC<-get_var(SimFile, var_name = 'TOT_POC',reference = 'surface',z_out=3)
-daily_mod_POC_short<-daily_mod_POC[47:200,]
+# ####extract modeled POC at 3m####
+# daily_mod_POC<-get_var(SimFile, var_name = 'TOT_POC',reference = 'surface',z_out=3)
+# daily_mod_POC_short<-daily_mod_POC[47:200,]
 
 
 
