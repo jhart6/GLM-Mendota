@@ -1,8 +1,11 @@
+#script to take CSVs extracted from output.nc files in WIDE format and convert them to LONG format
+#updated on Dec 17, 2017: updated working directory to distinguish between Julia's calibration (OG submission) and Paul's Calibration (revisions)
+
 library(dplyr)
 library(tidyr)
 
 ####POC####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 poc.wide<-read.csv('poc.csv')
 
 poc.long<-gather(poc.wide, DEPTH, POC, -DateTime)
@@ -13,7 +16,7 @@ plot_field_glm('poc_long.csv','POC','mg/L')
 
 
 ####DIC####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 dic.wide<-read.csv('dic.csv')
 
 dic.long<-gather(dic.wide, DEPTH, DIC, -DateTime)
@@ -24,7 +27,7 @@ plot_field_glm('dic_long.csv','DIC','mg/L')
 
 
 ####DO####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 do.wide<-read.csv('dissolved oxygen.csv')
 
 do.long<-gather(do.wide, DEPTH, DO, -DateTime)
@@ -35,7 +38,7 @@ plot_field_glm('do_long.csv','DO','mg/L')
 
 
 ####DOC####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 doc.wide<-read.csv('doc.csv')
 
 doc.long<-gather(doc.wide, DEPTH, DOC, -DateTime)
@@ -46,19 +49,19 @@ plot_field_glm('doc_long.csv','DOC','mg/L')
 
 
 ####logCH4####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 ch4.wide<-read.csv('log methane.csv')
 
 ch4.long<-gather(ch4.wide, DEPTH, logCH4, -DateTime)
 ch4.long$DEPTH<-as.numeric(gsub('log_CAR_ch4_','',ch4.long$DEPTH))
 colnames(ch4.long)<-c('DATETIME','DEPTH','logCH4')
 write.csv(ch4.long,"logCH4_long.csv",row.names=FALSE)
-plot_field_glm('logCH4_long.csv','log(CH4)','umol/L')
+#plot_field_glm('logCH4_long.csv','log(CH4)','umol/L')
 
 
 
 ####pH#####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 ph.wide<-read.csv('pH.csv')
 
 ph.long<-gather(ph.wide, DEPTH, PH, -DateTime)
@@ -69,7 +72,7 @@ plot_field_glm('ph_long.csv','pH','')
 
 
 ####TN######
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 tn.wide<-read.csv('tn.csv')
 
 tn.long<-gather(tn.wide, DEPTH, TN, -DateTime)
@@ -81,7 +84,7 @@ plot_field_glm('tn_long.csv','TN','mg/L')
 
 
 ####TP####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 tp.wide<-read.csv('tp.csv')
 
 tp.long<-gather(tp.wide, DEPTH, TP, -DateTime)
@@ -92,7 +95,7 @@ plot_field_glm('tp_long.csv','TP','mg/L')
 
 
 ####Temp####
-setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/')
+setwd('~/Dropbox/LaMe GLM Calibration/Modeled Data/PaulCalibration/')
 temp.wide<-read.csv('watertemp.csv')
 
 temp.long<-gather(temp.wide, DEPTH, TEMPERATURE, -DateTime)
