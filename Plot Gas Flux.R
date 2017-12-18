@@ -3,8 +3,8 @@
 #JAH
 
 setwd("~/Dropbox/GitHub Repos/GLM-Mendota/Data/")
-flux<-read.csv('flux.data.csv')
-
+#flux<-read.csv('flux.data.csv')
+flux<-read.csv('flux.data.PaulCalibration.csv')
 ############################################################
 ###############DISSOLVED OXYGEN FLUX########################
 quartz()
