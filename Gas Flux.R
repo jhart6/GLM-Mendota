@@ -34,9 +34,12 @@ metHourly <- sim_met %>%
 View(metHourly) #now daily met data to match simulation output
 
 #calculating z_mix
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# setwd(SimDir) #setwd
+# SimFile = paste(SimDir,'output.nc',sep = '')
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
 setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '')
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
 wtr_temp_1<-get_var(SimFile, var_name = 'temp',reference = 'surface',z_out = 1)
 colnames(wtr_temp_1)<-c('DateTime','Temp')
 wtr_temp_profile <- get_var(SimFile, var_name = 'temp')
@@ -88,9 +91,13 @@ k.ch4.read <- k600.2.kGAS.base(k600.read, temperature = wtr_temp_1$Temp, gas = '
 ###############################################################################
 #####################ESTIMATE DO FLUX FROM MOD DO##############################
 #get Sim data: water temp and DO @ 1m
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# setwd(SimDir) #setwd
+# SimFile = paste(SimDir,'output.nc',sep = '') 
+
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
 setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '') 
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
 
 do<-get_var(SimFile, var_name = 'OXY_oxy', reference = 'surface', z_out = 1)
 colnames(do)<-c('DateTime','DO')
@@ -256,9 +263,13 @@ sum(ch4.flux.read.obs,na.rm=TRUE)
 ###############################################################################
 ########################ESTIMATE CH4 FLUX FROM MOD DATA########################
 
-SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
+# setwd(SimDir) #setwd
+# SimFile = paste(SimDir,'output.nc',sep = '') 
+
+SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
 setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output.nc',sep = '') 
+SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
 
 sim_ch4 <- get_var(SimFile, var_name = 'CAR_ch4', reference = 'surface', z_out =1)
 ch4.mod.obs <- sim_ch4$CAR_ch4_1
@@ -286,9 +297,16 @@ sum(ch4.flux.read.mod,na.rm=TRUE)
 ###############################################################################
 ##########################EXPORT DATA FOR POSTERITY############################
 
+# flux.data<-data.frame(datetime,do.flux.cole.obs,do.flux.vachon.obs,do.flux.read.obs,do.flux.cole.mod,do.flux.vachon.mod,do.flux.read.mod)
+# flux.data<-cbind(flux.data,co2.flux.cole.obs,co2.flux.vachon.obs,co2.flux.read.obs,co2.flux.cole.mod,co2.flux.vachon.mod,co2.flux.read.mod)
+# flux.data<-cbind(flux.data,co2.flux.cole.obs.do,co2.flux.vachon.obs.do,co2.flux.read.obs.do)
+# flux.data<-cbind(flux.data,ch4.flux.cole.obs,ch4.flux.vachon.obs,ch4.flux.read.obs,ch4.flux.cole.mod,ch4.flux.vachon.mod,ch4.flux.read.mod)
+# setwd('~/Dropbox/GitHub Repos/GLM-Mendota/Data')
+# write.csv(flux.data,file = 'flux.data.csv',row.names = FALSE)
+
 flux.data<-data.frame(datetime,do.flux.cole.obs,do.flux.vachon.obs,do.flux.read.obs,do.flux.cole.mod,do.flux.vachon.mod,do.flux.read.mod)
 flux.data<-cbind(flux.data,co2.flux.cole.obs,co2.flux.vachon.obs,co2.flux.read.obs,co2.flux.cole.mod,co2.flux.vachon.mod,co2.flux.read.mod)
 flux.data<-cbind(flux.data,co2.flux.cole.obs.do,co2.flux.vachon.obs.do,co2.flux.read.obs.do)
 flux.data<-cbind(flux.data,ch4.flux.cole.obs,ch4.flux.vachon.obs,ch4.flux.read.obs,ch4.flux.cole.mod,ch4.flux.vachon.mod,ch4.flux.read.mod)
 setwd('~/Dropbox/GitHub Repos/GLM-Mendota/Data')
-write.csv(flux.data,file = 'flux.data.csv',row.names = FALSE)
+write.csv(flux.data,file = 'flux.data.PaulCalibration.csv',row.names = FALSE)
