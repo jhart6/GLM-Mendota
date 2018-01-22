@@ -4,8 +4,11 @@
 
 library(astsa)
 
-poc<-ts(interp_spline_p)
-methane<-ts(logch4_residual)
+# poc<-ts(interp_spline_p)
+# methane<-ts(logch4_residual)
+
+poc<-ts(residuals$InterpObsPOC)
+methane<-ts(residuals$LogResidual)
 
 ccf_mod<-ccf(methane,poc,lag.max = 24)
 
