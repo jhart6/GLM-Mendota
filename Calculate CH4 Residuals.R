@@ -52,12 +52,12 @@ plot(as.Date(weekly_logch4$DATETIME),stine_interp_logx,type='l',main = 'Stine')
 
 ####Extract Modeled CH4####
 library(glmtools)
-# SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
-# setwd(SimDir) #setwd
-# SimFile = paste(SimDir,'output.nc',sep = '') 
-SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
+SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/'
 setwd(SimDir) #setwd
-SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '') 
+SimFile = paste(SimDir,'output.nc',sep = '')
+# SimDir = '~/Dropbox/Mendota Simulations/2017DecJulia/'
+# setwd(SimDir) #setwd
+# SimFile = paste(SimDir,'output_2017_Dec_14.nc',sep = '')
 
 daily_mod_ch4<-get_var(SimFile, var_name = 'CAR_ch4',reference='surface',z_out = 20)
 daily_mod_logch4<-get_var(SimFile, var_name = 'log_CAR_ch4',reference = 'surface',z_out = 20)
@@ -152,7 +152,8 @@ legend('topleft',c('POC @ 3m','log(CH4) Residuals'),lwd=c(2,2),col=c('black','fi
 
 ####Add discrete sampling points to obs POC vs log CH4 residuals plot####
 discrete<-cbind(residual,weekly_poc$POC,logch4_residual)
-colnames(discrete) <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','DailyModLogCH4','ObsPOC','LogResidual')
+discrete<-cbind(discrete,interp_spline_p)
+colnames(discrete) <- c('Date','DailyObsCH4','DailyObsLogCH4','DailyModCH4','DailyModLogCH4','ObsPOC','LogResidual','InterpObsPOC')
 write.csv(discrete,'ch4_residuals.csv',row.names=FALSE)
 
 quartz()
@@ -184,7 +185,7 @@ setwd("~/Dropbox/Masters Writing/Figures/Tiffs for L&O/")
 png('Figure 5.png',width=7,height=5,units='in',res=300)
 tiff('Figure 5.tiff',width=7,height=5,units='in',res=300)
 
-#quartz()
+quartz()
 par(mar=c(3,4,1,4),mgp=c(1.5,0.5,0),tck=-0.02,bg='white')
 plot(as.Date(discrete$Date),discrete$ObsPOC,pch=20,xlab = expression(Date),ylab = expression (POC~(mg~L^-1)),ylim=c(0.6,1.75),cex=1.5)
 lines(as.Date(discrete$Date[which(is.na(discrete$ObsPOC)==F)]),discrete$ObsPOC[which(is.na(discrete$ObsPOC)==F)],lwd=2)
