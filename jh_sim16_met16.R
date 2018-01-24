@@ -18,6 +18,8 @@ library(lubridate)
 SimDir = '~/Dropbox/LaMe GLM Calibration/Greedy/' 
 SimDir = '~/Dropbox/LaMe GLM Calibration/170223_Final Fixes/'
 
+SimDir = '~/Dropbox/CNH-GLM/Mendota/Experiments/ForMatt_2016/Outputs/'
+
 setwd(SimDir) #setwd
 SimFile = paste(SimDir,'output.nc',sep = '') 
 nc_file <- file.path(SimDir, 'output.nc') #designate an output file that you 
