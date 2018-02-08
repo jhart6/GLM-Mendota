@@ -6,6 +6,9 @@
 #START: 6/1/16
 #END: 11/1/16
 
+library(astsa)
+library(imputeTS)
+
 ####remove autocorrelation from CH4 residuals and POC time series####
 #import ch4 residuals data (exported from Calculate CH4 Residuals.R)
 setwd("~/Dropbox/Mendota Summer 16/R/")
@@ -331,7 +334,7 @@ axis(side = 4)
 side4label <- expression(log(CH[4])~Residual[(t)]-log(CH[4])~Residual[(t-1)])
 mtext(side = 4, line = 1.75, side4label,col='firebrick')
 methane.legend.text=expression(First~Difference~log(CH[4])~Residuals)
-legend('topleft',c('Observed First Difference POC',methane.legend.text),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1),pch=c(20,20))
+legend('topleft',c('Observed First Difference POC',methane.legend.text),lwd=c(2,2),col=c('black','firebrick'),lty=c(1,1))
 dev.off()
 
 
