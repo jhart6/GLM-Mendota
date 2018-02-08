@@ -30,13 +30,15 @@ plot_field_pub <- function(filename,var_name,units = 'units',xlims = NULL,addpoi
   library(RColorBrewer)
   library(readr)
   library(lubridate)
+  library(colorRamps)
   # source('~/Dropbox/Mendota Summer 16/R/plot_field.R', echo=TRUE)
   num_vars = length(var_name)
   colbar_layout(length(var_name))
   
   for (v in 1:num_vars){
     par(cex.lab = 1.1, cex.axis = 1, mgp = c(1.6,0.4,0),tck=-0.02, mar=c(3,3,1,0.5))
-    require(RColorBrewer)
+    #require(RColorBrewer)
+    require(colorRamps)
     require(akima)
     if (is.data.frame(filename[v])){
       data = filename[v]
@@ -58,7 +60,9 @@ plot_field_pub <- function(filename,var_name,units = 'units',xlims = NULL,addpoi
     
     interped = interp(x, y, z, full_x, full_y)
     
-    colors = rev(rainbow(9))
+    colors = matlab.like(9)
+    #colors = blue2green2red(9)
+    #colors = rev(rainbow(9))
     #colors = brewer.pal(9,'BuPu')
     if (is.null(collim)) {
       col_lim <- range(data[,3], na.rm = TRUE)
@@ -79,8 +83,15 @@ plot_field_pub <- function(filename,var_name,units = 'units',xlims = NULL,addpoi
       points(x,y,cex=0.4)
     }
     
-    bar_title <- expression(log(CO[2]~(mu*mol~L^-1))
-    #bar_title <- paste(var_name[v],' (',units[v],')',sep='')
+    bar_title <- expression(Temperature~(degree*C))
+    #bar_title <- expression(Dissolved~Oxygen~(mg~L^-1))
+    #bar_title <- expression(TN~(mg~L^-1))
+    #bar_title <- expression(TP~(mg~L^-1))
+    #bar_title <- expression(POC~(mg~L^-1))
+    #bar_title <- expression(DOC~(mg~L^-1))
+    #bar_title <- expression(DIC~(mg~L^-1))
+    #bar_title <- expression(log(CH[4])~(mu*mol~L^-1))
+    #bar_title <- paste(var_name[v],' (',units[v],')',sep='') #original code
     color_key(levels, colors, subs=levels, col_label = bar_title)
   }
 }

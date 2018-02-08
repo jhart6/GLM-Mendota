@@ -24,13 +24,15 @@ plot_field_obspanel <- function(filename,var_name,units = 'units',xlims = NULL,c
   library(RColorBrewer)
   library(readr)
   library(lubridate)
+  library(colorRamps)
   # source('~/Dropbox/Mendota Summer 16/R/plot_field.R', echo=TRUE)
   num_vars = length(var_name)
   colbar_layout(length(var_name))
   
   for (v in 1:num_vars){
     par(cex.lab = 1.4, cex.axis = 1.2, mgp = c(2,0.6,0),tck=-0.01,mar=c(3,3.5,1,0.5))
-    require(RColorBrewer)
+    require(colorRamps)
+    #require(RColorBrewer)
     require(akima)
     if (is.data.frame(filename[v])){
       data = filename[v]
@@ -52,7 +54,8 @@ plot_field_obspanel <- function(filename,var_name,units = 'units',xlims = NULL,c
     
     interped = interp(x, y, z, full_x, full_y)
     
-    colors = rev(rainbow(9))
+    colors = matlab.like(9)
+    #colors = rev(rainbow(9))
     #colors = brewer.pal(9,'BuPu')
     if (is.null(collim)) {
       col_lim <- range(data[,3], na.rm = TRUE)
@@ -71,9 +74,9 @@ plot_field_obspanel <- function(filename,var_name,units = 'units',xlims = NULL,c
                     levels=levels, col=colors)
     points(x,y)
     
-    bar_title <- expression(POC~(mg~L^-1))
+    #bar_title <- expression(POC~(mg~L^-1))
     #bar_title <- expression(log(CH[4])~(mu*mol~L^-1))
-    #bar_title <- expression(log(CO[2])~(mu*mol~L^-1))
+    bar_title <- expression(log(CO[2])~(mu*mol~L^-1))
     #bar_title <- paste(var_name[v],' (',units[v],')',sep='')
     color_key(levels, colors, subs=levels, col_label = bar_title)
   }
