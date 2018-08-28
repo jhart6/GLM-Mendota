@@ -1,5 +1,5 @@
 #script to calculate R^2, NMAE, and Spearman rank correlation coefficient for GLM calibration
-#4/7/16
+#4/7/17
 #Julia
 
 library(dplyr)
